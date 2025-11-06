@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>شراء ترخيص PCFixUltimate</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#e0e0e0;margin:0;padding:24px}
+    .card{max-width:760px;margin:0 auto;background:#141414;border:1px solid #1f1f1f;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.4);padding:24px}
+    h1{margin:0 0 12px;font-size:24px}
+    .muted{color:#9aa0a6;font-size:14px;margin-bottom:18px}
+    label{display:block;margin:16px 0 6px}
+    input,textarea{width:100%;background:#0a0a0a;border:1px solid #1f1f1f;border-radius:10px;color:#e0e0e0;padding:10px}
+    textarea{min-height:120px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{background:linear-gradient(#1a73e8,#1662c9);border:1px solid #1662c9;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer}
+    button.secondary{background:#222;border-color:#333}
+    .ok{color:#34a853}
+    .err{color:#ff5252}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid #1f1f1f;border-radius:999px;background:#0a0a0a;color:#aeb3b7;font-size:12px}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    .foot{margin-top:18px;color:#9aa0a6;font-size:12px}
+    code{background:#0a0a0a;border:1px solid #1f1f1f;border-radius:6px;padding:2px 6px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>شراء / تفعيل PCFixUltimate</h1>
+    <div class="muted">تتحقق صفحة الشراء من بصمة جهازك وتولّد لك كود ترخيص موقّع يُفعَّل على هذا الجهاز فقط.</div>
+
+    <div class="grid">
+      <div>
+        <label>بصمة جهازك (machine_hash)</label>
+        <input id="mh" placeholder="سيتم ملؤها تلقائيًا إن جئت من التطبيق" />
+        <div class="muted">إن كانت فارغة، انسخها من التطبيق: <span class="pill">Settings → Buy License</span></div>
+      </div>
+
+      <div>
+        <label>رابط الـ API</label>
+        <input id="api" placeholder="https://pcfix-license-api.pcfixultimate.workers.dev/generate" />
+      </div>
+
+      <div class="row">
+        <button id="pay">💳 ادفع الآن (تجريبي)</button>
+        <button id="gen">⚡ توليد كود التفعيل</button>
+        <button id="copy" class="secondary">📋 نسخ الكود</button>
+      </div>
+
+      <div>
+        <label>كود التفعيل (License Token)</label>
+        <textarea id="token" readonly placeholder="سيظهر هنا بعد التوليد"></textarea>
+      </div>
+
+      <div id="status" class="muted"></div>
+    </div>
+
+    <div class="foot">
+      ملاحظة: يتم ربط الترخيص بجهاز واحد عبر <code>machine_hash</code>. يرجى الاحتفاظ بالكود بأمان.
+    </div>
+  </div>
+
+  <script>
+    // قراءة بارامترات الرابط
+    const qs = new URLSearchParams(location.search);
+    const $ = (id) => document.getElementById(id);
+    const mhInput = $("mh");
+    const apiInput = $("api");
+    const tokenBox = $("token");
+    const statusBox = $("status");
+
+    // تعبئة تلقائية إن وُجدت mh و api في الرابط
+    if (qs.get("mh")) mhInput.value = qs.get("mh");
+    if (qs.get("api")) apiInput.value = qs.get("api");
+
+    // زر دفع (تجريبي - الآن فقط يعرض نجاح وهمي)
+    $("pay").addEventListener("click", () => {
+      statusBox.textContent = "تم الدفع بنجاح (تجريبي). يمكنك الآن توليد الكود.";
+      statusBox.className = "ok";
+    });
+
+    // زر توليد الكود
+    $("gen").addEventListener("click", async () => {
+      const mh = mhInput.value.trim();
+      const api = (apiInput.value.trim() || "https://pcfix-license-api.pcfixultimate.workers.dev/generate");
+
+      if (!mh) {
+        statusBox.textContent = "يرجى إدخال machine_hash.";
+        statusBox.className = "err";
+        return;
+      }
+
+      try {
+        statusBox.textContent = "جارِ توليد الكود...";
+        statusBox.className = "muted";
+
+        const url = `${api}?mh=${encodeURIComponent(mh)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!data.token) throw new Error("لم يتم استلام token من الخادم.");
+
+        tokenBox.value = data.token;
+        statusBox.textContent = "تم توليد الكود بنجاح.";
+        statusBox.className = "ok";
+      } catch (e) {
+        statusBox.textContent = "خطأ: " + e.message;
+        statusBox.className = "err";
+      }
+    });
+
+    // زر نسخ
+    $("copy").addEventListener("click", async () => {
+      if (!tokenBox.value) {
+        statusBox.textContent = "لا يوجد كود لنسخه.";
+        statusBox.className = "err";
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(tokenBox.value);
+        statusBox.textContent = "تم النسخ إلى الحافظة.";
+        statusBox.className = "ok";
+      } catch {
+        statusBox.textContent = "تعذّر النسخ. انسخ يدويًا.";
+        statusBox.className = "err";
+      }
+    });
+  </script>
+</body>
+</html>
