@@ -1,129 +1,160 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>PCFixUltimate — Purchase & License</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>شراء ترخيص PCFixUltimate</title>
+  <link rel="icon" href="./pcfix_icon.ico">
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#e0e0e0;margin:0;padding:24px}
-    .card{max-width:760px;margin:0 auto;background:#141414;border:1px solid #1f1f1f;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.4);padding:24px}
-    h1{margin:0 0 12px;font-size:24px}
-    .muted{color:#9aa0a6;font-size:14px;margin-bottom:18px}
-    label{display:block;margin:16px 0 6px}
-    input,textarea{width:100%;background:#0a0a0a;border:1px solid #1f1f1f;border-radius:10px;color:#e0e0e0;padding:10px}
-    textarea{min-height:120px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    button{background:linear-gradient(#1a73e8,#1662c9);border:1px solid #1662c9;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer}
-    button.secondary{background:#222;border-color:#333}
-    .ok{color:#34a853}
-    .err{color:#ff5252}
-    .pill{display:inline-block;padding:6px 10px;border:1px solid #1f1f1f;border-radius:999px;background:#0a0a0a;color:#aeb3b7;font-size:12px}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    .foot{margin-top:18px;color:#9aa0a6;font-size:12px}
-    code{background:#0a0a0a;border:1px solid #1f1f1f;border-radius:6px;padding:2px 6px}
+    :root{--bg:#0b1020;--card:#111a33;--txt:#e8ecf3;--muted:#a9b3c3;--accent:#4aa8ff;--ok:#31d0a0;--warn:#ffb020;--err:#ff6b6b;}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .wrap{max-width:860px;margin:40px auto;padding:24px}
+    .card{background:var(--card);border:1px solid #1d2a4f;border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h1{margin:0 0 8px}
+    p{margin:8px 0;color:var(--muted)}
+    .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;padding:12px 16px;
+         background:linear-gradient(180deg,#3aa0ff,#1f7fe0);color:#fff;font-weight:600;text-decoration:none;cursor:pointer}
+    .btn.secondary{background:#243355;border:1px solid #2b4477}
+    .btn.ok{background:linear-gradient(180deg,#44d8ae,#23b389)}
+    code{background:#0d1530;border:1px solid #1d2a4f;border-radius:8px;padding:6px 8px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;word-break:break-all}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    .note{font-size:13px;color:#b8c4dd}
+    .tag{display:inline-block;background:#203055;border:1px solid #2b4477;color:#bcd0ff;padding:6px 10px;border-radius:999px;font-size:12px}
+    .box{background:#0c1634;border:1px dashed #27407b;padding:12px;border-radius:12px}
   </style>
 </head>
 <body>
+<div class="wrap">
   <div class="card">
-    <h1>شراء / تفعيل PCFixUltimate</h1>
-    <div class="muted">تتحقق صفحة الشراء من بصمة جهازك وتولّد لك كود ترخيص موقّع يُفعَّل على هذا الجهاز فقط.</div>
+    <h1>PCFixUltimate — Purchase & License</h1>
+    <p>Download the latest installer and activate your license for this machine.</p>
+
+    <div class="row">
+      <a id="downloadBtn" class="btn secondary" href="#" download>⬇️ Download Latest Setup</a>
+      <a class="btn" href="./index.html" target="_self">ℹ️ See releases page</a>
+      <span id="verTag" class="tag">Loading…</span>
+    </div>
 
     <div class="grid">
       <div>
-        <label>بصمة جهازك (machine_hash)</label>
-        <input id="mh" placeholder="سيتم ملؤها تلقائيًا إن جئت من التطبيق" />
-        <div class="muted">إن كانت فارغة، انسخها من التطبيق: <span class="pill">Settings → Buy License</span></div>
+        <h3>Step 1 — Confirm machine hash</h3>
+        <p class="note">Your machine hash (passed in URL):</p>
+        <p class="mono" id="mhBox">—</p>
+        <div class="box note">
+          If this value is empty or not your device, re-open the app’s “Buy” page so it passes the correct machine hash.
+        </div>
       </div>
-
       <div>
-        <label>رابط الـ API</label>
-        <input id="api" placeholder="https://pcfix-license-api.pcfixultimate.workers.dev/generate" />
+        <h3>Step 2 — Purchase</h3>
+        <p class="note">For now, this is a placeholder. Connect your real checkout later.</p>
+        <div class="row">
+          <button id="payMock" class="btn">💳 Mock Purchase (dev)</button>
+        </div>
+        <p class="note">After real payment, you’ll auto-generate the license for this machine.</p>
       </div>
-
-      <div class="row">
-        <button id="pay">💳 ادفع الآن (تجريبي)</button>
-        <button id="gen">⚡ توليد كود التفعيل</button>
-        <button id="copy" class="secondary">📋 نسخ الكود</button>
-      </div>
-
-      <div>
-        <label>كود التفعيل (License Token)</label>
-        <textarea id="token" readonly placeholder="سيظهر هنا بعد التوليد"></textarea>
-      </div>
-
-      <div id="status" class="muted"></div>
     </div>
 
-    <div class="foot">
-      ملاحظة: يتم ربط الترخيص بجهاز واحد عبر <code>machine_hash</code>. يرجى الاحتفاظ بالكود بأمان.
+    <h3 style="margin-top:22px">Step 3 — Generate license</h3>
+    <div class="row">
+      <button id="genBtn" class="btn ok" disabled>🔐 Generate Lifetime License</button>
+      <span id="genStatus" class="note">Complete purchase to enable.</span>
     </div>
+    <div id="licenseWrap" style="display:none;margin-top:12px">
+      <p class="note">Your license token:</p>
+      <pre class="mono" id="tokenBox" style="white-space:pre-wrap"></pre>
+    </div>
+
+    <h3 style="margin-top:22px">Integrity</h3>
+    <p class="note">Expected SHA-256:</p>
+    <p class="mono" id="shaBox">—</p>
   </div>
+</div>
 
-  <script>
-    // قراءة بارامترات الرابط
-    const qs = new URLSearchParams(location.search);
-    const $ = (id) => document.getElementById(id);
-    const mhInput = $("mh");
-    const apiInput = $("api");
-    const tokenBox = $("token");
-    const statusBox = $("status");
+<script>
+(async () => {
+  // 1) Read query params
+  const qs = new URLSearchParams(location.search);
+  const mh  = qs.get("mh")  || "";
+  const api = qs.get("api") || "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
 
-    // تعبئة تلقائية إن وُجدت mh و api في الرابط
-    if (qs.get("mh")) mhInput.value = qs.get("mh");
-    if (qs.get("api")) apiInput.value = qs.get("api");
+  // Show machine hash
+  document.getElementById("mhBox").textContent = mh ? mh : "(missing)";
 
-    // زر دفع (تجريبي - الآن فقط يعرض نجاح وهمي)
-    $("pay").addEventListener("click", () => {
-      statusBox.textContent = "تم الدفع بنجاح (تجريبي). يمكنك الآن توليد الكود.";
-      statusBox.className = "ok";
-    });
+  // 2) Load latest.json for download + SHA + version tag
+  const verTag = document.getElementById("verTag");
+  const dlBtn  = document.getElementById("downloadBtn");
+  const shaBox = document.getElementById("shaBox");
+  try {
+    const r = await fetch("./latest.json", {cache:"no-store"});
+    if (!r.ok) throw new Error("latest.json not found");
+    const j = await r.json();
+    const version = String(j.version || "—");
+    const url     = String(j.url || "");
+    const sha     = String(j.sha256 || "—");
+    verTag.textContent = "v" + version;
+    shaBox.textContent = sha;
+    if (url) {
+      dlBtn.href = url;
+      dlBtn.download = `PCFixUltimateSetup_${version}.exe`;
+    } else {
+      dlBtn.classList.remove("secondary");
+      dlBtn.textContent = "No download available";
+      dlBtn.removeAttribute("href");
+    }
+  } catch(e) {
+    verTag.textContent = "Error";
+    console.error(e);
+  }
 
-    // زر توليد الكود
-    $("gen").addEventListener("click", async () => {
-      const mh = mhInput.value.trim();
-      const api = (apiInput.value.trim() || "https://pcfix-license-api.pcfixultimate.workers.dev/generate");
+  // 3) Mock purchase flow (DEV): toggles a flag
+  const payMock = document.getElementById("payMock");
+  const genBtn  = document.getElementById("genBtn");
+  const genStatus = document.getElementById("genStatus");
+  let canGenerate = false;
 
-      if (!mh) {
-        statusBox.textContent = "يرجى إدخال machine_hash.";
-        statusBox.className = "err";
-        return;
-      }
+  function enableGenerate() {
+    canGenerate = true;
+    genBtn.disabled = false;
+    genStatus.textContent = "Ready. Click to generate license.";
+  }
 
-      try {
-        statusBox.textContent = "جارِ توليد الكود...";
-        statusBox.className = "muted";
+  // If you integrate real checkout, redirect back with ?paid=1
+  if (qs.get("paid") === "1") enableGenerate();
 
-        const url = `${api}?mh=${encodeURIComponent(mh)}`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!data.token) throw new Error("لم يتم استلام token من الخادم.");
+  payMock.addEventListener("click", () => {
+    // In production, replace this with your real checkout → redirect back with ?paid=1
+    enableGenerate();
+  });
 
-        tokenBox.value = data.token;
-        statusBox.textContent = "تم توليد الكود بنجاح.";
-        statusBox.className = "ok";
-      } catch (e) {
-        statusBox.textContent = "خطأ: " + e.message;
-        statusBox.className = "err";
-      }
-    });
-
-    // زر نسخ
-    $("copy").addEventListener("click", async () => {
-      if (!tokenBox.value) {
-        statusBox.textContent = "لا يوجد كود لنسخه.";
-        statusBox.className = "err";
-        return;
-      }
-      try {
-        await navigator.clipboard.writeText(tokenBox.value);
-        statusBox.textContent = "تم النسخ إلى الحافظة.";
-        statusBox.className = "ok";
-      } catch {
-        statusBox.textContent = "تعذّر النسخ. انسخ يدويًا.";
-        statusBox.className = "err";
-      }
-    });
-  </script>
+  // 4) Generate license via Worker
+  const tokenBox = document.getElementById("tokenBox");
+  const licenseWrap = document.getElementById("licenseWrap");
+  genBtn.addEventListener("click", async () => {
+    if (!canGenerate) return;
+    if (!mh) { alert("Missing machine hash in URL (?mh=...)"); return; }
+    genBtn.disabled = true;
+    genStatus.textContent = "Generating...";
+    try {
+      const u = new URL(api);
+      u.searchParams.set("mh", mh);
+      const r = await fetch(u.toString(), {method:"GET"});
+      if (!r.ok) throw new Error("Generate failed: " + r.status);
+      const data = await r.json();
+      if (!data.token) throw new Error("No token field in response");
+      tokenBox.textContent = data.token;
+      licenseWrap.style.display = "block";
+      genStatus.textContent = "Done ✔";
+    } catch (e) {
+      genStatus.textContent = "Failed";
+      alert(e.message || String(e));
+    } finally {
+      genBtn.disabled = false;
+    }
+  });
+})();
+</script>
 </body>
 </html>
