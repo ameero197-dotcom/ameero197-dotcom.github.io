@@ -1,160 +1,258 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <title>PCFixUltimate — Purchase & License</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" href="./pcfix_icon.ico">
+  <title>PCFixUltimate — Buy & Download</title>
+  <link rel="icon" href="../pcfix_icon.ico">
   <style>
-    :root{--bg:#0b1020;--card:#111a33;--txt:#e8ecf3;--muted:#a9b3c3;--accent:#4aa8ff;--ok:#31d0a0;--warn:#ffb020;--err:#ff6b6b;}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:860px;margin:40px auto;padding:24px}
-    .card{background:var(--card);border:1px solid #1d2a4f;border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    h1{margin:0 0 8px}
-    p{margin:8px 0;color:var(--muted)}
-    .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;padding:12px 16px;
-         background:linear-gradient(180deg,#3aa0ff,#1f7fe0);color:#fff;font-weight:600;text-decoration:none;cursor:pointer}
-    .btn.secondary{background:#243355;border:1px solid #2b4477}
-    .btn.ok{background:linear-gradient(180deg,#44d8ae,#23b389)}
-    code{background:#0d1530;border:1px solid #1d2a4f;border-radius:8px;padding:6px 8px}
-    .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;word-break:break-all}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
-    .note{font-size:13px;color:#b8c4dd}
-    .tag{display:inline-block;background:#203055;border:1px solid #2b4477;color:#bcd0ff;padding:6px 10px;border-radius:999px;font-size:12px}
-    .box{background:#0c1634;border:1px dashed #27407b;padding:12px;border-radius:12px}
+    :root { --bg:#0f172a; --card:#111827; --muted:#94a3b8; --text:#e5e7eb; --accent:#22c55e; --danger:#ef4444; }
+    body{margin:0;background:linear-gradient(120deg,#0b1020,#121c34 40%,#0b1020);font-family:Inter,system-ui,Arial;color:var(--text)}
+    .wrap{max-width:980px;margin:40px auto;padding:24px}
+    .card{background:rgba(17,24,39,.75);backdrop-filter: blur(8px);border:1px solid rgba(148,163,184,.15);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h1{margin:0 0 8px;font-size:28px}
+    p{color:var(--muted)}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+    .col-7{grid-column:span 7}
+    .col-5{grid-column:span 5}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    input[type=text]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(148,163,184,.25);background:#0b1222;color:var(--text)}
+    .btn{padding:12px 16px;border-radius:10px;border:1px solid rgba(148,163,184,.25);background:#0b1222;color:var(--text);cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,#22c55e,#16a34a);border:none;color:#07140c;font-weight:700}
+    .btn.ghost{background:transparent}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .kpi{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px}
+    .code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;background:#0b1222;border:1px dashed rgba(148,163,184,.25);padding:12px;border-radius:10px;word-break:break-all}
+    .ok{color:var(--accent)} .bad{color:var(--danger)}
+    .hr{height:1px;background:linear-gradient(90deg,transparent,rgba(148,163,184,.3),transparent);margin:16px 0}
+    .tag{padding:4px 8px;border-radius:999px;background:#0b1222;border:1px solid rgba(148,163,184,.25);color:var(--muted);font-size:12px}
+    dialog{border:none;border-radius:16px;max-width:720px;width:90%;background:#0b1222;color:var(--text);padding:24px}
+    dialog::backdrop{background:rgba(0,0,0,.5)}
+    .eula{white-space:pre-wrap;max-height:45vh;overflow:auto;border:1px solid rgba(148,163,184,.2);border-radius:12px;padding:12px;background:#0a0f1e;color:#cbd5e1}
+    .pay-rows{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .tiny{font-size:12px;color:var(--muted)}
   </style>
+  <!-- Stripe.js (Checkout) -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- PayPal JS SDK (Smart Buttons) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
-<div class="wrap">
-  <div class="card">
-    <h1>PCFixUltimate — Purchase & License</h1>
-    <p>Download the latest installer and activate your license for this machine.</p>
+  <div class="wrap">
+    <div class="card">
+      <h1>PCFixUltimate — Buy & Download</h1>
+      <p>Get the latest installer and your lifetime license bound to your machine hash.</p>
 
-    <div class="row">
-      <a id="downloadBtn" class="btn secondary" href="#" download>⬇️ Download Latest Setup</a>
-      <a class="btn" href="./index.html" target="_self">ℹ️ See releases page</a>
-      <span id="verTag" class="tag">Loading…</span>
-    </div>
+      <div class="grid">
+        <div class="col-7">
+          <div class="row">
+            <div style="flex:1 1 260px">
+              <label>Machine Hash</label>
+              <input id="mh" type="text" placeholder="paste your machine hash" />
+            </div>
+            <div style="flex:1 1 260px">
+              <label>API (Worker)</label>
+              <input id="api" type="text" placeholder="https://.../generate" />
+            </div>
+          </div>
 
-    <div class="grid">
-      <div>
-        <h3>Step 1 — Confirm machine hash</h3>
-        <p class="note">Your machine hash (passed in URL):</p>
-        <p class="mono" id="mhBox">—</p>
-        <div class="box note">
-          If this value is empty or not your device, re-open the app’s “Buy” page so it passes the correct machine hash.
+          <div class="hr"></div>
+
+          <div class="row kpi">
+            <span class="tag">Latest</span>
+            <span>Version:</span><span id="ver">—</span>
+            <span style="margin-left:10px">SHA256:</span><span id="sha" class="tiny">—</span>
+          </div>
+
+          <div class="row" style="margin-top:8px">
+            <button id="btn-download" class="btn">Download latest setup</button>
+            <button id="btn-generate" class="btn ghost">Generate license (JWT)</button>
+          </div>
+
+          <div id="license-box" class="code" style="display:none;margin-top:12px"></div>
+
+          <div class="hr"></div>
+
+          <div class="row">
+            <label style="display:flex;align-items:center;gap:8px">
+              <input id="agree" type="checkbox"> I accept the <a href="#" id="open-eula">Terms & EULA</a>
+            </label>
+          </div>
+
+          <div class="pay-rows" style="margin-top:10px">
+            <button id="btn-stripe" class="btn primary" disabled>Buy with Stripe</button>
+            <div id="paypal-container" style="opacity:.5;pointer-events:none"></div>
+          </div>
+          <div class="tiny" style="margin-top:6px">Payments handled by Stripe or PayPal. A license is generated for your machine after payment.</div>
+        </div>
+
+        <div class="col-5">
+          <div class="code">
+            <b>How it works:</b>
+            <ol>
+              <li>We read <code>latest.json</code> from GitHub Pages to show the newest installer.</li>
+              <li>You accept the Terms & EULA.</li>
+              <li>Pay securely, then we generate a signed license tied to your machine hash via our Worker API.</li>
+            </ol>
+          </div>
         </div>
       </div>
-      <div>
-        <h3>Step 2 — Purchase</h3>
-        <p class="note">For now, this is a placeholder. Connect your real checkout later.</p>
-        <div class="row">
-          <button id="payMock" class="btn">💳 Mock Purchase (dev)</button>
-        </div>
-        <p class="note">After real payment, you’ll auto-generate the license for this machine.</p>
-      </div>
     </div>
-
-    <h3 style="margin-top:22px">Step 3 — Generate license</h3>
-    <div class="row">
-      <button id="genBtn" class="btn ok" disabled>🔐 Generate Lifetime License</button>
-      <span id="genStatus" class="note">Complete purchase to enable.</span>
-    </div>
-    <div id="licenseWrap" style="display:none;margin-top:12px">
-      <p class="note">Your license token:</p>
-      <pre class="mono" id="tokenBox" style="white-space:pre-wrap"></pre>
-    </div>
-
-    <h3 style="margin-top:22px">Integrity</h3>
-    <p class="note">Expected SHA-256:</p>
-    <p class="mono" id="shaBox">—</p>
   </div>
-</div>
 
-<script>
-(async () => {
-  // 1) Read query params
-  const qs = new URLSearchParams(location.search);
-  const mh  = qs.get("mh")  || "";
-  const api = qs.get("api") || "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
+  <dialog id="dlg">
+    <h3>PCFixUltimate — Terms & EULA</h3>
+    <div class="eula" id="eula">
+PCFixUltimate End-User License Agreement (EULA)
 
-  // Show machine hash
-  document.getElementById("mhBox").textContent = mh ? mh : "(missing)";
+1) License: A lifetime, non-transferable license bound to your device (machine hash).
+2) Usage: One device per license. Re-hosting or reverse engineering is prohibited.
+3) Updates: The app may check for updates via latest.json and verify integrity.
+4) Warranty: Provided “as is” without warranties; we are not liable for incidental damages.
+5) Privacy: No payment data stored by us; payments are handled by Stripe/PayPal.
 
-  // 2) Load latest.json for download + SHA + version tag
-  const verTag = document.getElementById("verTag");
-  const dlBtn  = document.getElementById("downloadBtn");
-  const shaBox = document.getElementById("shaBox");
-  try {
-    const r = await fetch("./latest.json", {cache:"no-store"});
-    if (!r.ok) throw new Error("latest.json not found");
-    const j = await r.json();
-    const version = String(j.version || "—");
-    const url     = String(j.url || "");
-    const sha     = String(j.sha256 || "—");
-    verTag.textContent = "v" + version;
-    shaBox.textContent = sha;
-    if (url) {
-      dlBtn.href = url;
-      dlBtn.download = `PCFixUltimateSetup_${version}.exe`;
-    } else {
-      dlBtn.classList.remove("secondary");
-      dlBtn.textContent = "No download available";
-      dlBtn.removeAttribute("href");
+By proceeding, you agree to these terms.
+    </div>
+    <div class="row" style="margin-top:12px;justify-content:flex-end">
+      <button id="close-eula" class="btn">Close</button>
+    </div>
+  </dialog>
+
+  <script>
+    // ======= CONFIG (replace placeholders) =======
+    const STRIPE_PUBLISHABLE_KEY = "pk_live_or_test_REPLACE_ME";   // ← بدّل
+    const STRIPE_PRICE_ID        = "price_REPLACE_ME";             // ← بدّل
+    const PAYPAL_CLIENT_MODE     = "live"; // or "sandbox"
+    // Worker: /generate?mh=...  (عندك شغال: https://pcfix-license-api.pcfixultimate.workers.dev)
+    const WORKER_API_DEFAULT     = "https://pcfix-license-api.pcfixultimate.workers.dev";
+    const LATEST_JSON_URL        = "https://ameero197-dotcom.github.io/pcfixultimate/latest.json";
+
+    // ======= UI refs =======
+    const qs = (s)=>document.querySelector(s);
+    const mhEl = qs("#mh");
+    const apiEl = qs("#api");
+    const verEl = qs("#ver");
+    const shaEl = qs("#sha");
+    const btnDownload = qs("#btn-download");
+    const btnGen = qs("#btn-generate");
+    const licBox = qs("#license-box");
+    const agreeEl = qs("#agree");
+    const btnStripe = qs("#btn-stripe");
+    const paypalBox = qs("#paypal-container");
+    const dlg = qs("#dlg");
+
+    qs("#open-eula").addEventListener("click",(e)=>{e.preventDefault(); dlg.showModal();});
+    qs("#close-eula").addEventListener("click",()=>dlg.close());
+
+    // Parse URL params (?mh=...&api=...&paid=stripe|paypal)
+    const urlp = new URLSearchParams(location.search);
+    if(urlp.get("mh")) mhEl.value = urlp.get("mh");
+    apiEl.value = urlp.get("api") || WORKER_API_DEFAULT;
+
+    // Enable pay buttons only if EULA accepted
+    function setPayEnabled(on){
+      btnStripe.disabled = !on;
+      paypalBox.style.opacity = on ? "1" : ".5";
+      paypalBox.style.pointerEvents = on ? "auto" : "none";
     }
-  } catch(e) {
-    verTag.textContent = "Error";
-    console.error(e);
-  }
+    agreeEl.addEventListener("change",()=>setPayEnabled(agreeEl.checked));
+    setPayEnabled(agreeEl.checked);
 
-  // 3) Mock purchase flow (DEV): toggles a flag
-  const payMock = document.getElementById("payMock");
-  const genBtn  = document.getElementById("genBtn");
-  const genStatus = document.getElementById("genStatus");
-  let canGenerate = false;
-
-  function enableGenerate() {
-    canGenerate = true;
-    genBtn.disabled = false;
-    genStatus.textContent = "Ready. Click to generate license.";
-  }
-
-  // If you integrate real checkout, redirect back with ?paid=1
-  if (qs.get("paid") === "1") enableGenerate();
-
-  payMock.addEventListener("click", () => {
-    // In production, replace this with your real checkout → redirect back with ?paid=1
-    enableGenerate();
-  });
-
-  // 4) Generate license via Worker
-  const tokenBox = document.getElementById("tokenBox");
-  const licenseWrap = document.getElementById("licenseWrap");
-  genBtn.addEventListener("click", async () => {
-    if (!canGenerate) return;
-    if (!mh) { alert("Missing machine hash in URL (?mh=...)"); return; }
-    genBtn.disabled = true;
-    genStatus.textContent = "Generating...";
-    try {
-      const u = new URL(api);
-      u.searchParams.set("mh", mh);
-      const r = await fetch(u.toString(), {method:"GET"});
-      if (!r.ok) throw new Error("Generate failed: " + r.status);
-      const data = await r.json();
-      if (!data.token) throw new Error("No token field in response");
-      tokenBox.textContent = data.token;
-      licenseWrap.style.display = "block";
-      genStatus.textContent = "Done ✔";
-    } catch (e) {
-      genStatus.textContent = "Failed";
-      alert(e.message || String(e));
-    } finally {
-      genBtn.disabled = false;
+    // Load latest.json (version + url + hash + signature)
+    let latest = null;
+    async function loadLatest(){
+      const r = await fetch(LATEST_JSON_URL, {cache:"no-cache"});
+      latest = await r.json();
+      verEl.textContent = latest.version || "—";
+      shaEl.textContent = latest.sha256 || "—";
     }
-  });
-})();
-</script>
+    loadLatest().catch(console.error);
+
+    // Download button
+    btnDownload.addEventListener("click", ()=>{
+      if(!latest || !latest.url){ alert("No latest build found yet."); return; }
+      if(!agreeEl.checked){ alert("Please accept the Terms & EULA first."); return; }
+      location.href = latest.url;
+    });
+
+    // Generate license via Worker (manual)
+    btnGen.addEventListener("click", async ()=>{
+      const mh = mhEl.value.trim();
+      const api = apiEl.value.trim().replace(/\/+$/,"");
+      if(!mh){ alert("Enter your machine hash"); return; }
+      const url = `${api}/generate?mh=${encodeURIComponent(mh)}`;
+      licBox.style.display="block"; licBox.textContent="Generating...";
+      try{
+        const r = await fetch(url, {cache:"no-cache"});
+        if(!r.ok) throw new Error(await r.text());
+        const js = await r.json();
+        licBox.textContent = js.token || JSON.stringify(js,null,2);
+      }catch(e){
+        licBox.textContent = "Error: " + e.message;
+      }
+    });
+
+    // ===== Stripe Checkout =====
+    let stripe = null;
+    try { stripe = Stripe(STRIPE_PUBLISHABLE_KEY); } catch(e){ console.warn(e); }
+    btnStripe.addEventListener("click", async ()=>{
+      if(!agreeEl.checked){ alert("Please accept the Terms & EULA first."); return; }
+      if(!stripe){ alert("Stripe not configured."); return; }
+      const mh = mhEl.value.trim(); const api = apiEl.value.trim().replace(/\/+$/,"");
+      if(!mh){ alert("Enter your machine hash"); return; }
+      // بعد الدفع سنعود لنفس الصفحة مع باراميترات النجاح
+      const successUrl = `${location.origin}${location.pathname}?paid=stripe&mh=${encodeURIComponent(mh)}&api=${encodeURIComponent(api)}`;
+      const cancelUrl  = `${location.origin}${location.pathname}?canceled=1&mh=${encodeURIComponent(mh)}&api=${encodeURIComponent(api)}`;
+
+      const { error } = await stripe.redirectToCheckout({
+        lineItems: [{ price: STRIPE_PRICE_ID, quantity: 1 }],
+        mode: "payment",
+        successUrl, cancelUrl
+      });
+      if(error) alert(error.message);
+    });
+
+    // ===== PayPal Buttons =====
+    // ملاحظة: سكريبت PayPal SDK تم تضمينه في <head> بــ client-id=PAYPAL_CLIENT_ID — بدّله بقيمتك.
+    // بعد الموافقة والـcapture نرجع لنفس الصفحة ونولّد الترخيص أوتوماتيكياً.
+    function renderPayPal(){
+      if(!window.paypal) return;
+      window.paypal.Buttons({
+        style:{ shape:"pill", layout:"vertical", label:"paypal" },
+        createOrder: (data, actions)=> actions.order.create({
+          purchase_units:[{ amount:{ value:"9.99" }, description:"PCFixUltimate lifetime license" }]
+        }),
+        onApprove: async (data, actions)=>{
+          await actions.order.capture();
+          const mh = mhEl.value.trim(); const api = apiEl.value.trim().replace(/\/+$/,"");
+          const u = new URL(location.href);
+          u.searchParams.set("paid","paypal");
+          u.searchParams.set("mh", mh);
+          u.searchParams.set("api", api);
+          location.href = u.toString();
+        }
+      }).render("#paypal-container");
+    }
+    renderPayPal();
+
+    // لو رجعنا من بوابة دفع (Stripe/PayPal) — ولّد الترخيص تلقائياً
+    async function postPaymentAutoGenerate(){
+      const paid = urlp.get("paid");
+      if(!paid) return;
+      const mh = mhEl.value.trim();
+      const api = apiEl.value.trim().replace(/\/+$/,"");
+      if(!mh || !api) return;
+      const url = `${api}/generate?mh=${encodeURIComponent(mh)}`;
+      licBox.style.display="block"; licBox.textContent="Generating license after payment...";
+      try{
+        const r = await fetch(url, {cache:"no-cache"});
+        const js = await r.json();
+        licBox.textContent = js.token || JSON.stringify(js,null,2);
+      }catch(e){
+        licBox.textContent = "Error: " + e.message;
+      }
+    }
+    postPaymentAutoGenerate();
+  </script>
 </body>
 </html>
