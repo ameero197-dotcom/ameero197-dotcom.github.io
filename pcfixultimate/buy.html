@@ -3,434 +3,248 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PCFixUltimate — صفحة شراء تجريبية</title>
-  <meta name="description" content="صفحة اختبارية لتوليد أكواد تفعيل باستخدام Cloudflare Worker (Test Mode).">
+  <title>PCFixUltimate — شراء تجريبي (كود قصير)</title>
   <style>
     :root{
-      --bg:#071021; --panel:#0e1724; --muted:#9aa4b2; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --brand:#3b82f6;
-      --txt:#e6eef6; --txt2:#c7d3df; --card:#0b1522; --border:rgba(255,255,255,.04);
-      --glass: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-      --shadow: 0 6px 18px rgba(2,6,23,0.6);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --bg:#070b12; --panel:#0f1724; --muted:#9aa4b2; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --brand:#3b82f6;
+      --txt:#e6eef6; --txt2:#c7d3df; --border:rgba(255,255,255,.06); --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono", monospace;
+      --shadow: 0 10px 30px rgba(2,6,23,.55);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
-      margin:0;
-      background:linear-gradient(180deg, #05070a 0%, #071021 100%);
-      color:var(--txt);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      font-size:15px; line-height:1.45;
-      padding:28px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
+      margin:0;background:linear-gradient(180deg,#060910,#0a1320);color:var(--txt);
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      font:15px/1.5 system-ui, "Segoe UI", Roboto, Arial; padding:28px;
     }
-    .wrap{width:100%;max-width:980px}
-    .card{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-      box-shadow:var(--shadow);
-      margin-bottom:18px;
-    }
-    .hero{display:flex;gap:12px;align-items:center;padding:16px;border-radius:12px;}
-    .logo{font-weight:800;font-size:22px;letter-spacing:.6px}
-    .tag{font-size:12px;color:var(--txt2);background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:999px;border:1px solid var(--border)}
-    .grid{display:grid;grid-template-columns:1fr 420px;gap:16px;margin-top:14px}
+    .wrap{max-width:980px;margin:0 auto}
+    .hero{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+    .logo{font-weight:800;font-size:22px;letter-spacing:.5px}
+    .tag{font-size:12px;color:var(--txt2);background:rgba(255,255,255,.04);padding:6px 10px;border-radius:999px;border:1px solid var(--border)}
+    .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;margin-top:14px}
     @media(max-width:980px){ .grid{grid-template-columns:1fr} }
-    h2{margin:0;font-size:16px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    h2{margin:0 0 8px 0;font-size:16px}
     .muted{color:var(--muted);font-size:13px}
-    .input-row{display:flex;gap:8px;margin-top:10px}
-    input[type=text], input[type=url]{
-      flex:1;background:#071226;border:1px solid var(--border);border-radius:10px;color:var(--txt);
-      padding:10px 12px;font-size:14px;
-    }
+    .row{display:flex;gap:8px;align-items:center}
+    .input{flex:1;background:#0a1220;border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 12px}
     button{
-      background:linear-gradient(180deg,var(--brand), #2563eb);
-      border:none;color:white;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer;
+      background:linear-gradient(180deg,var(--brand),#2563eb);border:none;color:#fff;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer
     }
     button.secondary{background:transparent;border:1px solid var(--border);color:var(--txt2);font-weight:600}
-    .pill{background:rgba(255,255,255,0.02);border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:13px;border:1px solid var(--border)}
-    .kpi{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .kbox{background:transparent;padding:8px;border-radius:8px;border:1px solid var(--border);min-width:130px}
-    .center{display:flex;align-items:center;justify-content:center}
+    button.ghost{background:transparent;border:1px dashed var(--border);color:var(--txt2)}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .pill{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:13px;word-break:break-all}
+    .code-big{font-family:var(--mono);font-size:20px;letter-spacing:.6px}
     .divider{height:1px;background:var(--border);margin:12px 0;border-radius:4px}
-    .muted-note{background:rgba(255,255,255,0.01);padding:10px;border-radius:8px;border:1px dashed rgba(255,255,255,0.02);color:var(--txt2);font-size:13px}
-    .hidden{display:none}
-    .success{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.14);padding:12px;border-radius:10px;color:#eaffef}
-    .danger{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.14);padding:12px;border-radius:10px;color:#ffdede}
-    .actions{display:flex;gap:8px}
-    .small{font-size:13px;color:var(--txt2)}
-    .footer{font-size:12px;color:var(--muted);margin-top:6px}
-    .code-block{background:#071226;border:1px solid var(--border);padding:10px;border-radius:8px;font-family:var(--mono);font-size:13px;color:var(--txt2);word-break:break-all}
-    .copy-btn{background:transparent;border:1px solid var(--border);color:var(--txt2);padding:8px;border-radius:8px;cursor:pointer}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
+    .note{background:rgba(255,255,255,.02);border:1px dashed var(--border);padding:10px;border-radius:10px;color:var(--txt2);font-size:13px}
+    .status{font-size:13px;margin-top:8px}
+    .ver{font-weight:800}
+    .flex{display:flex;gap:8px;align-items:center}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card hero">
-      <div>
-        <div class="logo">PCFixUltimate</div>
-        <div class="small muted" style="margin-top:6px">وضع الاختبار — توليد أكواد تفعيل للاختبار فقط</div>
-      </div>
+    <div class="hero">
+      <div class="logo">PCFixUltimate</div>
+      <span class="tag">اختبار قبل الإطلاق — كود قصير فقط</span>
       <div style="flex:1"></div>
-      <div class="tag">Test Checkout</div>
+      <button class="ghost" id="helpBtn">كيف يعمل؟</button>
     </div>
 
     <div class="grid">
-      <!-- LEFT: inputs & payment -->
-      <div>
-        <div class="card">
-          <h2>1) بصمة الجهاز (Machine Fingerprint)</h2>
-          <div class="muted">عادة يفتح التطبيق هذه الصفحة مع المعامل <code>?mh=&lt;machine_hash&gt;</code>. يمكنك لصقها يدوياً أو سحبها من الحافظة.</div>
-
-          <div class="input-row" style="margin-top:12px">
-            <input id="mh" type="text" placeholder="الصق machine_hash هنا أو افتح الصفحة مع ?mh=..." />
-            <button class="secondary" id="pasteMH">لصق</button>
-          </div>
-
-          <div class="kpi" style="margin-top:10px">
-            <div class="kbox"><div class="small">حالة البصمة</div><div id="mhStatus" class="pill">مفقودة</div></div>
-            <div class="kbox"><div class="small">المتصفح / مضيف الصفحة</div><div id="host" class="pill">—</div></div>
-            <div class="kbox"><div class="small">عنوان الـ API (Worker)</div><div style="margin-top:6px"><input id="api" type="url" value="https://pcfix-license-api.pcfixultimate.workers.dev/generate" /></div></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <h2>2) محاكاة عملية الدفع (وهمية)</h2>
-          <div class="muted">اضغط لإنهاء الدفع الوهمي. الصفحات التالية ستستدعي الـ Worker لتوليد الكود الخاص بالجهاز.</div>
-
-          <label style="display:flex;gap:8px;align-items:center;margin-top:10px">
-            <input id="agree" type="checkbox" />
-            <div class="small">أوافق على بنود الاستخدام (اختبار فقط)</div>
-          </label>
-
-          <div class="input-row" style="margin-top:12px">
-            <button id="pay" disabled>إكمال الدفع التجريبي</button>
-            <button id="reset" class="secondary">إعادة تعيين</button>
-          </div>
-
-          <div style="margin-top:12px">
-            <div id="payMsg" class="small muted"></div>
-            <div id="err" class="danger hidden" style="margin-top:8px"></div>
-          </div>
-
-          <div class="divider"></div>
-          <div class="muted-note">
-            نصيحة: إذا فتحت التطبيق على الجهاز، أرسِل رابطًا بهذه الصيغة:<br/>
-            <code>?mh=&lt;machine_hash&gt;&amp;api=https://pcfix-license-api.pcfixultimate.workers.dev/generate</code>
-          </div>
+      <!-- العمود الأيسر: البصمة + الدفع الوهمي + الكود -->
+      <div class="card">
+        <h2>1) بصمة الجهاز</h2>
+        <div class="muted">عادةً يفتح التطبيق هذه الصفحة ومعه <code>?mh=&lt;machine_hash&gt;</code>. يمكنك لصقها يدويًا.</div>
+        <div class="row" style="margin-top:10px">
+          <input id="mh" class="input" type="text" placeholder="machine_hash من التطبيق" />
+          <button id="pasteMH" class="secondary">لصق</button>
+        </div>
+        <div class="row status">
+          <div>الحالة: <span id="mhStatus" class="warn">مفقودة</span></div>
+          <div style="flex:1"></div>
+          <div class="muted">المضيف: <span id="host">—</span></div>
         </div>
 
-        <div class="card" style="margin-top:12px">
-          <h2>4) اختبار تبادل الكود (Exchange)</h2>
-          <div class="muted">يمكنك اختبار أن الكود الخام يتحوّل إلى JWT باستدعاء الـ <code>/exchange</code>.</div>
-          <div style="margin-top:10px" class="input-row">
-            <input id="rawForExchange" type="text" placeholder="انسخ هنا raw activation_code لإجراء exchange" />
-            <button id="doExchange" class="secondary">تحويل إلى ترخيص</button>
-          </div>
-          <div style="margin-top:10px" id="exchangeResult" class="hidden">
-            <div class="success">نجاح: تلقّي JWT من الخادم.</div>
-            <div style="margin-top:8px" class="code-block" id="jwtOut"></div>
-            <div style="margin-top:8px" class="actions">
-              <button id="copyJwt" class="copy-btn">نسخ JWT</button>
-              <button id="clearJwt" class="secondary">مسح</button>
-            </div>
-          </div>
-          <div id="exchangeErr" class="danger hidden" style="margin-top:8px"></div>
-        </div>
+        <div class="divider"></div>
 
+        <h2>2) دفع وهمي</h2>
+        <div class="muted">لا يوجد تحصيل فعلي — عند النجاح سنولّد الكود القصير لهذا الجهاز.</div>
+        <label class="row" style="margin-top:8px">
+          <input id="agree" type="checkbox" style="transform:scale(1.2);margin-left:6px" />
+          <span class="muted">أوافق على بنود الاستخدام (اختبار)</span>
+        </label>
+        <div class="row" style="margin-top:10px">
+          <input id="api" class="input" type="url" placeholder="رابط /generate" />
+          <button id="pay" disabled>إكمال الدفع التجريبي</button>
+        </div>
+        <div id="payMsg" class="status muted"></div>
+        <div id="err" class="status err"></div>
+
+        <div class="divider"></div>
+
+        <h2>3) كودك القصير</h2>
+        <div id="emptyBox" class="note">لم يتم توليد أي كود بعد.</div>
+        <div id="codeBox" class="row" style="margin-top:8px;display:none">
+          <div id="shortCode" class="pill code-big" style="flex:1">—</div>
+          <button id="copyShort" class="secondary">نسخ</button>
+        </div>
       </div>
 
-      <!-- RIGHT: results -->
-      <div>
-        <div class="card">
-          <h2>3) كود التفعيل الخاص بالمستخدم</h2>
+      <!-- العمود الأيمن: تنزيل آخر إصدار -->
+      <div class="card">
+        <h2>أحدث إصدار من البرنامج</h2>
+        <div class="muted">حمّل آخر نسخة من المُثبّت لتجاربك على الأجهزة.</div>
 
-          <div id="resultArea" class="hidden">
-            <div class="success">تمت محاكاة الدفع — الكود جاهز للاستخدام.</div>
-            <div class="divider"></div>
-
-            <div style="display:grid;gap:10px">
-              <div style="display:flex;gap:8px;align-items:center">
-                <div style="min-width:130px">نسخة قصيرة (للمستخدم):</div>
-                <div class="pill" id="shortCode">—</div>
-                <button id="copyShort" class="copy-btn">نسخ</button>
-              </div>
-
-              <div style="display:flex;gap:8px;align-items:center">
-                <div style="min-width:130px">نسخة خام (للصق داخل التطبيق):</div>
-                <div class="code-block" id="rawCode">—</div>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <button id="copyRaw" class="copy-btn">نسخ خام</button>
-                  <button id="openApp" class="secondary">فتح صفحة التفعيل في التطبيق</button>
-                </div>
-              </div>
-
-              <div style="display:flex;gap:8px;align-items:center">
-                <div style="min-width:130px">Token (JWT) — اختياري:</div>
-                <div class="code-block" id="jwtPreview">—</div>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <button id="copyToken" class="copy-btn">نسخ JWT</button>
-                  <button id="showDecoded" class="secondary">عرض مفصّل (Console)</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="divider"></div>
-            <div class="small muted">ملاحظة: الصق الـ <b>Raw</b> في البرنامج ليقوم بالتبادل التلقائي عبر <code>/exchange</code>.</div>
-          </div>
-
-          <div id="emptyArea" class="muted-note" style="text-align:center">
-            لم يتم توليد أي كود بعد — أنهِ الدفع الوهمي للحصول على كود التفعيل.
-          </div>
+        <div class="row" style="margin-top:10px">
+          <div class="pill" style="flex:1">الإصدار: <span id="ver" class="ver">—</span></div>
+          <a id="dl" class="row" href="#" target="_blank" rel="noopener">
+            <button id="dlBtn">تحميل المُثبّت</button>
+          </a>
         </div>
 
-        <div class="card" style="margin-top:12px">
-          <h2>سجل الأحداث (Console)</h2>
-          <div id="logArea" class="code-block" style="height:160px;overflow:auto">جاهز…</div>
-          <div style="margin-top:8px" class="footer">صفحة اختبارية — لا توجد عمليات دفع حقيقية هنا.</div>
+        <div class="divider"></div>
+
+        <h2>إعدادات متقدمة (اختياري)</h2>
+        <div class="note">
+          يمكن تمرير بارامترات في رابط الصفحة:<br/>
+          <code>?mh=...&amp;api=...&amp;repo=owner/repo&amp;download=...&amp;ver=...</code>
         </div>
       </div>
     </div>
   </div>
 
-<script>
-/* ========================
-   Utility helpers
-   ======================== */
-const $ = id => document.getElementById(id);
-const log = (msg, level='info')=>{
-  const el = $('logArea');
-  const time = new Date().toLocaleTimeString();
-  el.textContent = `[${time}] ${msg}\n` + el.textContent;
-};
+  <script>
+    // ========= عناصر واجهة =========
+    const $ = (id)=>document.getElementById(id);
+    const q = new URLSearchParams(location.search);
+    const state = { shortCode: "", downloadURL: "", version: "" };
 
-/* ========================
-   Init: read query params
-   ======================== */
-const params = new URLSearchParams(location.search);
-const initialMH = (params.get('mh') || params.get('machine_hash') || '').trim();
-const initialAPI = (params.get('api') || $('api')?.value || '').trim();
+    // ========= تهيئة الحقول =========
+    const defaultAPI = "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
+    $("api").value = q.get("api") || defaultAPI;
+    $("mh").value  = (q.get("mh") || q.get("machine_hash") || "").trim();
+    $("host").textContent = location.host || "—";
+    $("mhStatus").textContent = $("mh").value ? "موجودة" : "مفقودة";
+    $("mhStatus").className  = $("mh").value ? "ok" : "warn";
 
-$('mh').value = initialMH;
-$('api').value = initialAPI || $('api').value;
-$('host').textContent = location.host || '—';
-$('mhStatus').textContent = initialMH ? 'موجودة' : 'مفقودة';
-$('mhStatus').className = initialMH ? 'pill' : 'pill';
-
-/* ========================
-   Clipboard helpers
-   ======================== */
-async function copyText(t){
-  try{
-    await navigator.clipboard.writeText(t);
-    log('نسخ: ' + (t.slice(0,60)) );
-  }catch(e){
-    log('فشل النسخ: ' + e.message, 'err');
-  }
-}
-
-/* ========================
-   UI wiring
-   ======================== */
-const payBtn = $('pay');
-const pasteMHBtn = $('pasteMH');
-const agree = $('agree');
-const payMsg = $('payMsg');
-const errBox = $('err');
-const resultArea = $('resultArea');
-const emptyArea = $('emptyArea');
-const shortCodeEl = $('shortCode');
-const rawCodeEl = $('rawCode');
-const jwtPreview = $('jwtPreview');
-const jwtOut = $('jwtOut');
-const exchangeResult = $('exchangeResult');
-const exchangeErr = $('exchangeErr');
-
-function setError(msg){
-  errBox.textContent = msg; errBox.classList.remove('hidden'); payMsg.textContent = ''; log('خطأ: ' + msg, 'err');
-}
-function clearError(){ errBox.classList.add('hidden'); errBox.textContent = ''; }
-
-function refreshPayState(){
-  payBtn.disabled = !(agree.checked && $('mh').value.trim() && $('api').value.trim());
-}
-agree.addEventListener('change', refreshPayState);
-$('mh').addEventListener('input', ()=>{ $('mhStatus').textContent = $('mh').value ? 'موجودة':'مفقودة'; refreshPayState(); });
-$('api').addEventListener('input', refreshPayState);
-
-/* Paste from clipboard */
-pasteMHBtn.addEventListener('click', async ()=>{
-  try{
-    const t = await navigator.clipboard.readText();
-    if(t){ $('mh').value = t.trim(); $('mhStatus').textContent = 'موجودة'; refreshPayState(); log('لصق البصمة من الحافظة'); }
-  }catch(e){ log('لا يمكن الوصول للحافظة: ' + e.message, 'err'); }
-});
-
-/* Reset */
-$('reset').addEventListener('click', ()=>{
-  $('mh').value=''; $('mhStatus').textContent='مفقودة'; $('api').value='https://pcfix-license-api.pcfixultimate.workers.dev/generate';
-  clearError(); payMsg.textContent='تمت إعادة التعيين.'; resultArea.classList.add('hidden'); emptyArea.classList.remove('hidden');
-  $('jwtPreview').textContent = '—'; jwtOut.textContent = ''; $('rawForExchange').value='';
-  log('تمت إعادة التعيين');
-  refreshPayState();
-});
-
-/* Show/hide result */
-function showResult(shortCode, raw, token){
-  shortCodeEl.textContent = shortCode || '—';
-  rawCodeEl.textContent = raw || '—';
-  jwtPreview.textContent = token || '—';
-  resultArea.classList.remove('hidden');
-  emptyArea.classList.add('hidden');
-  $('shortCode').scrollIntoView({behavior:'smooth', block:'center'});
-}
-
-/* ========================
-   API calls
-   ======================== */
-async function callGenerate(api, mh){
-  const body = { mh };
-  const res = await fetch(api, {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify(body)
-  });
-  if(!res.ok){
-    // try to extract text JSON
-    let txt;
-    try{ txt = await res.text(); }catch{ txt = res.statusText; }
-    throw new Error(`API ${res.status} — ${txt}`);
-  }
-  return res.json();
-}
-
-async function callExchange(exchangeUrl, code, mh){
-  const res = await fetch(exchangeUrl, {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify({ code, mh })
-  });
-  if(!res.ok){
-    let txt;
-    try{ txt = await res.text(); }catch{ txt = res.statusText; }
-    throw new Error(`Exchange failed ${res.status} — ${txt}`);
-  }
-  return res.json();
-}
-
-/* ========================
-   Payment button logic
-   ======================== */
-payBtn.addEventListener('click', async ()=>{
-  clearError();
-  payMsg.textContent = 'جارٍ تنفيذ الدفع الوهمي…';
-  payBtn.disabled = true;
-
-  const api = $('api').value.trim();
-  const mh  = $('mh').value.trim();
-  if(!api || !mh){ setError('مفقود: api أو mh'); payBtn.disabled=false; return; }
-
-  try{
-    log(`طلب توليد كود عبر ${api} (mh=${mh.slice(0,12)}...)`);
-    const data = await callGenerate(api, mh);
-    log('استجابة الخادم: ' + JSON.stringify(Object.keys(data)));
-
-    // Worker may return short_code or activation_code_pretty for "pretty".
-    const pretty = data.activation_code_pretty || data.short_code || data.activation_code_pretty;
-    const raw = data.activation_code || data.activation_code_raw || data.activation_raw;
-
-    if(!raw){
-      throw new Error('الاستجابة لا تحتوي على الحقل activation_code (raw). تأكد من Worker.');
+    function refreshPayState(){
+      $("pay").disabled = !( $("agree").checked && $("mh").value.trim() && $("api").value.trim() );
     }
-    if(!pretty){
-      // fallback: show beginning of raw as short visual
-      const alt = raw.split('.')[0] ? raw.split('.')[0].slice(0,16) + '…' : raw.slice(0,16);
-      log('لم يُرجع short_code — استخدام بديل قصير من raw');
-      showResult(alt, raw, data.token || '');
-    } else {
-      showResult(pretty, raw, data.token || '');
-    }
-
-    payMsg.textContent = '✔ تم إنشاء الكود (اختبار)';
-    log('تم توليد الكود بنجاح');
-  }catch(err){
-    setError(err.message || String(err));
-    log('فشل أثناء توليد الكود: ' + (err.stack || err.message || err));
-  }finally{
+    $("agree").addEventListener("change", refreshPayState);
+    $("mh").addEventListener("input", ()=>{ $("mhStatus").textContent = $("mh").value ? "موجودة":"مفقودة"; refreshPayState(); });
+    $("api").addEventListener("input", refreshPayState);
     refreshPayState();
-  }
-});
 
-/* ========================
-   Exchange testing logic
-   ======================== */
-$('doExchange').addEventListener('click', async ()=>{
-  exchangeErr.classList.add('hidden'); exchangeResult.classList.add('hidden'); exchangeErr.textContent='';
-  const code = $('rawForExchange').value.trim();
-  const mh = $('mh').value.trim();
-  const exchangeUrl = ($('api').value || '').replace(/\/generate\/?$/,'/exchange');
+    $("pasteMH").addEventListener("click", async ()=>{
+      try{
+        const t = await navigator.clipboard.readText();
+        if(t){ $("mh").value = t.trim(); $("mhStatus").textContent = "موجودة"; refreshPayState(); }
+      }catch{}
+    });
 
-  if(!code || !mh){ exchangeErr.textContent = 'يرجى ملء raw code و mh.'; exchangeErr.classList.remove('hidden'); return; }
+    $("helpBtn").addEventListener("click", (e)=>{
+      e.preventDefault();
+      alert(
+`الخطوات (اختبار):
+1) أدخل بصمة الجهاز mh (أو افتح الصفحة مع ?mh=...).
+2) وافق على الشروط واضغط "إكمال الدفع التجريبي".
+3) سيستدعي المتصفح /generate عبر POST ويرجع الكود القصير (PCFX-…).
+4) انسخ الكود والصقه في التطبيق المُثبّت لتجربة التفعيل.`
+      );
+    });
 
-  try{
-    log('إرسال exchange إلى ' + exchangeUrl);
-    const data = await callExchange(exchangeUrl, code, mh);
-    if(data.token){
-      jwtOut.textContent = data.token;
-      exchangeResult.classList.remove('hidden');
-      exchangeErr.classList.add('hidden');
-      log('استلام JWT من exchange (حجم: ' + data.token.length + ')');
-    }else{
-      throw new Error('الاستجابة لا تحتوي على token.');
+    // ========= تحميل آخر إصدار =========
+    async function setDownload({version, url}){
+      state.version = version || "—";
+      state.downloadURL = url || "#";
+      $("ver").textContent = state.version;
+      $("dl").href = state.downloadURL;
+      $("dlBtn").disabled = !url;
     }
-  }catch(err){
-    exchangeErr.textContent = err.message || String(err);
-    exchangeErr.classList.remove('hidden');
-    log('خطأ في exchange: ' + (err.message || err));
-  }
-});
 
-/* ========================
-   Copy buttons
-   ======================== */
-$('copyShort').addEventListener('click', ()=> copyText(shortCodeEl.textContent));
-$('copyRaw').addEventListener('click', ()=> copyText(rawCodeEl.textContent));
-$('copyJwt').addEventListener('click', ()=> copyText(jwtOut.textContent));
-$('copyToken').addEventListener('click', ()=> copyText(jwtPreview.textContent));
+    async function loadLatest(){
+      const ver = q.get("ver");
+      const direct = q.get("download");
+      const repo = q.get("repo"); // owner/repo
 
-/* Open activation page in app (example) */
-$('openApp').addEventListener('click', ()=>{
-  const raw = rawCodeEl.textContent.trim();
-  if(!raw) return;
-  // فتح نافذة جديدة للصفحة الافتراضية في التطبيق التي تتعامل مع الكود
-  // نضع رابط توضيحي — عدّله في التطبيق لاحقاً إن لزم
-  const url = `pcfix://activate?code=${encodeURIComponent(raw)}`;
-  window.open(url, '_blank');
-  log('محاولة فتح رابط التفعيل في التطبيق: ' + url);
-});
+      if (ver && direct){
+        return setDownload({version: ver, url: direct});
+      }
 
-/* show decoded token in console */
-$('showDecoded').addEventListener('click', ()=>{
-  const t = jwtPreview.textContent.trim();
-  if(!t || t==='—'){ log('لا يوجد JWT للعرض'); return; }
-  try{
-    const parts = t.split('.');
-    const prettyObj = (p)=>JSON.stringify(JSON.parse(atob(p.replace(/-/g,'+').replace(/_/g,'/'))), null, 2);
-    console.log('--- HEADER ---', prettyObj(parts[0]));
-    console.log('--- PAYLOAD ---', prettyObj(parts[1]));
-    alert('تم طباعة تفاصيل الـ JWT في لوحة الـ Console (F12).');
-  }catch(e){ log('تعذر فك الـ JWT: ' + e.message, 'err'); }
-});
+      if (repo){
+        try{
+          const api = `https://api.github.com/repos/${repo}/releases/latest`;
+          const res = await fetch(api, {
+            headers: {
+              "Accept":"application/vnd.github+json",
+              "X-GitHub-Api-Version":"2022-11-28"
+            }
+          });
+          if (res.ok){
+            const j = await res.json();
+            const tag = j.tag_name || j.name || "latest";
+            const asset = (j.assets||[]).find(a => /\.exe$/i.test(a.name)) || (j.assets||[])[0];
+            const url = asset ? asset.browser_download_url : (j.html_url || "");
+            return setDownload({version: tag, url});
+          }
+        }catch(e){}
+      }
 
-/* Initialize small state */
-refreshPayState();
-log('الصفحة جاهزة للاختبار');
-</script>
+      // fallback — لو لم تتوفر معلومات
+      return setDownload({version: "—", url: ""});
+    }
+    loadLatest();
+
+    // ========= نداء /generate (POST) =========
+    async function callGenerate(api, mh){
+      const res = await fetch(api, {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({ mh })
+      });
+      if(!res.ok){
+        const txt = await res.text().catch(()=>res.statusText);
+        throw new Error(`API ${res.status} — ${txt}`);
+      }
+      return res.json();
+    }
+
+    function showShort(code){
+      state.shortCode = code || "—";
+      $("shortCode").textContent = state.shortCode;
+      $("emptyBox").style.display = "none";
+      $("codeBox").style.display = "flex";
+    }
+
+    $("copyShort").addEventListener("click", async ()=>{
+      try{ await navigator.clipboard.writeText(state.shortCode); $("payMsg").textContent = "تم النسخ ✓"; }
+      catch{ $("payMsg").textContent = "تعذّر النسخ"; }
+    });
+
+    $("pay").addEventListener("click", async ()=>{
+      $("err").textContent = "";
+      $("payMsg").textContent = "جارٍ المعالجة…";
+      $("pay").disabled = true;
+      try{
+        const api = $("api").value.trim();
+        const mh  = $("mh").value.trim();
+        if(!api || !mh) throw new Error("مفقود: API أو mh");
+
+        const data = await callGenerate(api, mh);
+        const pretty = data.short_code || data.activation_code_pretty;
+        if(!pretty) throw new Error("استجابة غير متوقعة: لم تُعد short_code");
+
+        showShort(pretty);
+        $("payMsg").textContent = "تمت المحاكاة بنجاح — الكود جاهز.";
+      }catch(err){
+        $("err").textContent = (err && err.message) ? err.message : String(err);
+        $("payMsg").textContent = "";
+      }finally{
+        refreshPayState();
+      }
+    });
+  </script>
 </body>
 </html>
