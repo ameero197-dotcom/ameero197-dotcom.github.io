@@ -1,145 +1,275 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PCFixUltimate — Buy / Demo</title>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.5;margin:24px;background:#f7f8fa;color:#111}
-    .card{max-width:820px;margin:0 auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,30,0.06)}
-    h1{margin:0 0 8px;font-size:22px}
-    p.lead{color:#4b5563;margin:0 0 16px}
-    label{display:block;margin-top:12px;font-weight:600}
-    input[type="text"]{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}
-    .row{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    button{padding:10px 16px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
-    .btn-primary{background:#0b66ff;color:#fff}
-    .btn-ghost{background:#eef2ff;color:#0b66ff}
-    .btn-danger{background:#ef4444;color:#fff}
-    .note{font-size:13px;color:#6b7280;margin-top:12px}
-    pre { background:#0f172a;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto }
-    .small{font-size:13px;color:#6b7280}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>شراء PCFixUltimate — تجربة الدفع الوهمي</title>
+<link rel="icon" href="pcfix_icon.ico" />
+<style>
+  :root{--bg:#f5f7fb;--card:#ffffff;--accent:#0b66ff;--muted:#6b7280}
+  body{font-family:system-ui,Segoe UI,Roboto,Arial; background:var(--bg); margin:18px; color:#0b1220; direction:rtl}
+  .wrap{max-width:920px;margin:0 auto}
+  .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(12,20,40,.06)}
+  h1{margin:0 0 10px;font-size:20px}
+  p.lead{color:var(--muted);margin:0 0 14px}
+  label{display:block;margin-top:12px;font-weight:600}
+  input[type=text], input[type=email], select, textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;margin-top:8px}
+  .row{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+  button{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-ghost{background:#eef3ff;color:var(--accent);border:1px solid rgba(11,102,255,.08)}
+  .small{font-size:13px;color:var(--muted)}
+  .note{margin-top:12px;color:var(--muted);font-size:13px}
+  .flex-between{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  pre {background:#0b1220;color:#e6eef8;padding:12px;border-radius:8px;overflow:auto;margin-top:12px}
+  .success{background:#ecfdf5;border-left:4px solid #10b981;padding:12px;border-radius:6px;color:#065f46;margin-top:12px}
+  .modal {position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,.5);z-index:50}
+  .modal.show{display:flex}
+  .modal-card{background:white;padding:18px;border-radius:10px;max-width:720px;max-height:80vh;overflow:auto}
+  .tc{font-size:14px;line-height:1.6;color:#111}
+  .actions{display:flex;gap:10px;justify-content:flex-start;margin-top:12px}
+  .download-link{display:inline-block;margin-top:10px;background:#f1f5f9;padding:8px;border-radius:8px}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>PCFixUltimate — Purchase / Test</h1>
-    <p class="lead">Use the form below to simulate a purchase or (if configured) start a real checkout. For testing, click <strong>Simulate successful payment</strong>.</p>
+  <div class="wrap">
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h1>PCFixUltimate — شراء (تجريبي)</h1>
+          <p class="lead">هذا وضع تجريبي: الدفع وهمي. بعد إتمام «الشراء التجريبي» سيُولّد نظامياً رمز تفعيل فعلي (JWT) وتستلم رابط تحميل النسخة الأخيرة.</p>
+        </div>
+        <div style="text-align:left">
+          <img src="pcfix_icon.ico" alt="icon" style="width:64px;height:64px;border-radius:8px"/>
+        </div>
+      </div>
 
-    <!-- MACHINE HASH -->
-    <label for="mh">Machine hash (mh)</label>
-    <input id="mh" type="text" placeholder="paste machine hash (mh) here" />
+      <!-- form -->
+      <label for="mh">Machine hash (mh) — مطلوب</label>
+      <input id="mh" type="text" placeholder="انسخ الـ machine hash هنا أو تأتي من الرابط" />
 
-    <!-- Hidden: endpoint used by thanks.html to request license token from worker -->
-    <label for="api" class="small">License API (used by thanks page)</label>
-    <input id="api" type="text" placeholder="https://pcfix-license-api.pcfixultimate.workers.dev/generate" />
+      <label for="email">بريد المشتري (اختياري)</label>
+      <input id="email" type="email" placeholder="example@domain.com" />
 
-    <div class="row">
-      <!-- Real checkout button (will attempt to call a checkout worker) -->
-      <button id="pay-btn" class="btn-primary" title="Start real checkout (worker must be configured)">
-        Pay with Stripe (real checkout)
-      </button>
+      <label for="edition">النسخة</label>
+      <select id="edition">
+        <option value="single">Single license — ترخيص واحد</option>
+        <option value="multi">Team license — ترخيص فريق</option>
+      </select>
 
-      <!-- Simulate successful payment: redirects to thanks page like Stripe success -->
-      <button id="simulate-success" class="btn-ghost" title="Simulate a successful payment and open the thanks page">
-        Simulate successful payment
-      </button>
+      <div style="margin-top:12px" class="small">
+        السعر هنا تجريبي — لا يتم خصم أي أموال. يمكنك تجربة عملية الدفع ثم استلام رمز التفعيل.
+      </div>
 
-      <!-- Quick open thanks (useful for repeated testing if you only want to open thanks page) -->
-      <button id="open-thanks" class="btn-danger" title="Open thanks page (no payment) for debug">
-        Open thanks page (debug)
-      </button>
+      <label style="margin-top:14px">
+        <input id="agree" type="checkbox" /> <span style="vertical-align:middle">أوافق على <a href="#" id="show-tc">الشروط والأحكام</a> (مطلوب)</span>
+      </label>
+
+      <div class="row">
+        <button id="pay" class="btn-primary">دفع تجريبي — إنشاء رمز التفعيل</button>
+        <button id="simulate" class="btn-ghost">محاكاة الدفع الناجح</button>
+        <button id="open-latest" class="btn-ghost">عرض رابط التحميل الأخير</button>
+      </div>
+
+      <div id="status" class="note">الحالة: جاهز.</div>
+
+      <div id="resultArea" style="margin-top:16px;"></div>
     </div>
 
-    <p class="note">
-      Tips:
-      <ul>
-        <li>If you already have a machine hash in URL, the field will be filled automatically.</li>
-        <li>The simulate button will redirect to <code>thanks.html?mh=...&session_id=simulated</code> so the license-generation flow runs without real payment.</li>
-      </ul>
-    </p>
-
-    <hr style="margin:18px 0">
-
-    <h2 style="font-size:16px;margin-bottom:6px">Developer / Debug</h2>
-    <p class="small">Response from the license worker (for the simulated flow) will appear on the <code>thanks.html</code> page. Use that page to confirm the JWT/token is generated.</p>
-
-    <pre id="info">Ready — enter mh and click a button.</pre>
+    <!-- Terms & Conditions modal -->
+    <div id="tc-modal" class="modal" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <h3>الشروط والأحكام — PCFixUltimate (تجريبي)</h3>
+        <div class="tc">
+          <p><strong>ملاحظة تجريبية:</strong> هذه نسخة تجريبية لعملية الشراء. لا تدعم عملية الدفع هنا عمليات مالية فعلية.</p>
+          <p>باستخدام هذا البرنامج، توافق على: عدم نشر مفتاح الترخيص، الالتزام بشروط الترخيص، وقيود الاستخدام الموضحة أدناه.</p>
+          <ul>
+            <li>الترخيص الممنوح هو للاستخدام الشخصي/العمل حسب نوع الترخيص.</li>
+            <li>يُمنع توزيع الملف التنفيذي أو الترخيص دون إذن صريح.</li>
+            <li>لا نتحمل أي أضرار ناجمة عن استخدام البرنامج.</li>
+          </ul>
+          <p>للاستخدام التجاري أو طلبات دعم خاصة تواصل معنا عبر البريد.</p>
+        </div>
+        <div class="actions">
+          <button id="tc-accept" class="btn-primary">أوافق</button>
+          <button id="tc-close" class="btn-ghost">اغلق</button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // --- Configuration (edit only if you want to enable real checkout) ---
-    const CHECKOUT_WORKER = ""; // e.g. https://pcfix-stripe-checkout.YOUR_SUBDOMAIN.workers.dev/create-session
-    const STRIPE_PK = ""; // optional (not required for simulation)
+<script>
+/*
+  ملف جاهز: عند الضغط على "دفع تجريبي" أو "محاكاة الدفع الناجح" سيتم:
+   1) التأكد من وجود mh وcheckbox موافقة الشروط
+   2) يستدعي endpoint التوليد (Worker) ليطلب token: POST to LICENSE_WORKER?mh=<mh>
+   3) يعرض الـ JWT، تفاصيله المفكَّكة، وزر لتحميل ملف license.json أو نسخه
+   4) يقرأ latest.json من موقع الصفحات لتعرض رابط الـ setup الحقيقي للمستخدم
+*/
 
-    // --- Helpers ---
-    function qsParam(name, url = window.location.href) {
-      try {
-        const u = new URL(url);
-        return u.searchParams.get(name);
-      } catch(e) { return null; }
-    }
+const LICENSE_WORKER = "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
+const LATEST_JSON = "https://ameero197-dotcom.github.io/pcfixultimate/latest.json";
 
-    function setInfo(text) { document.getElementById('info').textContent = text; }
+const el = id => document.getElementById(id);
+const setStatus = s => el('status').textContent = "الحالة: " + s;
 
-    // Fill fields from querystring if present
-    (function initFill() {
-      const mhQ = qsParam('mh');
-      const apiQ = qsParam('api');
-      if (mhQ) document.getElementById('mh').value = mhQ;
-      if (apiQ) document.getElementById('api').value = apiQ;
-    })();
+function urlParam(name) {
+  try {
+    const u = new URL(window.location.href);
+    return u.searchParams.get(name);
+  } catch(e){ return null; }
+}
 
-    // Pay (real checkout) - only works if CHECKOUT_WORKER is configured and expects POST { mh, return_url }
-    document.getElementById('pay-btn').addEventListener('click', async () => {
-      const mh = (document.getElementById('mh').value || '').trim();
-      const api = (document.getElementById('api').value || '').trim();
-      if (!mh) { alert('Please enter machine hash (mh)'); return; }
-      if (!CHECKOUT_WORKER) { alert('Real checkout not configured. Use the "Simulate" button for testing.'); return; }
+function prettyJson(obj) { return JSON.stringify(obj, null, 2); }
 
-      setInfo('Starting real checkout (requesting session from worker)...');
-      try {
-        const resp = await fetch(CHECKOUT_WORKER, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ mh, return_url: `${location.origin}/pcfixultimate/thanks.html` })
-        });
-        if (!resp.ok) throw new Error('Checkout worker returned ' + resp.status);
-        const j = await resp.json();
-        if (j.url) {
-          // redirect to Stripe Checkout
-          window.location.href = j.url;
-        } else {
-          throw new Error('Invalid response from checkout worker: ' + JSON.stringify(j));
-        }
-      } catch (err) {
-        setInfo('Checkout error: ' + err);
-        alert('Checkout failed — check console/info.');
-        console.error(err);
-      }
-    });
+async function fetchLatest() {
+  try {
+    const r = await fetch(LATEST_JSON + "?t=" + Date.now(), {cache:"no-store"});
+    if (!r.ok) throw new Error("لم يتم إيجاد latest.json");
+    return await r.json();
+  } catch (e) {
+    return null;
+  }
+}
 
-    // Simulate: redirect to thanks.html as if Stripe returned to success_url with session_id
-    document.getElementById('simulate-success').addEventListener('click', () => {
-      const mh = (document.getElementById('mh').value || '').trim();
-      const api = (document.getElementById('api').value || '').trim();
-      if (!mh) { alert('Enter machine hash first'); return; }
+function decodeJwt(token) {
+  try {
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    return payload;
+  } catch(e){ return null; }
+}
 
-      // build the URL just like a real success redirect
-      const redirect = `${location.origin}/pcfixultimate/thanks.html?mh=${encodeURIComponent(mh)}&session_id=simulated&api=${encodeURIComponent(api)}`;
-      setInfo('Redirecting to: ' + redirect);
-      window.location.href = redirect;
-    });
+function makeDownloadFile(content, name) {
+  const blob = new Blob([content], {type: "application/json;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
-    // Quick open thanks page (no payment/session)
-    document.getElementById('open-thanks').addEventListener('click', () => {
-      const mh = (document.getElementById('mh').value || '').trim();
-      const api = (document.getElementById('api').value || '').trim();
-      if (!mh) { alert('Enter machine hash first'); return; }
-      const redirect = `${location.origin}/pcfixultimate/thanks.html?mh=${encodeURIComponent(mh)}&session_id=debug&api=${encodeURIComponent(api)}`;
-      window.open(redirect, '_blank');
-    });
+// UI: fill mh from querystring if present
+const qmh = urlParam('mh');
+if (qmh) el('mh').value = qmh;
 
-  </script>
+// Terms modal
+el('show-tc').addEventListener('click', (e) => { e.preventDefault(); el('tc-modal').classList.add('show'); });
+el('tc-close').addEventListener('click', () => el('tc-modal').classList.remove('show'));
+el('tc-accept').addEventListener('click', () => { el('agree').checked = true; el('tc-modal').classList.remove('show'); });
+
+// load latest.json on demand or after success
+el('open-latest').addEventListener('click', async () => {
+  setStatus("جلب latest.json ...");
+  const latest = await fetchLatest();
+  if (!latest) { setStatus("فشل جلب latest.json"); return; }
+  setStatus("تم جلب latest.json (نسخة " + latest.version + ")");
+  const div = el('resultArea');
+  div.innerHTML = `
+    <div class="card" style="margin-top:12px;padding:12px">
+      <div><strong>الإصدار الحالي:</strong> ${latest.version}</div>
+      <div style="margin-top:8px"><strong>SHA256:</strong> <code style="font-family:monospace">${latest.sha256}</code></div>
+      <div style="margin-top:8px"><a class="download-link" href="${latest.url}" target="_blank" rel="noopener">تحميل النسخة: setup</a></div>
+    </div>
+  `;
+});
+
+// Pay (تجريبي): يتحقق ثم يستدعي الـ worker مباشرة للحصول على token
+el('pay').addEventListener('click', async () => {
+  const mh = (el('mh').value || '').trim();
+  const email = (el('email').value || '').trim();
+  const edition = el('edition').value;
+  if (!mh) { alert('ادخل قيمة الـ machine hash (mh)'); return; }
+  if (!el('agree').checked) { alert('يجب الموافقة على الشروط والأحكام'); return; }
+
+  setStatus("جاري طلب ترخيص من الخادم...");
+  try {
+    // هنا نستعمل GET أو POST حسب الـ Worker (عندنا /generate?mh=...)
+    const url = new URL(LICENSE_WORKER);
+    url.searchParams.set('mh', mh);
+
+    const resp = await fetch(url.toString(), {method:'GET', headers:{'User-Agent':'PCFixUltimate-Shop/1.0'}});
+    if (!resp.ok) throw new Error('خطأ من الخادم: ' + resp.status);
+    const j = await resp.json();
+    if (!j.token) throw new Error('الخادم لم يعطِ token');
+
+    displayLicense(j.token, {mh, email, edition});
+    setStatus("تم توليد الترخيص بنجاح.");
+  } catch (err) {
+    console.error(err);
+    setStatus("فشل أثناء توليد الترخيص: " + (err.message || err));
+    alert("فشل توليد الترخيص — تفقد الكونسول أو رابط الـ Worker.");
+  }
+});
+
+// Simulate payment: يعمل مثل success callback — يطلب ترخيص أيضاً
+el('simulate').addEventListener('click', async () => {
+  const mh = (el('mh').value || '').trim();
+  if (!mh) { alert('ادخل قيمة الـ machine hash (mh)'); return; }
+  if (!el('agree').checked) { alert('يجب الموافقة على الشروط والأحكام'); return; }
+  setStatus("محاكاة الدفع — جاري طلب الترخيص...");
+  // يمكن هنا أن نمنح بعض التأخير لمحاكاة معالجة الدفع
+  await new Promise(r => setTimeout(r, 700));
+  // نستدعي نفس مسار pay
+  el('pay').click();
+});
+
+// عرض الترخيص والخيارات (نسخ/تحميل/فتح رابط التحميل)
+async function displayLicense(token, meta = {}) {
+  const payload = decodeJwt(token);
+  const latest = await fetchLatest(); // لجلب رابط التنصيب الأخير
+  const downloadHtml = latest ? `<a class="download-link" href="${latest.url}" target="_blank">تحميل setup الإصدار ${latest.version}</a>` : `<span class="small">latest.json غير متاح</span>`;
+
+  const html = `
+    <div class="card" style="margin-top:12px;padding:14px">
+      <div class="success"><strong>تم إنشاء الترخيص بنجاح</strong></div>
+
+      <div style="margin-top:12px">
+        <strong>License token (JWT)</strong>
+        <pre id="jwt">${token}</pre>
+        <div style="margin-top:8px" class="row">
+          <button id="copy-token" class="btn-ghost">نسخ الترخيص</button>
+          <button id="download-token" class="btn-ghost">تحميل ملف الترخيص (license.json)</button>
+          <button id="show-payload" class="btn-ghost">عرض بيانات الترخيص</button>
+        </div>
+      </div>
+
+      <div id="payloadBox" style="display:none;margin-top:12px">
+        <strong>تفاصيل الترخيص (payload)</strong>
+        <pre id="payloadPre">${payload ? prettyJson(payload) : 'غير قابلة للفك'}</pre>
+      </div>
+
+      <div style="margin-top:12px">
+        <strong>معلومات إضافية</strong>
+        <div class="small">Machine hash: <code style="font-family:monospace">${meta.mh || ''}</code></div>
+        ${meta.email ? `<div class="small">Email: ${meta.email}</div>` : ''}
+        <div style="margin-top:10px">${downloadHtml}</div>
+      </div>
+    </div>
+  `;
+  el('resultArea').innerHTML = html;
+
+  // ربط الأزرار بعد الإدراج
+  document.getElementById('copy-token').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(token);
+      alert('تم نسخ الترخيص إلى الحافظة');
+    } catch { alert('النسخ فشل — انسخ يدويًا من المربع'); }
+  });
+  document.getElementById('download-token').addEventListener('click', () => {
+    const content = { token, generated_at: new Date().toISOString() };
+    makeDownloadFile(JSON.stringify(content, null, 2), 'pcfix_license.json');
+  });
+  document.getElementById('show-payload').addEventListener('click', () => {
+    const box = document.getElementById('payloadBox');
+    box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+  });
+}
+
+// small helper for formatting in template
+function prettyJson(obj) { try { return JSON.stringify(obj, null, 2); } catch(e){ return String(obj); } }
+
+</script>
 </body>
 </html>
