@@ -1,250 +1,260 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PCFixUltimate — شراء تجريبي (كود قصير)</title>
-  <style>
-    :root{
-      --bg:#070b12; --panel:#0f1724; --muted:#9aa4b2; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --brand:#3b82f6;
-      --txt:#e6eef6; --txt2:#c7d3df; --border:rgba(255,255,255,.06); --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono", monospace;
-      --shadow: 0 10px 30px rgba(2,6,23,.55);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;background:linear-gradient(180deg,#060910,#0a1320);color:var(--txt);
-      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-      font:15px/1.5 system-ui, "Segoe UI", Roboto, Arial; padding:28px;
-    }
-    .wrap{max-width:980px;margin:0 auto}
-    .hero{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
-    .logo{font-weight:800;font-size:22px;letter-spacing:.5px}
-    .tag{font-size:12px;color:var(--txt2);background:rgba(255,255,255,.04);padding:6px 10px;border-radius:999px;border:1px solid var(--border)}
-    .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;margin-top:14px}
-    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
-    h2{margin:0 0 8px 0;font-size:16px}
-    .muted{color:var(--muted);font-size:13px}
-    .row{display:flex;gap:8px;align-items:center}
-    .input{flex:1;background:#0a1220;border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 12px}
-    button{
-      background:linear-gradient(180deg,var(--brand),#2563eb);border:none;color:#fff;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer
-    }
-    button.secondary{background:transparent;border:1px solid var(--border);color:var(--txt2);font-weight:600}
-    button.ghost{background:transparent;border:1px dashed var(--border);color:var(--txt2)}
-    button:disabled{opacity:.6;cursor:not-allowed}
-    .pill{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:13px;word-break:break-all}
-    .code-big{font-family:var(--mono);font-size:20px;letter-spacing:.6px}
-    .divider{height:1px;background:var(--border);margin:12px 0;border-radius:4px}
-    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
-    .note{background:rgba(255,255,255,.02);border:1px dashed var(--border);padding:10px;border-radius:10px;color:var(--txt2);font-size:13px}
-    .status{font-size:13px;margin-top:8px}
-    .ver{font-weight:800}
-    .flex{display:flex;gap:8px;align-items:center}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PCFixUltimate — شراء/تفعيل (وضع الاختبار)</title>
+<style>
+  :root{
+    --bg:#0b0f16; --panel:#0f172a; --muted:#93a3b8; --ok:#10b981; --warn:#f59e0b; --err:#ef4444; --brand:#3b82f6;
+    --txt:#e5eefc; --txt2:#c9d4e5; --card:#0b1324; --border:#1f2937;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#0b0f16,#0b1120);color:var(--txt);font:15px/1.6 system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:34px auto;padding:0 16px}
+  .hero{display:flex;gap:12px;align-items:center;background:radial-gradient(900px 500px at 110% -60%, rgba(59,130,246,.18),transparent),
+                                radial-gradient(900px 500px at -10% 120%, rgba(16,185,129,.12),transparent);
+        border:1px solid var(--border);border-radius:18px;padding:18px}
+  .logo{font-weight:900;font-size:26px;letter-spacing:.2px}
+  .tag{font-size:12px;color:var(--txt2);background:#0b1324;border:1px solid var(--border);padding:4px 10px;border-radius:999px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  @media (max-width: 880px){ .row{grid-template-columns:1fr} }
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
+  h2{margin:0 0 10px 0;font-size:18px}
+  .muted{color:var(--muted);font-size:13px}
+  .input{display:flex;gap:8px;align-items:center;margin-top:10px}
+  input[type=text]{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 12px;direction:ltr}
+  button{background:var(--brand);border:none;color:white;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+  button.secondary{background:#172033;color:var(--txt2);border:1px solid var(--border)}
+  button.ghost{background:#0f172a;color:var(--txt2);border:1px dashed #2a3a55}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
+  .pill{background:#0b1324;border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-family:ui-monospace,Consolas}
+  .flex{display:flex;gap:10px;align-items:center}
+  .divider{height:1px;background:var(--border);margin:14px 0}
+  .hidden{display:none}
+  .success{background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.35);padding:12px;border-radius:12px;color:#d1fae5}
+  .danger{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.35);padding:12px;border-radius:12px;color:#fee2e2}
+  .foot{margin-top:12px;color:var(--muted);font-size:12px}
+  .grid2{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+</style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
       <div class="logo">PCFixUltimate</div>
-      <span class="tag">اختبار قبل الإطلاق — كود قصير فقط</span>
+      <span class="tag">وضع الاختبار — توليد أكواد للمستخدم</span>
       <div style="flex:1"></div>
-      <button class="ghost" id="helpBtn">كيف يعمل؟</button>
+      <button class="ghost" id="how">كيف تعمل الصفحة؟</button>
     </div>
 
-    <div class="grid">
-      <!-- العمود الأيسر: البصمة + الدفع الوهمي + الكود -->
+    <div class="row">
+      <!-- بصمة الجهاز -->
       <div class="card">
-        <h2>1) بصمة الجهاز</h2>
-        <div class="muted">عادةً يفتح التطبيق هذه الصفحة ومعه <code>?mh=&lt;machine_hash&gt;</code>. يمكنك لصقها يدويًا.</div>
-        <div class="row" style="margin-top:10px">
-          <input id="mh" class="input" type="text" placeholder="machine_hash من التطبيق" />
-          <button id="pasteMH" class="secondary">لصق</button>
+        <h2>١) بصمة الجهاز (Machine Fingerprint)</h2>
+        <div class="muted">يجب أن يفتح التطبيق هذه الصفحة ويمرّر <b>mh</b> تلقائيًا. إن لم تظهر، الصِقها يدويًا أو اضغط “لصق”.</div>
+        <div class="input">
+          <input id="mh" type="text" placeholder="machine_hash (من التطبيق)" />
+          <button class="secondary" id="pasteMH">لصق</button>
         </div>
-        <div class="row status">
-          <div>الحالة: <span id="mhStatus" class="warn">مفقودة</span></div>
-          <div style="flex:1"></div>
-          <div class="muted">المضيف: <span id="host">—</span></div>
+        <div class="grid2" style="margin-top:10px">
+          <div class="pill"><b>حالة البصمة:</b> <span id="mhStatus" class="warn">مفقودة</span></div>
+          <div class="pill" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+            <b>واجهة الـ API:</b>
+            <span id="apiShown" style="direction:ltr">—</span>
+          </div>
         </div>
-
         <div class="divider"></div>
-
-        <h2>2) دفع وهمي</h2>
-        <div class="muted">لا يوجد تحصيل فعلي — عند النجاح سنولّد الكود القصير لهذا الجهاز.</div>
-        <label class="row" style="margin-top:8px">
-          <input id="agree" type="checkbox" style="transform:scale(1.2);margin-left:6px" />
-          <span class="muted">أوافق على بنود الاستخدام (اختبار)</span>
-        </label>
-        <div class="row" style="margin-top:10px">
-          <input id="api" class="input" type="url" placeholder="رابط /generate" />
-          <button id="pay" disabled>إكمال الدفع التجريبي</button>
-        </div>
-        <div id="payMsg" class="status muted"></div>
-        <div id="err" class="status err"></div>
-
-        <div class="divider"></div>
-
-        <h2>3) كودك القصير</h2>
-        <div id="emptyBox" class="note">لم يتم توليد أي كود بعد.</div>
-        <div id="codeBox" class="row" style="margin-top:8px;display:none">
-          <div id="shortCode" class="pill code-big" style="flex:1">—</div>
-          <button id="copyShort" class="secondary">نسخ</button>
+        <div class="muted">
+          تلميح: يفتح التطبيق الصفحة مثلًا: <br />
+          <code style="direction:ltr">https://…/buy.html?mh=&lt;hash&gt;</code>
         </div>
       </div>
 
-      <!-- العمود الأيمن: تنزيل آخر إصدار -->
+      <!-- الإصدار والتحميل -->
       <div class="card">
-        <h2>أحدث إصدار من البرنامج</h2>
-        <div class="muted">حمّل آخر نسخة من المُثبّت لتجاربك على الأجهزة.</div>
-
-        <div class="row" style="margin-top:10px">
-          <div class="pill" style="flex:1">الإصدار: <span id="ver" class="ver">—</span></div>
-          <a id="dl" class="row" href="#" target="_blank" rel="noopener">
-            <button id="dlBtn">تحميل المُثبّت</button>
-          </a>
-        </div>
-
-        <div class="divider"></div>
-
-        <h2>إعدادات متقدمة (اختياري)</h2>
-        <div class="note">
-          يمكن تمرير بارامترات في رابط الصفحة:<br/>
-          <code>?mh=...&amp;api=...&amp;repo=owner/repo&amp;download=...&amp;ver=...</code>
+        <h2>٢) آخر إصدار</h2>
+        <div id="verBox" class="muted">جاري جلب معلومات آخر إصدار…</div>
+        <div id="dlBox" class="hidden" style="margin-top:10px">
+          <div class="flex">
+            <div class="pill"><b>الإصدار:</b> <span id="verText">—</span></div>
+            <a id="dlBtn" class="pill" href="#" download>⬇ تحميل آخر إصدار</a>
+          </div>
+          <div class="foot">يُنصح بالتحميل ثم التفعيل بالكود القصير بعد الدفع التجريبي.</div>
         </div>
       </div>
     </div>
+
+    <!-- الدفع التجريبي -->
+    <div class="card" style="margin-top:18px">
+      <h2>٣) محاكاة الدفع (وهمي)</h2>
+      <label style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="eula" />
+        <span>أوافق على اتفاقية الترخيص وشروط الاستخدام.</span>
+      </label>
+      <div class="input" style="margin-top:10px">
+        <button id="pay" disabled>إكمال الدفع التجريبي</button>
+        <button id="reset" class="secondary">إعادة تعيين</button>
+      </div>
+      <div id="payMsg" style="margin-top:10px" class="muted"></div>
+    </div>
+
+    <!-- النتائج -->
+    <div class="card" style="margin-top:18px">
+      <h2>٤) كود التفعيل الخاص بالمستخدم</h2>
+      <div id="okBox" class="success hidden">تمت محاكاة الدفع — الكود جاهز للاستخدام.</div>
+      <div id="errBox" class="danger hidden"></div>
+      <div id="resultBox" class="hidden">
+        <div class="flex">
+          <div style="min-width:170px">الكود القصير (انسخه للمستخدم):</div>
+          <div id="pretty" class="pill" style="direction:ltr">—</div>
+          <button class="secondary" id="copyPretty">نسخ</button>
+        </div>
+        <div class="divider"></div>
+        <div class="muted">
+          داخل التطبيق → <b>تفعيل</b>: الصق الكود القصير فقط (يحوّله التطبيق تلقائيًا إلى رخصة عبر الخادم).
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">© PCFixUltimate — هذه الصفحة لا تُجري دفعات حقيقية؛ الهدف اختبار توليد الأكواد المرتبطة بالجهاز.</div>
   </div>
 
-  <script>
-    // ========= عناصر واجهة =========
-    const $ = (id)=>document.getElementById(id);
-    const q = new URLSearchParams(location.search);
-    const state = { shortCode: "", downloadURL: "", version: "" };
+<script>
+  // ------- إعدادات -------
+  const API_GENERATE = "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
+  const LATEST_JSON  = "https://ameero197-dotcom.github.io/pcfixultimate/latest.json";
 
-    // ========= تهيئة الحقول =========
-    const defaultAPI = "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
-    $("api").value = q.get("api") || defaultAPI;
-    $("mh").value  = (q.get("mh") || q.get("machine_hash") || "").trim();
-    $("host").textContent = location.host || "—";
-    $("mhStatus").textContent = $("mh").value ? "موجودة" : "مفقودة";
-    $("mhStatus").className  = $("mh").value ? "ok" : "warn";
+  // عناصر
+  const $ = (id)=>document.getElementById(id);
+  const mhInput   = $("mh");
+  const mhStatus  = $("mhStatus");
+  const eula      = $("eula");
+  const payBtn    = $("pay");
+  const resetBtn  = $("reset");
+  const payMsg    = $("payMsg");
+  const okBox     = $("okBox");
+  const errBox    = $("errBox");
+  const resultBox = $("resultBox");
+  const prettyEl  = $("pretty");
+  const copyPretty= $("copyPretty");
+  const apiShown  = $("apiShown");
+  const verBox    = $("verBox");
+  const dlBox     = $("dlBox");
+  const verText   = $("verText");
+  const dlBtn     = $("dlBtn");
 
-    function refreshPayState(){
-      $("pay").disabled = !( $("agree").checked && $("mh").value.trim() && $("api").value.trim() );
+  apiShown.textContent = API_GENERATE;
+
+  // جلب آخر إصدار
+  async function loadLatest(){
+    try{
+      const res = await fetch(LATEST_JSON, { cache: "no-store" });
+      if(!res.ok) throw new Error("تعذّر جلب latest.json");
+      const j = await res.json();
+      verText.textContent = j.version || "—";
+      dlBtn.href = j.url || "#";
+      dlBtn.classList.remove("secondary");
+      verBox.innerHTML = `<span class="ok">✔</span> تم جلب بيانات الإصدار.`;
+      dlBox.classList.remove("hidden");
+    }catch(err){
+      verBox.innerHTML = `<span class="err">⚠</span> فشل جلب معلومات الإصدار: ${err.message||err}`;
     }
-    $("agree").addEventListener("change", refreshPayState);
-    $("mh").addEventListener("input", ()=>{ $("mhStatus").textContent = $("mh").value ? "موجودة":"مفقودة"; refreshPayState(); });
-    $("api").addEventListener("input", refreshPayState);
+  }
+
+  // تهيئة من الـ query
+  const q = new URLSearchParams(location.search);
+  mhInput.value = q.get("mh") || q.get("machine_hash") || "";
+  function refreshMH(){
+    if (mhInput.value.trim()){
+      mhStatus.textContent = "جاهزة"; mhStatus.className = "ok";
+    } else {
+      mhStatus.textContent = "مفقودة"; mhStatus.className = "warn";
+    }
     refreshPayState();
+  }
+  function refreshPayState(){
+    payBtn.disabled = !(eula.checked && mhInput.value.trim());
+  }
+  eula.addEventListener("change", refreshPayState);
+  mhInput.addEventListener("input", refreshMH);
+  $("pasteMH").addEventListener("click", async ()=>{
+    try{
+      const t = await navigator.clipboard.readText();
+      if(t){ mhInput.value = t.trim(); refreshMH(); }
+    }catch{}
+  });
+  $("how").addEventListener("click",(e)=>{
+    e.preventDefault();
+    alert("الخطوات:\n• الصق بصمة الجهاز (mh) إن لم تُمرَّر تلقائيًا.\n• وافق على الشروط ثم اضغط إكمال الدفع التجريبي.\n• ستتلقى الكود القصير المخصص لهذا الجهاز.\n• داخل التطبيق، الصق الكود القصير فقط في نافذة التفعيل.");
+  });
 
-    $("pasteMH").addEventListener("click", async ()=>{
-      try{
-        const t = await navigator.clipboard.readText();
-        if(t){ $("mh").value = t.trim(); $("mhStatus").textContent = "موجودة"; refreshPayState(); }
-      }catch{}
+  // نداء /generate (POST) — الخادم جهّزناه لدعم POST/GET
+  async function callGenerate(api, mh){
+    const res = await fetch(api, {
+      method: "POST",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify({ mh })
     });
-
-    $("helpBtn").addEventListener("click", (e)=>{
-      e.preventDefault();
-      alert(
-`الخطوات (اختبار):
-1) أدخل بصمة الجهاز mh (أو افتح الصفحة مع ?mh=...).
-2) وافق على الشروط واضغط "إكمال الدفع التجريبي".
-3) سيستدعي المتصفح /generate عبر POST ويرجع الكود القصير (PCFX-…).
-4) انسخ الكود والصقه في التطبيق المُثبّت لتجربة التفعيل.`
-      );
-    });
-
-    // ========= تحميل آخر إصدار =========
-    async function setDownload({version, url}){
-      state.version = version || "—";
-      state.downloadURL = url || "#";
-      $("ver").textContent = state.version;
-      $("dl").href = state.downloadURL;
-      $("dlBtn").disabled = !url;
+    if(!res.ok){
+      const txt = await res.text().catch(()=>res.statusText);
+      throw new Error(`API ${res.status}: ${txt}`);
     }
+    return res.json();
+  }
 
-    async function loadLatest(){
-      const ver = q.get("ver");
-      const direct = q.get("download");
-      const repo = q.get("repo"); // owner/repo
+  function showError(msg){
+    errBox.textContent = msg;
+    errBox.classList.remove("hidden");
+    okBox.classList.add("hidden");
+    resultBox.classList.add("hidden");
+    payMsg.textContent = "";
+  }
+  function showResult(shortCode){
+    prettyEl.textContent = shortCode || "—";
+    errBox.classList.add("hidden");
+    okBox.classList.remove("hidden");
+    resultBox.classList.remove("hidden");
+    payMsg.innerHTML = '<span class="ok">✔</span> تمت محاكاة الدفع بنجاح.';
+  }
 
-      if (ver && direct){
-        return setDownload({version: ver, url: direct});
+  payBtn.addEventListener("click", async ()=>{
+    payBtn.disabled = true;
+    payMsg.textContent = "جارٍ المعالجة…";
+    errBox.classList.add("hidden");
+    okBox.classList.add("hidden");
+    resultBox.classList.add("hidden");
+    try{
+      const mh = mhInput.value.trim();
+      if(!mh) return showError("الرجاء إدخال بصمة الجهاز (mh).");
+      const data = await callGenerate(API_GENERATE, mh);
+      if(!data || !data.short_code){
+        return showError("استجابة غير متوقعة من الخادم: لم يتم العثور على short_code.");
       }
-
-      if (repo){
-        try{
-          const api = `https://api.github.com/repos/${repo}/releases/latest`;
-          const res = await fetch(api, {
-            headers: {
-              "Accept":"application/vnd.github+json",
-              "X-GitHub-Api-Version":"2022-11-28"
-            }
-          });
-          if (res.ok){
-            const j = await res.json();
-            const tag = j.tag_name || j.name || "latest";
-            const asset = (j.assets||[]).find(a => /\.exe$/i.test(a.name)) || (j.assets||[])[0];
-            const url = asset ? asset.browser_download_url : (j.html_url || "");
-            return setDownload({version: tag, url});
-          }
-        }catch(e){}
-      }
-
-      // fallback — لو لم تتوفر معلومات
-      return setDownload({version: "—", url: ""});
+      showResult(data.short_code);
+    }catch(err){
+      showError(err.message || String(err));
+    }finally{
+      refreshPayState();
     }
-    loadLatest();
+  });
 
-    // ========= نداء /generate (POST) =========
-    async function callGenerate(api, mh){
-      const res = await fetch(api, {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({ mh })
-      });
-      if(!res.ok){
-        const txt = await res.text().catch(()=>res.statusText);
-        throw new Error(`API ${res.status} — ${txt}`);
-      }
-      return res.json();
-    }
+  resetBtn.addEventListener("click", ()=>{
+    eula.checked = false;
+    payMsg.textContent = "";
+    okBox.classList.add("hidden");
+    errBox.classList.add("hidden");
+    resultBox.classList.add("hidden");
+    refreshPayState();
+  });
 
-    function showShort(code){
-      state.shortCode = code || "—";
-      $("shortCode").textContent = state.shortCode;
-      $("emptyBox").style.display = "none";
-      $("codeBox").style.display = "flex";
-    }
+  copyPretty.addEventListener("click", ()=>{
+    const t = prettyEl.textContent || "";
+    try{ navigator.clipboard.writeText(t); payMsg.innerHTML = '<span class="ok">✔</span> تم النسخ.'; }catch{}
+  });
 
-    $("copyShort").addEventListener("click", async ()=>{
-      try{ await navigator.clipboard.writeText(state.shortCode); $("payMsg").textContent = "تم النسخ ✓"; }
-      catch{ $("payMsg").textContent = "تعذّر النسخ"; }
-    });
-
-    $("pay").addEventListener("click", async ()=>{
-      $("err").textContent = "";
-      $("payMsg").textContent = "جارٍ المعالجة…";
-      $("pay").disabled = true;
-      try{
-        const api = $("api").value.trim();
-        const mh  = $("mh").value.trim();
-        if(!api || !mh) throw new Error("مفقود: API أو mh");
-
-        const data = await callGenerate(api, mh);
-        const pretty = data.short_code || data.activation_code_pretty;
-        if(!pretty) throw new Error("استجابة غير متوقعة: لم تُعد short_code");
-
-        showShort(pretty);
-        $("payMsg").textContent = "تمت المحاكاة بنجاح — الكود جاهز.";
-      }catch(err){
-        $("err").textContent = (err && err.message) ? err.message : String(err);
-        $("payMsg").textContent = "";
-      }finally{
-        refreshPayState();
-      }
-    });
-  </script>
+  // تهيئة أولية
+  refreshMH();
+  loadLatest();
+</script>
 </body>
 </html>
