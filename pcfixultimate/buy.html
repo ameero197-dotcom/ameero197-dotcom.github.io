@@ -1,260 +1,143 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PCFixUltimate — شراء/تفعيل (وضع الاختبار)</title>
+<title>PCFixUltimate – Buy & Generate License</title>
 <style>
-  :root{
-    --bg:#0b0f16; --panel:#0f172a; --muted:#93a3b8; --ok:#10b981; --warn:#f59e0b; --err:#ef4444; --brand:#3b82f6;
-    --txt:#e5eefc; --txt2:#c9d4e5; --card:#0b1324; --border:#1f2937;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(180deg,#0b0f16,#0b1120);color:var(--txt);font:15px/1.6 system-ui,Segoe UI,Roboto,Arial}
-  .wrap{max-width:980px;margin:34px auto;padding:0 16px}
-  .hero{display:flex;gap:12px;align-items:center;background:radial-gradient(900px 500px at 110% -60%, rgba(59,130,246,.18),transparent),
-                                radial-gradient(900px 500px at -10% 120%, rgba(16,185,129,.12),transparent);
-        border:1px solid var(--border);border-radius:18px;padding:18px}
-  .logo{font-weight:900;font-size:26px;letter-spacing:.2px}
-  .tag{font-size:12px;color:var(--txt2);background:#0b1324;border:1px solid var(--border);padding:4px 10px;border-radius:999px}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
-  @media (max-width: 880px){ .row{grid-template-columns:1fr} }
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
-  h2{margin:0 0 10px 0;font-size:18px}
-  .muted{color:var(--muted);font-size:13px}
-  .input{display:flex;gap:8px;align-items:center;margin-top:10px}
-  input[type=text]{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--txt);padding:10px 12px;direction:ltr}
-  button{background:var(--brand);border:none;color:white;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-  button.secondary{background:#172033;color:var(--txt2);border:1px solid var(--border)}
-  button.ghost{background:#0f172a;color:var(--txt2);border:1px dashed #2a3a55}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
-  .pill{background:#0b1324;border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-family:ui-monospace,Consolas}
-  .flex{display:flex;gap:10px;align-items:center}
-  .divider{height:1px;background:var(--border);margin:14px 0}
-  .hidden{display:none}
-  .success{background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.35);padding:12px;border-radius:12px;color:#d1fae5}
-  .danger{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.35);padding:12px;border-radius:12px;color:#fee2e2}
-  .foot{margin-top:12px;color:var(--muted);font-size:12px}
-  .grid2{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+  :root { --bg:#0a0a0a; --card:#141414; --text:#e0e0e0; --muted:#9aa0a6; --brand:#1A73E8; --ok:#34A853; --warn:#fbbc05; --err:#EA4335; }
+  body{background:var(--bg);color:var(--text);font:15px/1.4 system-ui,Segoe UI,Arial,sans-serif;margin:0;padding:0}
+  .wrap{max-width:880px;margin:32px auto;padding:0 16px}
+  .card{background:var(--card);border:1px solid #1f1f1f;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.2);margin-bottom:16px}
+  h1,h2{margin:.2em 0}
+  input,button{font:inherit}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .grow{flex:1}
+  input[type=text]{width:100%;padding:10px 12px;border:1px solid #2a2a2a;border-radius:8px;background:#0a0a0a;color:var(--text)}
+  .btn{padding:10px 14px;border:1px solid #2a2a2a;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .ghost{background:#222}
+  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono", monospace}
+  .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#111;border:1px solid #2a2a2a;color:var(--muted)}
+  .ok{color:var(--ok)} .err{color:var(--err)} .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:700px){ .grid{grid-template-columns:1fr 1fr} }
+  .kbd{padding:2px 6px;border-radius:6px;background:#0f0f0f;border:1px solid #2a2a2a}
+  .copy{cursor:pointer;text-decoration:underline}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <div class="logo">PCFixUltimate</div>
-      <span class="tag">وضع الاختبار — توليد أكواد للمستخدم</span>
-      <div style="flex:1"></div>
-      <button class="ghost" id="how">كيف تعمل الصفحة؟</button>
-    </div>
-
-    <div class="row">
-      <!-- بصمة الجهاز -->
-      <div class="card">
-        <h2>١) بصمة الجهاز (Machine Fingerprint)</h2>
-        <div class="muted">يجب أن يفتح التطبيق هذه الصفحة ويمرّر <b>mh</b> تلقائيًا. إن لم تظهر، الصِقها يدويًا أو اضغط “لصق”.</div>
-        <div class="input">
-          <input id="mh" type="text" placeholder="machine_hash (من التطبيق)" />
-          <button class="secondary" id="pasteMH">لصق</button>
-        </div>
-        <div class="grid2" style="margin-top:10px">
-          <div class="pill"><b>حالة البصمة:</b> <span id="mhStatus" class="warn">مفقودة</span></div>
-          <div class="pill" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-            <b>واجهة الـ API:</b>
-            <span id="apiShown" style="direction:ltr">—</span>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="muted">
-          تلميح: يفتح التطبيق الصفحة مثلًا: <br />
-          <code style="direction:ltr">https://…/buy.html?mh=&lt;hash&gt;</code>
-        </div>
-      </div>
-
-      <!-- الإصدار والتحميل -->
-      <div class="card">
-        <h2>٢) آخر إصدار</h2>
-        <div id="verBox" class="muted">جاري جلب معلومات آخر إصدار…</div>
-        <div id="dlBox" class="hidden" style="margin-top:10px">
-          <div class="flex">
-            <div class="pill"><b>الإصدار:</b> <span id="verText">—</span></div>
-            <a id="dlBtn" class="pill" href="#" download>⬇ تحميل آخر إصدار</a>
-          </div>
-          <div class="foot">يُنصح بالتحميل ثم التفعيل بالكود القصير بعد الدفع التجريبي.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- الدفع التجريبي -->
-    <div class="card" style="margin-top:18px">
-      <h2>٣) محاكاة الدفع (وهمي)</h2>
-      <label style="display:flex;align-items:center;gap:8px">
-        <input type="checkbox" id="eula" />
-        <span>أوافق على اتفاقية الترخيص وشروط الاستخدام.</span>
-      </label>
-      <div class="input" style="margin-top:10px">
-        <button id="pay" disabled>إكمال الدفع التجريبي</button>
-        <button id="reset" class="secondary">إعادة تعيين</button>
-      </div>
-      <div id="payMsg" style="margin-top:10px" class="muted"></div>
-    </div>
-
-    <!-- النتائج -->
-    <div class="card" style="margin-top:18px">
-      <h2>٤) كود التفعيل الخاص بالمستخدم</h2>
-      <div id="okBox" class="success hidden">تمت محاكاة الدفع — الكود جاهز للاستخدام.</div>
-      <div id="errBox" class="danger hidden"></div>
-      <div id="resultBox" class="hidden">
-        <div class="flex">
-          <div style="min-width:170px">الكود القصير (انسخه للمستخدم):</div>
-          <div id="pretty" class="pill" style="direction:ltr">—</div>
-          <button class="secondary" id="copyPretty">نسخ</button>
-        </div>
-        <div class="divider"></div>
-        <div class="muted">
-          داخل التطبيق → <b>تفعيل</b>: الصق الكود القصير فقط (يحوّله التطبيق تلقائيًا إلى رخصة عبر الخادم).
-        </div>
-      </div>
-    </div>
-
-    <div class="foot">© PCFixUltimate — هذه الصفحة لا تُجري دفعات حقيقية؛ الهدف اختبار توليد الأكواد المرتبطة بالجهاز.</div>
+<div class="wrap">
+  <div class="card">
+    <h1>PCFixUltimate – Purchase & License</h1>
+    <p class="muted">1) أدخل بصمة الجهاز <span class="kbd mono">mh</span> كما نسختها من داخل البرنامج.  
+      2) اضغط “Pay (Mock)” ثم “Generate Code”. ستحصل على <strong>short code</strong> (تعطيه للعميل) ورمز JWT (للاختبار فقط).</p>
   </div>
 
+  <div class="card grid">
+    <div>
+      <h2>Latest Setup</h2>
+      <p>Version: <span id="ver" class="pill">…</span></p>
+      <p><button id="downloadBtn" class="btn" disabled>Download Latest Setup</button></p>
+      <p id="dlInfo" class="muted"></p>
+    </div>
+    <div>
+      <h2>Generate Short Code</h2>
+      <div class="row">
+        <input id="mh" type="text" placeholder="Paste machine hash (mh) here" class="mono grow" />
+        <button id="paste" class="btn ghost" title="Paste from clipboard">Paste</button>
+      </div>
+      <div style="margin-top:8px">
+        <label><input id="paid" type="checkbox" /> I confirm the payment (mock)</label>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button id="gen" class="btn" disabled>Generate Code</button>
+        <span id="genStatus" class="muted"></span>
+      </div>
+      <div id="out" style="margin-top:12px;display:none">
+        <p>Short code: <span id="short" class="mono"></span> — <span id="copyShort" class="copy">copy</span></p>
+        <details style="margin-top:8px">
+          <summary>Show JWT (testing only)</summary>
+          <div style="margin-top:8px"><textarea id="jwt" rows="5" style="width:100%" class="mono"></textarea></div>
+          <div><span id="copyJwt" class="copy">copy</span></div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Tips</h2>
+    <ul>
+      <li>من داخل البرنامج: <strong>Help → Copy Machine Fingerprint</strong> لنسخ <span class="mono">mh</span> إلى الحافظة.</li>
+      <li>الكود القصير يبدأ بـ <span class="mono">PCFX-</span>. الزبون يلصقه في نافذة التفعيل.</li>
+    </ul>
+  </div>
+</div>
+
 <script>
-  // ------- إعدادات -------
-  const API_GENERATE = "https://pcfix-license-api.pcfixultimate.workers.dev/generate";
-  const LATEST_JSON  = "https://ameero197-dotcom.github.io/pcfixultimate/latest.json";
+const LATEST_URL = "https://raw.githubusercontent.com/ameero197-dotcom/ameero197-dotcom.github.io/main/pcfixultimate/latest.json";
+const WORKER_ORIGIN = "https://pcfix-license-api.pcfixultimate.workers.dev";
 
-  // عناصر
-  const $ = (id)=>document.getElementById(id);
-  const mhInput   = $("mh");
-  const mhStatus  = $("mhStatus");
-  const eula      = $("eula");
-  const payBtn    = $("pay");
-  const resetBtn  = $("reset");
-  const payMsg    = $("payMsg");
-  const okBox     = $("okBox");
-  const errBox    = $("errBox");
-  const resultBox = $("resultBox");
-  const prettyEl  = $("pretty");
-  const copyPretty= $("copyPretty");
-  const apiShown  = $("apiShown");
-  const verBox    = $("verBox");
-  const dlBox     = $("dlBox");
-  const verText   = $("verText");
-  const dlBtn     = $("dlBtn");
+const $ = (id) => document.getElementById(id);
+const ver = $("ver"), btn = $("downloadBtn"), info = $("dlInfo");
+const mh = $("mh"), gen = $("gen"), paid = $("paid"), statusEl = $("genStatus");
+const out = $("out"), shortEl = $("short"), jwtEl = $("jwt");
+const copyShort = $("copyShort"), copyJwt = $("copyJwt"), pasteBtn = $("paste");
 
-  apiShown.textContent = API_GENERATE;
-
-  // جلب آخر إصدار
-  async function loadLatest(){
-    try{
-      const res = await fetch(LATEST_JSON, { cache: "no-store" });
-      if(!res.ok) throw new Error("تعذّر جلب latest.json");
-      const j = await res.json();
-      verText.textContent = j.version || "—";
-      dlBtn.href = j.url || "#";
-      dlBtn.classList.remove("secondary");
-      verBox.innerHTML = `<span class="ok">✔</span> تم جلب بيانات الإصدار.`;
-      dlBox.classList.remove("hidden");
-    }catch(err){
-      verBox.innerHTML = `<span class="err">⚠</span> فشل جلب معلومات الإصدار: ${err.message||err}`;
+async function loadLatest() {
+  try {
+    const r = await fetch(LATEST_URL, { cache: "no-store" });
+    const j = await r.json();
+    ver.textContent = j.version || "n/a";
+    if (j.url) {
+      btn.disabled = false;
+      btn.onclick = () => { window.location.href = j.url; };
+      info.textContent = `SHA256: ${j.sha256 || "n/a"}`;
     }
+  } catch (e) {
+    ver.textContent = "n/a";
+    info.textContent = "Could not load latest.json";
   }
+}
 
-  // تهيئة من الـ query
-  const q = new URLSearchParams(location.search);
-  mhInput.value = q.get("mh") || q.get("machine_hash") || "";
-  function refreshMH(){
-    if (mhInput.value.trim()){
-      mhStatus.textContent = "جاهزة"; mhStatus.className = "ok";
-    } else {
-      mhStatus.textContent = "مفقودة"; mhStatus.className = "warn";
-    }
-    refreshPayState();
+paid.addEventListener("change", () => { gen.disabled = !paid.checked; });
+
+pasteBtn.addEventListener("click", async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) mh.value = text.trim();
+  } catch {}
+});
+
+gen.addEventListener("click", async () => {
+  const v = (mh.value || "").trim();
+  if (!v) { statusEl.textContent = "Enter machine hash."; return; }
+  statusEl.textContent = "Generating…";
+  gen.disabled = true;
+  try {
+    const u = `${WORKER_ORIGIN}/generate?mh=${encodeURIComponent(v)}`;
+    const r = await fetch(u, { method:"GET", headers: { "Accept":"application/json" }, cache:"no-store" });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j?.error || r.statusText);
+    shortEl.textContent = j.short_code || "";
+    jwtEl.value = j.token || "";
+    out.style.display = "block";
+    statusEl.innerHTML = '<span class="ok">Done.</span>';
+  } catch (e) {
+    statusEl.innerHTML = `<span class="err">${e.message || e}</span>`;
+  } finally {
+    gen.disabled = !paid.checked;
   }
-  function refreshPayState(){
-    payBtn.disabled = !(eula.checked && mhInput.value.trim());
-  }
-  eula.addEventListener("change", refreshPayState);
-  mhInput.addEventListener("input", refreshMH);
-  $("pasteMH").addEventListener("click", async ()=>{
-    try{
-      const t = await navigator.clipboard.readText();
-      if(t){ mhInput.value = t.trim(); refreshMH(); }
-    }catch{}
-  });
-  $("how").addEventListener("click",(e)=>{
-    e.preventDefault();
-    alert("الخطوات:\n• الصق بصمة الجهاز (mh) إن لم تُمرَّر تلقائيًا.\n• وافق على الشروط ثم اضغط إكمال الدفع التجريبي.\n• ستتلقى الكود القصير المخصص لهذا الجهاز.\n• داخل التطبيق، الصق الكود القصير فقط في نافذة التفعيل.");
-  });
+});
 
-  // نداء /generate (POST) — الخادم جهّزناه لدعم POST/GET
-  async function callGenerate(api, mh){
-    const res = await fetch(api, {
-      method: "POST",
-      headers: { "Content-Type":"application/json" },
-      body: JSON.stringify({ mh })
-    });
-    if(!res.ok){
-      const txt = await res.text().catch(()=>res.statusText);
-      throw new Error(`API ${res.status}: ${txt}`);
-    }
-    return res.json();
-  }
+copyShort.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(shortEl.textContent.trim()); copyShort.textContent = "copied!"; setTimeout(()=>copyShort.textContent="copy", 1200); } catch {}
+});
+copyJwt.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(jwtEl.value.trim()); copyJwt.textContent = "copied!"; setTimeout(()=>copyJwt.textContent="copy", 1200); } catch {}
+});
 
-  function showError(msg){
-    errBox.textContent = msg;
-    errBox.classList.remove("hidden");
-    okBox.classList.add("hidden");
-    resultBox.classList.add("hidden");
-    payMsg.textContent = "";
-  }
-  function showResult(shortCode){
-    prettyEl.textContent = shortCode || "—";
-    errBox.classList.add("hidden");
-    okBox.classList.remove("hidden");
-    resultBox.classList.remove("hidden");
-    payMsg.innerHTML = '<span class="ok">✔</span> تمت محاكاة الدفع بنجاح.';
-  }
-
-  payBtn.addEventListener("click", async ()=>{
-    payBtn.disabled = true;
-    payMsg.textContent = "جارٍ المعالجة…";
-    errBox.classList.add("hidden");
-    okBox.classList.add("hidden");
-    resultBox.classList.add("hidden");
-    try{
-      const mh = mhInput.value.trim();
-      if(!mh) return showError("الرجاء إدخال بصمة الجهاز (mh).");
-      const data = await callGenerate(API_GENERATE, mh);
-      if(!data || !data.short_code){
-        return showError("استجابة غير متوقعة من الخادم: لم يتم العثور على short_code.");
-      }
-      showResult(data.short_code);
-    }catch(err){
-      showError(err.message || String(err));
-    }finally{
-      refreshPayState();
-    }
-  });
-
-  resetBtn.addEventListener("click", ()=>{
-    eula.checked = false;
-    payMsg.textContent = "";
-    okBox.classList.add("hidden");
-    errBox.classList.add("hidden");
-    resultBox.classList.add("hidden");
-    refreshPayState();
-  });
-
-  copyPretty.addEventListener("click", ()=>{
-    const t = prettyEl.textContent || "";
-    try{ navigator.clipboard.writeText(t); payMsg.innerHTML = '<span class="ok">✔</span> تم النسخ.'; }catch{}
-  });
-
-  // تهيئة أولية
-  refreshMH();
-  loadLatest();
+loadLatest();
 </script>
 </body>
 </html>
