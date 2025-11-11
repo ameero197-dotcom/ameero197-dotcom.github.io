@@ -1,112 +1,117 @@
 <!doctype html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PCFixUltimate – Generate License</title>
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#eee;margin:0;padding:24px}
-    .card{max-width:760px;margin:0 auto;background:#141414;border:1px solid #1f1f1f;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.4);padding:24px}
-    h1{margin:0 0 8px}
-    .muted{color:#9aa0a6;font-size:14px}
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
-    input,button,textarea{border-radius:8px;border:1px solid #2a2a2a;background:#0a0a0a;color:#eee;padding:10px 12px}
-    input[readonly],textarea{width:100%;font-family:ui-monospace,Consolas,monospace}
-    button{cursor:pointer}
-    .out{margin-top:18px;padding:12px;background:#0f0f0f;border:1px solid #232323;border-radius:10px}
-    .label{font-size:12px;color:#aab0b5;margin-bottom:6px}
-    .grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
-    .ok{color:#9be49d}
-    .err{color:#ff8a8a}
-    .small{font-size:12px;color:#aab0b5}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>PCFixUltimate — Generate Codes</h1>
-    <div class="muted">هذه الصفحة تولّد لك الأكواد بناءً على بصمة جهازك (machine hash) القادمة من التطبيق.</div>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>PCFixUltimate — شراء/تفعيل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:800px;margin:24px auto;padding:0 12px;line-height:1.6}
+      .card{border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:12px 0}
+      .row{display:flex;gap:8px;align-items:center}
+      input[type="text"], textarea{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;direction:ltr}
+      button{padding:10px 14px;border-radius:10px;border:0;background:#1A73E8;color:#fff;font-weight:600;cursor:pointer}
+      button.secondary{background:#10b981}
+      small{color:#6b7280}
+      .muted{color:#6b7280}
+      .hidden{display:none}
+      .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    </style>
+  </head>
+  <body>
+    <h1>PCFixUltimate — شراء/تفعيل</h1>
+    <p class="muted">
+      هذه الصفحة تولّد ترخيصًا مرتبطًا بجهازك باستخدام بصمة الجهاز (<span class="mono">machine hash</span>).
+    </p>
 
-    <div class="row">
-      <div style="flex:1 1 320px">
-        <div class="label">Machine Hash (mh)</div>
-        <input id="mh" readonly />
+    <div class="card">
+      <form id="form" class="row" autocomplete="off">
+        <input id="mh_input" type="text" placeholder="الصق machine hash هنا إن لم يُمرَّر في رابط الصفحة" />
+        <button type="submit">توليد الترخيص</button>
+      </form>
+      <small>إذا فتحت الصفحة من البرنامج سيتم تمرير <span class="mono">mh</span> تلقائيًا في رابط الصفحة.</small>
+    </div>
+
+    <div class="card">
+      <div>Machine hash: <span id="mh" class="mono">—</span></div>
+      <div id="status" style="margin-top:8px" class="muted">جاهز</div>
+    </div>
+
+    <div id="result" class="card hidden">
+      <label>Short code (المُفضّل للصق داخل البرنامج):</label>
+      <div class="row">
+        <input id="short" type="text" readonly />
+        <button type="button" onclick="copy('short')">نسخ</button>
       </div>
-      <div>
-        <div class="label">&nbsp;</div>
-        <button id="gen">Generate</button>
+      <small>يبدأ بـ <span class="mono">PCFX-</span> ويمكن تبادله داخل البرنامج عبر الإنترنت.</small>
+
+      <hr />
+
+      <label>Activation code (خام بصيغة <span class="mono">licenseId.signature</span>):</label>
+      <div class="row">
+        <input id="activation" type="text" readonly />
+        <button type="button" class="secondary" onclick="copy('activation')">نسخ</button>
+      </div>
+
+      <hr />
+
+      <label>JWT (للاستخدام المتقدم/أوفلاين):</label>
+      <div class="row">
+        <textarea id="token" rows="4" readonly></textarea>
+        <button type="button" onclick="copy('token')">نسخ</button>
       </div>
     </div>
 
-    <div id="status" class="small" style="margin-top:10px"></div>
+    <script>
+      const API = "https://pcfix-license-api.pcfixultimate.workers.dev";
+      const $ = (id) => document.getElementById(id);
 
-    <div class="out" id="out" style="display:none">
-      <div class="grid">
-        <div>
-          <div class="label">Short Code (يوضع داخل البرنامج مباشرة)</div>
-          <input id="short" readonly />
-        </div>
-        <button data-copy="#short">Copy</button>
-      </div>
+      async function generateFor(mh){
+        $("mh").textContent = mh || "—";
+        $("status").textContent = "جاري التوليد...";
+        try{
+          const res = await fetch(`${API}/generate?mh=${encodeURIComponent(mh)}`);
+          const data = await res.json();
+          if(!res.ok) throw new Error(data?.error || res.statusText);
 
-      <div class="grid">
-        <div>
-          <div class="label">Activation Code (raw)</div>
-          <input id="raw" readonly />
-        </div>
-        <button data-copy="#raw">Copy</button>
-      </div>
+          $("token").value = data.token || "";
+          $("activation").value = data.activation_code || "";
+          $("short").value = data.short_code || "";
 
-      <details style="margin-top:8px">
-        <summary>JWT (للمراجعة فقط)</summary>
-        <textarea id="jwt" rows="6" readonly></textarea>
-      </details>
-    </div>
-  </div>
-
-  <script>
-    const API = "https://pcfix-license-api.pcfixultimate.workers.dev";
-
-    const qs = new URLSearchParams(location.search);
-    const mh = (qs.get("mh") || qs.get("machine_hash") || "").trim();
-    const $ = sel => document.querySelector(sel);
-
-    $("#mh").value = mh || "(missing)";
-    $("#status").textContent = mh ? "جاهز للتوليد." : "⚠️ لا يوجد mh في رابط الصفحة.";
-
-    document.getElementById("gen").onclick = async () => {
-      if (!mh) { $("#status").textContent = "أدخل من التطبيق ليجي mh تلقائي."; return; }
-      $("#status").textContent = "جارٍ التوليد...";
-      try {
-        const r = await fetch(`${API}/generate`, {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({ mh })
-        });
-        const data = await r.json();
-        if (!r.ok) throw new Error(data?.error || r.statusText);
-
-        $("#short").value = data.short_code || "";
-        $("#raw").value   = data.activation_code || "";
-        $("#jwt").value   = data.token || "";
-        $("#out").style.display = "block";
-        $("#status").textContent = "✓ تم التوليد بنجاح. انسخ الـ Short Code وألصقه في البرنامج.";
-        $("#status").className = "ok";
-      } catch (e) {
-        $("#status").textContent = "خطأ: " + e.message;
-        $("#status").className = "err";
+          $("result").classList.remove("hidden");
+          $("status").textContent = "تم التوليد ✓";
+        }catch(err){
+          $("status").textContent = "خطأ: " + err.message;
+          $("result").classList.add("hidden");
+        }
       }
-    };
 
-    document.addEventListener("click", (e)=>{
-      const btn = e.target.closest("[data-copy]");
-      if (!btn) return;
-      const input = document.querySelector(btn.getAttribute("data-copy"));
-      input.select(); input.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      btn.textContent = "Copied!";
-      setTimeout(()=> btn.textContent = "Copy", 1200);
-    });
-  </script>
-  <noscript>JavaScript مطلوب.</noscript>
-</body>
+      function copy(id){
+        const val = $(id).value || "";
+        navigator.clipboard.writeText(val).then(()=>{
+          $("status").textContent = "تم النسخ ✓";
+        }).catch(err=>{
+          $("status").textContent = "تعذّر النسخ: " + err.message;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        const params = new URLSearchParams(location.search);
+        const mh = params.get("mh") || params.get("machine_hash") || "";
+        if (mh) {
+          $("mh_input").value = mh;
+          generateFor(mh);
+        }
+        $("form").addEventListener("submit", (e)=>{
+          e.preventDefault();
+          const input = $("mh_input").value.trim();
+          if (input) generateFor(input);
+        });
+      });
+    </script>
+    <!-- ملاحظات تقنية:
+      - قراءة mh من URL تتم عبر URLSearchParams.
+      - الطلب يتم عبر fetch (GET) مع CORS.
+      - النسخ يستخدم Clipboard API writeText().
+    -->
+  </body>
 </html>
