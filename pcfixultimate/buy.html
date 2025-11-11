@@ -1,143 +1,112 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PCFixUltimate – Buy & Generate License</title>
-<style>
-  :root { --bg:#0a0a0a; --card:#141414; --text:#e0e0e0; --muted:#9aa0a6; --brand:#1A73E8; --ok:#34A853; --warn:#fbbc05; --err:#EA4335; }
-  body{background:var(--bg);color:var(--text);font:15px/1.4 system-ui,Segoe UI,Arial,sans-serif;margin:0;padding:0}
-  .wrap{max-width:880px;margin:32px auto;padding:0 16px}
-  .card{background:var(--card);border:1px solid #1f1f1f;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.2);margin-bottom:16px}
-  h1,h2{margin:.2em 0}
-  input,button{font:inherit}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .grow{flex:1}
-  input[type=text]{width:100%;padding:10px 12px;border:1px solid #2a2a2a;border-radius:8px;background:#0a0a0a;color:var(--text)}
-  .btn{padding:10px 14px;border:1px solid #2a2a2a;border-radius:8px;background:var(--brand);color:#fff;cursor:pointer}
-  .btn:disabled{opacity:.6;cursor:not-allowed}
-  .ghost{background:#222}
-  .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Roboto Mono", monospace}
-  .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#111;border:1px solid #2a2a2a;color:var(--muted)}
-  .ok{color:var(--ok)} .err{color:var(--err)} .muted{color:var(--muted)}
-  .grid{display:grid;grid-template-columns:1fr;gap:10px}
-  @media(min-width:700px){ .grid{grid-template-columns:1fr 1fr} }
-  .kbd{padding:2px 6px;border-radius:6px;background:#0f0f0f;border:1px solid #2a2a2a}
-  .copy{cursor:pointer;text-decoration:underline}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCFixUltimate – Generate License</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0a0a0a;color:#eee;margin:0;padding:24px}
+    .card{max-width:760px;margin:0 auto;background:#141414;border:1px solid #1f1f1f;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.4);padding:24px}
+    h1{margin:0 0 8px}
+    .muted{color:#9aa0a6;font-size:14px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    input,button,textarea{border-radius:8px;border:1px solid #2a2a2a;background:#0a0a0a;color:#eee;padding:10px 12px}
+    input[readonly],textarea{width:100%;font-family:ui-monospace,Consolas,monospace}
+    button{cursor:pointer}
+    .out{margin-top:18px;padding:12px;background:#0f0f0f;border:1px solid #232323;border-radius:10px}
+    .label{font-size:12px;color:#aab0b5;margin-bottom:6px}
+    .grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+    .ok{color:#9be49d}
+    .err{color:#ff8a8a}
+    .small{font-size:12px;color:#aab0b5}
+  </style>
 </head>
 <body>
-<div class="wrap">
   <div class="card">
-    <h1>PCFixUltimate – Purchase & License</h1>
-    <p class="muted">1) أدخل بصمة الجهاز <span class="kbd mono">mh</span> كما نسختها من داخل البرنامج.  
-      2) اضغط “Pay (Mock)” ثم “Generate Code”. ستحصل على <strong>short code</strong> (تعطيه للعميل) ورمز JWT (للاختبار فقط).</p>
-  </div>
+    <h1>PCFixUltimate — Generate Codes</h1>
+    <div class="muted">هذه الصفحة تولّد لك الأكواد بناءً على بصمة جهازك (machine hash) القادمة من التطبيق.</div>
 
-  <div class="card grid">
-    <div>
-      <h2>Latest Setup</h2>
-      <p>Version: <span id="ver" class="pill">…</span></p>
-      <p><button id="downloadBtn" class="btn" disabled>Download Latest Setup</button></p>
-      <p id="dlInfo" class="muted"></p>
-    </div>
-    <div>
-      <h2>Generate Short Code</h2>
-      <div class="row">
-        <input id="mh" type="text" placeholder="Paste machine hash (mh) here" class="mono grow" />
-        <button id="paste" class="btn ghost" title="Paste from clipboard">Paste</button>
+    <div class="row">
+      <div style="flex:1 1 320px">
+        <div class="label">Machine Hash (mh)</div>
+        <input id="mh" readonly />
       </div>
-      <div style="margin-top:8px">
-        <label><input id="paid" type="checkbox" /> I confirm the payment (mock)</label>
-      </div>
-      <div class="row" style="margin-top:8px">
-        <button id="gen" class="btn" disabled>Generate Code</button>
-        <span id="genStatus" class="muted"></span>
-      </div>
-      <div id="out" style="margin-top:12px;display:none">
-        <p>Short code: <span id="short" class="mono"></span> — <span id="copyShort" class="copy">copy</span></p>
-        <details style="margin-top:8px">
-          <summary>Show JWT (testing only)</summary>
-          <div style="margin-top:8px"><textarea id="jwt" rows="5" style="width:100%" class="mono"></textarea></div>
-          <div><span id="copyJwt" class="copy">copy</span></div>
-        </details>
+      <div>
+        <div class="label">&nbsp;</div>
+        <button id="gen">Generate</button>
       </div>
     </div>
+
+    <div id="status" class="small" style="margin-top:10px"></div>
+
+    <div class="out" id="out" style="display:none">
+      <div class="grid">
+        <div>
+          <div class="label">Short Code (يوضع داخل البرنامج مباشرة)</div>
+          <input id="short" readonly />
+        </div>
+        <button data-copy="#short">Copy</button>
+      </div>
+
+      <div class="grid">
+        <div>
+          <div class="label">Activation Code (raw)</div>
+          <input id="raw" readonly />
+        </div>
+        <button data-copy="#raw">Copy</button>
+      </div>
+
+      <details style="margin-top:8px">
+        <summary>JWT (للمراجعة فقط)</summary>
+        <textarea id="jwt" rows="6" readonly></textarea>
+      </details>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Tips</h2>
-    <ul>
-      <li>من داخل البرنامج: <strong>Help → Copy Machine Fingerprint</strong> لنسخ <span class="mono">mh</span> إلى الحافظة.</li>
-      <li>الكود القصير يبدأ بـ <span class="mono">PCFX-</span>. الزبون يلصقه في نافذة التفعيل.</li>
-    </ul>
-  </div>
-</div>
+  <script>
+    const API = "https://pcfix-license-api.pcfixultimate.workers.dev";
 
-<script>
-const LATEST_URL = "https://raw.githubusercontent.com/ameero197-dotcom/ameero197-dotcom.github.io/main/pcfixultimate/latest.json";
-const WORKER_ORIGIN = "https://pcfix-license-api.pcfixultimate.workers.dev";
+    const qs = new URLSearchParams(location.search);
+    const mh = (qs.get("mh") || qs.get("machine_hash") || "").trim();
+    const $ = sel => document.querySelector(sel);
 
-const $ = (id) => document.getElementById(id);
-const ver = $("ver"), btn = $("downloadBtn"), info = $("dlInfo");
-const mh = $("mh"), gen = $("gen"), paid = $("paid"), statusEl = $("genStatus");
-const out = $("out"), shortEl = $("short"), jwtEl = $("jwt");
-const copyShort = $("copyShort"), copyJwt = $("copyJwt"), pasteBtn = $("paste");
+    $("#mh").value = mh || "(missing)";
+    $("#status").textContent = mh ? "جاهز للتوليد." : "⚠️ لا يوجد mh في رابط الصفحة.";
 
-async function loadLatest() {
-  try {
-    const r = await fetch(LATEST_URL, { cache: "no-store" });
-    const j = await r.json();
-    ver.textContent = j.version || "n/a";
-    if (j.url) {
-      btn.disabled = false;
-      btn.onclick = () => { window.location.href = j.url; };
-      info.textContent = `SHA256: ${j.sha256 || "n/a"}`;
-    }
-  } catch (e) {
-    ver.textContent = "n/a";
-    info.textContent = "Could not load latest.json";
-  }
-}
+    document.getElementById("gen").onclick = async () => {
+      if (!mh) { $("#status").textContent = "أدخل من التطبيق ليجي mh تلقائي."; return; }
+      $("#status").textContent = "جارٍ التوليد...";
+      try {
+        const r = await fetch(`${API}/generate`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ mh })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data?.error || r.statusText);
 
-paid.addEventListener("change", () => { gen.disabled = !paid.checked; });
+        $("#short").value = data.short_code || "";
+        $("#raw").value   = data.activation_code || "";
+        $("#jwt").value   = data.token || "";
+        $("#out").style.display = "block";
+        $("#status").textContent = "✓ تم التوليد بنجاح. انسخ الـ Short Code وألصقه في البرنامج.";
+        $("#status").className = "ok";
+      } catch (e) {
+        $("#status").textContent = "خطأ: " + e.message;
+        $("#status").className = "err";
+      }
+    };
 
-pasteBtn.addEventListener("click", async () => {
-  try {
-    const text = await navigator.clipboard.readText();
-    if (text) mh.value = text.trim();
-  } catch {}
-});
-
-gen.addEventListener("click", async () => {
-  const v = (mh.value || "").trim();
-  if (!v) { statusEl.textContent = "Enter machine hash."; return; }
-  statusEl.textContent = "Generating…";
-  gen.disabled = true;
-  try {
-    const u = `${WORKER_ORIGIN}/generate?mh=${encodeURIComponent(v)}`;
-    const r = await fetch(u, { method:"GET", headers: { "Accept":"application/json" }, cache:"no-store" });
-    const j = await r.json();
-    if (!r.ok) throw new Error(j?.error || r.statusText);
-    shortEl.textContent = j.short_code || "";
-    jwtEl.value = j.token || "";
-    out.style.display = "block";
-    statusEl.innerHTML = '<span class="ok">Done.</span>';
-  } catch (e) {
-    statusEl.innerHTML = `<span class="err">${e.message || e}</span>`;
-  } finally {
-    gen.disabled = !paid.checked;
-  }
-});
-
-copyShort.addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(shortEl.textContent.trim()); copyShort.textContent = "copied!"; setTimeout(()=>copyShort.textContent="copy", 1200); } catch {}
-});
-copyJwt.addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(jwtEl.value.trim()); copyJwt.textContent = "copied!"; setTimeout(()=>copyJwt.textContent="copy", 1200); } catch {}
-});
-
-loadLatest();
-</script>
+    document.addEventListener("click", (e)=>{
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+      const input = document.querySelector(btn.getAttribute("data-copy"));
+      input.select(); input.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      btn.textContent = "Copied!";
+      setTimeout(()=> btn.textContent = "Copy", 1200);
+    });
+  </script>
+  <noscript>JavaScript مطلوب.</noscript>
 </body>
 </html>
