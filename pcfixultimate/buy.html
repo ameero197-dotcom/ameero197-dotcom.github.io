@@ -2,303 +2,75 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <title>PCFixUltimate — شراء / تفعيل</title>
+    <title>PCFixUltimate — تفعيل وتحميل آخر إصدار</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      :root {
-        --bg: #0f172a;
-        --bg-card: #020617;
-        --border: #1e293b;
-        --accent: #2563eb;
-        --accent-soft: rgba(37,99,235,0.15);
-        --accent-ok: #22c55e;
-        --accent-err: #ef4444;
-        --text: #e5e7eb;
-        --text-muted: #9ca3af;
-        --radius-lg: 18px;
+      :root{
+        --bg:#020617;--card:#020617;--border:#1f2937;
+        --accent:#2563eb;--accent-soft:rgba(37,99,235,.18);
+        --ok:#22c55e;--err:#ef4444;--text:#e5e7eb;--muted:#9ca3af;
       }
-
-      * { box-sizing: border-box; }
-
-      body {
-        margin: 0;
-        background: radial-gradient(circle at top, #1d2333, #020617 55%);
-        min-height: 100vh;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: var(--text);
-        display: flex;
-        justify-content: center;
+      *{box-sizing:border-box;}
+      body{
+        margin:0;background:radial-gradient(circle at top,#111827,#020617);
+        font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+        color:var(--text);display:flex;justify-content:center;min-height:100vh;
       }
-
-      main {
-        width: 100%;
-        max-width: 920px;
-        padding: 20px 14px 32px;
+      main{width:100%;max-width:960px;padding:18px 12px 32px;}
+      .shell{
+        border-radius:22px;border:1px solid rgba(148,163,184,.4);
+        background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(15,23,42,.99));
+        box-shadow:0 24px 60px rgba(15,23,42,.8);
+        padding:18px 18px 22px;
       }
-
-      .shell {
-        border-radius: 24px;
-        border: 1px solid rgba(148,163,184,0.3);
-        background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.99));
-        box-shadow:
-          0 24px 60px rgba(15,23,42,0.8),
-          0 0 0 1px rgba(15,23,42,1);
-        padding: 18px 18px 24px;
+      header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;}
+      h1{margin:0;font-size:1.3rem;display:flex;align-items:center;gap:8px;}
+      .badge{font-size:.7rem;padding:3px 8px;border-radius:999px;
+        background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.5);color:#bfdbfe;}
+      .subtitle{margin:2px 0 0;font-size:.78rem;color:var(--muted);}
+      .pill{font-size:.72rem;padding:6px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.5);
+        color:var(--muted);display:inline-flex;gap:6px;align-items:center;white-space:nowrap;}
+      .pill-dot{width:7px;height:7px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.25);}
+      .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;}
+      @media(max-width:780px){.grid{grid-template-columns:minmax(0,1fr);}header{flex-direction:column;align-items:flex-start;}}
+      .card{border-radius:18px;border:1px solid var(--border);background:radial-gradient(circle at top right,var(--accent-soft),#020617);padding:12px 14px 14px;}
+      .card.secondary{background:radial-gradient(circle at top,rgba(15,23,42,.94),#020617);}
+      .card-title{margin:0;font-size:.9rem;}
+      .card-hint{margin:2px 0 6px;font-size:.76rem;color:var(--muted);}
+      label{font-size:.78rem;display:block;margin-bottom:4px;}
+      input[type="text"],textarea{
+        width:100%;padding:9px 11px;border-radius:10px;border:1px solid #1f2937;
+        background:rgba(15,23,42,.96);color:var(--text);font-size:.82rem;direction:ltr;
+        font-family:ui-monospace,Menlo,Consolas,monospace;outline:none;
       }
-
-      header {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 16px;
+      input::placeholder,textarea::placeholder{color:#6b7280;}
+      input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(59,130,246,.5);}
+      textarea{resize:vertical;min-height:90px;}
+      .row{display:flex;gap:8px;align-items:center;}
+      .row.wrap{flex-wrap:wrap;}
+      button{
+        border-radius:999px;padding:8px 14px;font-size:.8rem;border:0;cursor:pointer;
+        font-weight:600;display:inline-flex;align-items:center;gap:6px;
       }
-
-      h1 {
-        font-size: 1.35rem;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .badge {
-        font-size: 0.7rem;
-        padding: 3px 8px;
-        border-radius: 999px;
-        background: rgba(34,197,94,0.1);
-        border: 1px solid rgba(34,197,94,0.35);
-        color: #bbf7d0;
-      }
-
-      .subtitle {
-        margin: 2px 0 0;
-        font-size: 0.78rem;
-        color: var(--text-muted);
-      }
-
-      .pill {
-        font-size: 0.75rem;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(148,163,184,0.4);
-        color: var(--text-muted);
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        white-space: nowrap;
-      }
-
-      .pill-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: #22c55e;
-        box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
-        gap: 16px;
-      }
-
-      @media (max-width: 768px) {
-        .grid { grid-template-columns: minmax(0, 1fr); }
-      }
-
-      .card {
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border);
-        background: radial-gradient(circle at top right, rgba(37,99,235,0.09), rgba(15,23,42,0.95));
-        padding: 14px 14px 16px;
-      }
-
-      .card.secondary {
-        background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
-      }
-
-      .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
-      }
-
-      .card-title {
-        margin: 0;
-        font-size: 0.9rem;
-      }
-
-      .card-hint {
-        margin: 0;
-        font-size: 0.75rem;
-        color: var(--text-muted);
-      }
-
-      label {
-        font-size: 0.78rem;
-        display: block;
-        margin-bottom: 4px;
-      }
-
-      input[type="text"],
-      textarea {
-        width: 100%;
-        padding: 9px 11px;
-        border-radius: 10px;
-        border: 1px solid rgba(51,65,85,0.9);
-        background: rgba(15,23,42,0.9);
-        color: var(--text);
-        font-size: 0.82rem;
-        outline: none;
-        direction: ltr;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      }
-
-      input::placeholder,
-      textarea::placeholder {
-        color: #6b7280;
-      }
-
-      input:focus,
-      textarea:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 1px rgba(59,130,246,0.5);
-      }
-
-      textarea {
-        resize: vertical;
-        min-height: 96px;
-      }
-
-      button {
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-size: 0.8rem;
-        border: 0;
-        cursor: pointer;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .btn-primary {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        color: #eff6ff;
-      }
-
-      .btn-primary:disabled {
-        opacity: 0.6;
-        cursor: default;
-      }
-
-      .btn-ghost {
-        background: transparent;
-        border: 1px solid rgba(148,163,184,0.5);
-        color: var(--text-muted);
-      }
-
-      .btn-small {
-        padding: 7px 10px;
-        font-size: 0.76rem;
-      }
-
-      .row {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-
-      .row.wrap {
-        flex-wrap: wrap;
-      }
-
-      .mono {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
-      }
-
-      .muted {
-        color: var(--text-muted);
-        font-size: 0.75rem;
-      }
-
-      .status {
-        margin-top: 6px;
-        font-size: 0.78rem;
-      }
-
-      .status-ok {
-        color: var(--accent-ok);
-      }
-
-      .status-err {
-        color: var(--accent-err);
-      }
-
-      .status-pending {
-        color: #eab308;
-      }
-
-      .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 8px;
-        border-radius: 999px;
-        background: rgba(15,23,42,0.9);
-        border: 1px dashed rgba(148,163,184,0.5);
-        font-size: 0.72rem;
-      }
-
-      .chip span {
-        direction: ltr;
-      }
-
-      .section-title {
-        font-size: 0.8rem;
-        margin-top: 8px;
-        margin-bottom: 4px;
-      }
-
-      .hidden { display: none; }
-
-      details {
-        margin-top: 10px;
-        border-radius: 12px;
-        border: 1px solid rgba(51,65,85,0.9);
-        background: rgba(15,23,42,0.85);
-        padding: 7px 9px 9px;
-      }
-
-      summary {
-        list-style: none;
-        cursor: pointer;
-        font-size: 0.76rem;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      summary::-webkit-details-marker { display: none; }
-
-      .dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        background: rgba(148,163,184,0.9);
-      }
-
-      .advanced-body {
-        margin-top: 8px;
-        border-top: 1px dashed rgba(51,65,85,0.9);
-        padding-top: 8px;
-        display: grid;
-        gap: 6px;
-      }
+      .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#eff6ff;}
+      .btn-ghost{background:transparent;border:1px solid rgba(148,163,184,.6);color:var(--muted);}
+      .btn-small{padding:7px 10px;font-size:.76rem;}
+      .btn-primary:disabled{opacity:.6;cursor:default;}
+      .muted{color:var(--muted);font-size:.74rem;}
+      .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+      .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;
+        border:1px dashed rgba(148,163,184,.7);background:rgba(15,23,42,.9);font-size:.72rem;}
+      .status{margin-top:5px;font-size:.78rem;}
+      .status-ok{color:var(--ok);} .status-err{color:var(--err);} .status-pending{color:#eab308;}
+      .hidden{display:none;}
+      details{margin-top:8px;border-radius:12px;border:1px solid #1f2937;background:rgba(15,23,42,.9);padding:7px 9px 9px;}
+      summary{list-style:none;cursor:pointer;font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
+      summary::-webkit-details-marker{display:none;}
+      .dot{width:6px;height:6px;border-radius:999px;background:#9ca3af;}
+      .advanced-body{margin-top:6px;border-top:1px dashed #1f2937;padding-top:7px;display:grid;gap:6px;}
+      .download-card{margin-top:14px;padding-top:10px;border-top:1px dashed #1f2937;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;}
+      .download-meta{font-size:.76rem;color:var(--muted);}
+      .tag{font-size:.7rem;padding:3px 7px;border-radius:999px;border:1px solid rgba(148,163,184,.5);color:var(--muted);}
     </style>
   </head>
   <body>
@@ -306,12 +78,9 @@
       <div class="shell">
         <header>
           <div>
-            <h1>
-              PCFixUltimate
-              <span class="badge">تفعيل مرخَّص</span>
-            </h1>
+            <h1>PCFixUltimate <span class="badge">تفعيل + تحميل</span></h1>
             <p class="subtitle">
-              توليد ترخيص دائم مرتبط ببصمة جهازك (<span class="mono">machine hash</span>).
+              توليد ترخيص دائم لجهازك، مع رابط تحميل آخر إصدار متوفر للبرنامج.
             </p>
           </div>
           <div class="pill">
@@ -321,39 +90,29 @@
         </header>
 
         <div class="grid">
-          <!-- يسار: إدخال الـ machine hash -->
+          <!-- يسار: machine hash -->
           <section class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">خطوة ١ — اختيار الجهاز</h2>
-                <p class="card-hint">
-                  افتح هذه الصفحة من داخل البرنامج أو الصق الـ<span class="mono">machine hash</span> يدوياً.
-                </p>
-              </div>
-            </div>
+            <h2 class="card-title">خطوة ١ — اختيار الجهاز</h2>
+            <p class="card-hint">
+              افتح هذه الصفحة من داخل البرنامج (يفضَّل)، أو الصق الـ
+              <span class="mono">machine hash</span> يدويًا.
+            </p>
 
             <form id="form" autocomplete="off">
               <label for="mh_input">بصمة الجهاز (machine hash)</label>
               <div class="row wrap" style="margin-bottom:8px">
-                <input
-                  id="mh_input"
-                  type="text"
-                  placeholder="مثال: 8d9f6e4c3b2a1f…"
-                  autocomplete="off"
-                />
+                <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97...">
                 <button id="btn_generate" type="submit" class="btn-primary">
                   <span id="btn_text">توليد الترخيص</span>
                   <span id="btn_spinner" class="hidden">⏳</span>
                 </button>
               </div>
               <p class="muted">
-                إذا فتحت الصفحة من البرنامج، سيتم تمرير
-                <span class="mono">mh</span>
-                تلقائياً في الرابط.
+                إذا فتحت الصفحة من البرنامج سيتم تمرير
+                <span class="mono">mh</span> تلقائياً في الرابط.
               </p>
 
-              <div style="margin-top:10px">
-                <div class="section-title">الحالة الحالية</div>
+              <div style="margin-top:8px">
                 <div class="chip">
                   <span>Machine hash:</span>
                   <span id="mh" class="mono">—</span>
@@ -361,28 +120,34 @@
                 <div id="status" class="status muted">جاهز</div>
               </div>
             </form>
-          </section>
 
-          <!-- يمين: النتائج -->
-          <section class="card secondary">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">خطوة ٢ — نسخ كود التفعيل</h2>
-                <p class="card-hint">
-                  انسخ الكود القصير والصقه داخل برنامج PCFixUltimate لتفعيل النسخة.
-                </p>
+            <!-- كرت التحديث والتحميل -->
+            <div class="download-card">
+              <div class="download-meta">
+                <div>آخر إصدار متوفر: <span id="latest_version" class="mono">—</span></div>
+                <div style="margin-top:2px">
+                  <span class="tag">SHA-256</span>
+                  <span id="latest_sha" class="mono" style="font-size:.68rem;">—</span>
+                </div>
               </div>
-              <button type="button" id="btn_clear" class="btn-ghost btn-small">
-                مسح القيم
+              <button id="btn_download" class="btn-ghost btn-small" disabled>
+                تحميل آخر إصدار
               </button>
             </div>
+            <p id="latest_status" class="muted" style="margin-top:4px;">جارٍ التحقق من الإصدار الأخير…</p>
+          </section>
+
+          <!-- يمين: أكواد التفعيل -->
+          <section class="card secondary">
+            <h2 class="card-title">خطوة ٢ — نسخ كود التفعيل</h2>
+            <p class="card-hint">
+              انسخ الكود القصير والصقه داخل برنامج PCFixUltimate لتفعيل النسخة.
+            </p>
 
             <div id="result_short" class="hidden">
-              <label for="short">
-                الكود القصير (المُفضّل داخل البرنامج)
-              </label>
+              <label for="short">الكود القصير (المفضل داخل البرنامج)</label>
               <div class="row" style="margin-bottom:4px">
-                <input id="short" type="text" readonly />
+                <input id="short" type="text" readonly>
                 <button type="button" class="btn-primary btn-small" onclick="copyField('short')">
                   نسخ
                 </button>
@@ -393,25 +158,21 @@
             </div>
 
             <details id="advanced_block" class="hidden">
-              <summary>
-                <span class="dot"></span>
-                خيارات متقدمة (للدعم الفني / الاستخدام المتقدم)
-              </summary>
+              <summary><span class="dot"></span>خيارات متقدمة (للدعم الفني)</summary>
               <div class="advanced-body">
                 <div>
                   <label for="activation">
                     Activation code الخام (<span class="mono">licenseId.signature</span>)
                   </label>
                   <div class="row" style="margin-bottom:4px">
-                    <input id="activation" type="text" readonly />
+                    <input id="activation" type="text" readonly>
                     <button type="button" class="btn-ghost btn-small" onclick="copyField('activation')">
                       نسخ
                     </button>
                   </div>
                 </div>
-
                 <div>
-                  <label for="token">رمز JWT (للتفعيل الأوفلاين والتحقق اليدوي)</label>
+                  <label for="token">رمز JWT (تحقق أوفلاين)</label>
                   <div class="row">
                     <textarea id="token" rows="4" readonly></textarea>
                     <button type="button" class="btn-ghost btn-small" onclick="copyField('token')">
@@ -422,15 +183,18 @@
               </div>
             </details>
 
-            <div id="empty_hint" class="muted">
+            <p id="empty_hint" class="muted">
               لم يتم إنشاء ترخيص بعد. أدخل
-              <span class="mono">machine hash</span> ثم اضغط
-              «توليد الترخيص».
-            </div>
+              <span class="mono">machine hash</span> ثم اضغط «توليد الترخيص».
+            </p>
+
+            <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:6px;">
+              مسح القيم
+            </button>
           </section>
         </div>
 
-        <p class="muted" style="margin-top:14px;font-size:0.72rem;">
+        <p class="muted" style="margin-top:12px;font-size:.72rem;">
           ملاحظة: الترخيص مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
           <span class="mono">machine hash</span>.
         </p>
@@ -439,6 +203,9 @@
 
     <script>
       const API = "https://pcfix-license-api.pcfixultimate.workers.dev";
+      const LATEST_URL =
+        "https://raw.githubusercontent.com/ameero197-dotcom/ameero197-dotcom.github.io/main/pcfixultimate/latest.json";
+
       const $ = (id) => document.getElementById(id);
 
       function setStatus(text, mode = "info") {
@@ -471,14 +238,9 @@
         setStatus("جاري الاتصال بالخادم وتوليد الترخيص...", "pending");
 
         try {
-          const res = await fetch(
-            `${API}/generate?mh=${encodeURIComponent(mh)}`,
-            { method: "GET" }
-          );
+          const res = await fetch(`${API}/generate?mh=${encodeURIComponent(mh)}`);
           const data = await res.json();
-          if (!res.ok) {
-            throw new Error(data?.error || res.statusText || "Unknown error");
-          }
+          if (!res.ok) throw new Error(data?.error || res.statusText || "Unknown error");
 
           $("token").value = data.token || "";
           $("activation").value = data.activation_code || "";
@@ -507,12 +269,31 @@
         }
         navigator.clipboard
           .writeText(value)
-          .then(() => {
-            setStatus("تم النسخ بنجاح ✓", "ok");
-          })
-          .catch((err) => {
-            setStatus("تعذّر النسخ: " + (err?.message || err), "err");
-          });
+          .then(() => setStatus("تم النسخ بنجاح ✓", "ok"))
+          .catch((err) => setStatus("تعذّر النسخ: " + (err?.message || err), "err"));
+      }
+
+      async function loadLatest() {
+        const vs = $("latest_status");
+        try {
+          vs.textContent = "جارٍ التحقق من الإصدار الأخير…";
+          const res = await fetch(LATEST_URL, { cache: "no-store" });
+          if (!res.ok) throw new Error(res.statusText || "HTTP " + res.status);
+          const data = await res.json();
+          const ver = data.version || "غير معروف";
+          const url = data.url || "#";
+          const sha = data.sha256 || "—";
+
+          $("latest_version").textContent = ver;
+          $("latest_sha").textContent = sha;
+          const btn = $("btn_download");
+          btn.disabled = !url || url === "#";
+          btn.onclick = () => { if (url && url !== "#") window.open(url, "_blank"); };
+          vs.textContent = "تم جلب معلومات آخر إصدار بنجاح.";
+        } catch (err) {
+          vs.textContent = "تعذّر جلب معلومات آخر إصدار: " + (err?.message || err);
+          $("btn_download").disabled = true;
+        }
       }
 
       $("btn_clear").addEventListener("click", () => {
@@ -524,26 +305,22 @@
         $("result_short").classList.add("hidden");
         $("advanced_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
-        setStatus("جاهز", "info");
+        setStatus("جاهز");
       });
 
       document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(location.search);
-        const mh =
-          params.get("mh") ||
-          params.get("machine_hash") ||
-          "";
-
+        const mh = params.get("mh") || params.get("machine_hash") || "";
         if (mh) {
           $("mh_input").value = mh;
           generateFor(mh);
         }
-
         $("form").addEventListener("submit", (e) => {
           e.preventDefault();
           const input = $("mh_input").value.trim();
           generateFor(input);
         });
+        loadLatest();
       });
     </script>
   </body>
