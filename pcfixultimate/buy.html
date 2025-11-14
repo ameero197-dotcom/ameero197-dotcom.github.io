@@ -32,20 +32,22 @@
         color:var(--muted);display:inline-flex;gap:6px;align-items:center;white-space:nowrap;}
       .pill-dot{width:7px;height:7px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.25);}
       .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;}
-      @media(max-width:780px){.grid{grid-template-columns:minmax(0,1fr);}header{flex-direction:column;align-items:flex-start;}}
+      @media(max-width:780px){
+        .grid{grid-template-columns:minmax(0,1fr);}
+        header{flex-direction:column;align-items:flex-start;}
+      }
       .card{border-radius:18px;border:1px solid var(--border);background:radial-gradient(circle at top right,var(--accent-soft),#020617);padding:12px 14px 14px;}
       .card.secondary{background:radial-gradient(circle at top,rgba(15,23,42,.94),#020617);}
       .card-title{margin:0;font-size:.9rem;}
       .card-hint{margin:2px 0 6px;font-size:.76rem;color:var(--muted);}
       label{font-size:.78rem;display:block;margin-bottom:4px;}
-      input[type="text"],textarea{
+      input[type="text"]{
         width:100%;padding:9px 11px;border-radius:10px;border:1px solid #1f2937;
         background:rgba(15,23,42,.96);color:var(--text);font-size:.82rem;direction:ltr;
         font-family:ui-monospace,Menlo,Consolas,monospace;outline:none;
       }
-      input::placeholder,textarea::placeholder{color:#6b7280;}
-      input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(59,130,246,.5);}
-      textarea{resize:vertical;min-height:90px;}
+      input::placeholder{color:#6b7280;}
+      input:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(59,130,246,.5);}
       .row{display:flex;gap:8px;align-items:center;}
       .row.wrap{flex-wrap:wrap;}
       button{
@@ -63,14 +65,19 @@
       .status{margin-top:5px;font-size:.78rem;}
       .status-ok{color:var(--ok);} .status-err{color:var(--err);} .status-pending{color:#eab308;}
       .hidden{display:none;}
-      details{margin-top:8px;border-radius:12px;border:1px solid #1f2937;background:rgba(15,23,42,.9);padding:7px 9px 9px;}
-      summary{list-style:none;cursor:pointer;font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
-      summary::-webkit-details-marker{display:none;}
-      .dot{width:6px;height:6px;border-radius:999px;background:#9ca3af;}
-      .advanced-body{margin-top:6px;border-top:1px dashed #1f2937;padding-top:7px;display:grid;gap:6px;}
-      .download-card{margin-top:14px;padding-top:10px;border-top:1px dashed #1f2937;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;}
+      .download-card{margin-top:14px;padding-top:10px;border-top:1px dashed #1f2937;
+        display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;}
       .download-meta{font-size:.76rem;color:var(--muted);}
       .tag{font-size:.7rem;padding:3px 7px;border-radius:999px;border:1px solid rgba(148,163,184,.5);color:var(--muted);}
+      .short-display{
+        margin-top:10px;padding:10px 12px;border-radius:14px;
+        border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.9);
+        display:flex;flex-direction:column;gap:6px;
+      }
+      .short-code{
+        font-size:1rem;font-weight:600;letter-spacing:.08em;
+        text-align:center;direction:ltr;
+      }
     </style>
   </head>
   <body>
@@ -80,7 +87,7 @@
           <div>
             <h1>PCFixUltimate <span class="badge">تفعيل + تحميل</span></h1>
             <p class="subtitle">
-              توليد ترخيص دائم لجهازك، مع رابط تحميل آخر إصدار متوفر للبرنامج.
+              توليد كود التفعيل القصير المرتبط بجهازك، مع رابط تحميل آخر إصدار من البرنامج.
             </p>
           </div>
           <div class="pill">
@@ -90,7 +97,7 @@
         </header>
 
         <div class="grid">
-          <!-- يسار: machine hash -->
+          <!-- يسار: machine hash + التحديث -->
           <section class="card">
             <h2 class="card-title">خطوة ١ — اختيار الجهاز</h2>
             <p class="card-hint">
@@ -103,7 +110,7 @@
               <div class="row wrap" style="margin-bottom:8px">
                 <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97...">
                 <button id="btn_generate" type="submit" class="btn-primary">
-                  <span id="btn_text">توليد الترخيص</span>
+                  <span id="btn_text">توليد كود التفعيل</span>
                   <span id="btn_spinner" class="hidden">⏳</span>
                 </button>
               </div>
@@ -134,58 +141,35 @@
                 تحميل آخر إصدار
               </button>
             </div>
-            <p id="latest_status" class="muted" style="margin-top:4px;">جارٍ التحقق من الإصدار الأخير…</p>
+            <p id="latest_status" class="muted" style="margin-top:4px;">
+              جارٍ التحقق من الإصدار الأخير…
+            </p>
           </section>
 
-          <!-- يمين: أكواد التفعيل -->
+          <!-- يمين: الكود القصير فقط -->
           <section class="card secondary">
-            <h2 class="card-title">خطوة ٢ — نسخ كود التفعيل</h2>
+            <h2 class="card-title">خطوة ٢ — نسخ كود التفعيل القصير</h2>
             <p class="card-hint">
-              انسخ الكود القصير والصقه داخل برنامج PCFixUltimate لتفعيل النسخة.
+              انسخ الكود القصير والصقه داخل برنامج PCFixUltimate في نافذة التفعيل.
             </p>
 
-            <div id="result_short" class="hidden">
-              <label for="short">الكود القصير (المفضل داخل البرنامج)</label>
-              <div class="row" style="margin-bottom:4px">
+            <div id="result_short" class="short-display hidden">
+              <span class="muted">الكود القصير المرتبط بهذا الجهاز:</span>
+              <div class="short-code mono" id="short_display">PCFX-XXXX-XXXX</div>
+              <div class="row" style="margin-top:6px;">
                 <input id="short" type="text" readonly>
                 <button type="button" class="btn-primary btn-small" onclick="copyField('short')">
-                  نسخ
+                  نسخ الكود
                 </button>
               </div>
               <p class="muted">
-                يبدأ بـ <span class="mono">PCFX-</span> ويُستخدم مباشرة في نافذة التفعيل داخل البرنامج.
+                يبدأ بـ <span class="mono">PCFX-</span> ويُستخدم مباشرة داخل البرنامج.
               </p>
             </div>
 
-            <details id="advanced_block" class="hidden">
-              <summary><span class="dot"></span>خيارات متقدمة (للدعم الفني)</summary>
-              <div class="advanced-body">
-                <div>
-                  <label for="activation">
-                    Activation code الخام (<span class="mono">licenseId.signature</span>)
-                  </label>
-                  <div class="row" style="margin-bottom:4px">
-                    <input id="activation" type="text" readonly>
-                    <button type="button" class="btn-ghost btn-small" onclick="copyField('activation')">
-                      نسخ
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <label for="token">رمز JWT (تحقق أوفلاين)</label>
-                  <div class="row">
-                    <textarea id="token" rows="4" readonly></textarea>
-                    <button type="button" class="btn-ghost btn-small" onclick="copyField('token')">
-                      نسخ
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </details>
-
             <p id="empty_hint" class="muted">
-              لم يتم إنشاء ترخيص بعد. أدخل
-              <span class="mono">machine hash</span> ثم اضغط «توليد الترخيص».
+              لم يتم إنشاء كود بعد. أدخل
+              <span class="mono">machine hash</span> ثم اضغط «توليد كود التفعيل».
             </p>
 
             <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:6px;">
@@ -195,7 +179,7 @@
         </div>
 
         <p class="muted" style="margin-top:12px;font-size:.72rem;">
-          ملاحظة: الترخيص مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
+          ملاحظة: الكود مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
           <span class="mono">machine hash</span>.
         </p>
       </div>
@@ -220,14 +204,13 @@
       function setLoading(isLoading) {
         $("btn_generate").disabled = isLoading;
         $("btn_spinner").classList.toggle("hidden", !isLoading);
-        $("btn_text").textContent = isLoading ? "جاري التوليد..." : "توليد الترخيص";
+        $("btn_text").textContent = isLoading ? "جاري التوليد..." : "توليد كود التفعيل";
       }
 
       async function generateFor(mh) {
         $("mh").textContent = mh || "—";
         $("empty_hint").classList.add("hidden");
         $("result_short").classList.add("hidden");
-        $("advanced_block").classList.add("hidden");
 
         if (!mh) {
           setStatus("يرجى إدخال machine hash صالح.", "err");
@@ -235,23 +218,25 @@
         }
 
         setLoading(true);
-        setStatus("جاري الاتصال بالخادم وتوليد الترخيص...", "pending");
+        setStatus("جاري الاتصال بالخادم وتوليد الكود...", "pending");
 
         try {
           const res = await fetch(`${API}/generate?mh=${encodeURIComponent(mh)}`);
           const data = await res.json();
           if (!res.ok) throw new Error(data?.error || res.statusText || "Unknown error");
 
-          $("token").value = data.token || "";
-          $("activation").value = data.activation_code || "";
-          $("short").value = data.short_code || "";
+          const shortCode = data.short_code || "";
+          if (!shortCode) {
+            throw new Error("الخادم لم يرجع كود قصير.");
+          }
+
+          $("short").value = shortCode;
+          $("short_display").textContent = shortCode;
 
           $("result_short").classList.remove("hidden");
-          $("advanced_block").classList.remove("hidden");
-          setStatus("تم توليد الترخيص بنجاح ✓", "ok");
+          setStatus("تم توليد كود التفعيل بنجاح ✓", "ok");
         } catch (err) {
           $("result_short").classList.add("hidden");
-          $("advanced_block").classList.add("hidden");
           $("empty_hint").classList.remove("hidden");
           setStatus("خطأ أثناء التوليد: " + (err?.message || err), "err");
         } finally {
@@ -269,7 +254,7 @@
         }
         navigator.clipboard
           .writeText(value)
-          .then(() => setStatus("تم النسخ بنجاح ✓", "ok"))
+          .then(() => setStatus("تم نسخ الكود بنجاح ✓", "ok"))
           .catch((err) => setStatus("تعذّر النسخ: " + (err?.message || err), "err"));
       }
 
@@ -300,10 +285,8 @@
         $("mh_input").value = "";
         $("mh").textContent = "—";
         $("short").value = "";
-        $("activation").value = "";
-        $("token").value = "";
+        $("short_display").textContent = "PCFX-XXXX-XXXX";
         $("result_short").classList.add("hidden");
-        $("advanced_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
         setStatus("جاهز");
       });
