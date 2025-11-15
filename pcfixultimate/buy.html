@@ -2,81 +2,279 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <title>PCFixUltimate — تفعيل وتحميل آخر إصدار</title>
+    <title>PCFixUltimate — شراء وتفعيل النسخة الكاملة</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       :root{
-        --bg:#020617;--card:#020617;--border:#1f2937;
-        --accent:#2563eb;--accent-soft:rgba(37,99,235,.18);
-        --ok:#22c55e;--err:#ef4444;--text:#e5e7eb;--muted:#9ca3af;
+        --bg:#020617;
+        --bg-soft:#020617;
+        --card:#020617;
+        --border:#1f2937;
+        --accent:#2563eb;
+        --accent-soft:rgba(37,99,235,.25);
+        --accent-strong:#1d4ed8;
+        --ok:#22c55e;
+        --err:#ef4444;
+        --text:#e5e7eb;
+        --muted:#9ca3af;
       }
       *{box-sizing:border-box;}
       body{
-        margin:0;background:radial-gradient(circle at top,#111827,#020617);
+        margin:0;
+        min-height:100vh;
+        display:flex;
+        justify-content:center;
+        background:
+          radial-gradient(circle at top,#111827,#020617 55%),
+          linear-gradient(135deg,#020617,#000);
         font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
-        color:var(--text);display:flex;justify-content:center;min-height:100vh;
+        color:var(--text);
       }
-      main{width:100%;max-width:960px;padding:18px 12px 32px;}
+      main{width:100%;max-width:980px;padding:20px 14px 32px;}
       .shell{
-        border-radius:22px;border:1px solid rgba(148,163,184,.4);
-        background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(15,23,42,.99));
-        box-shadow:0 24px 60px rgba(15,23,42,.8);
-        padding:18px 18px 22px;
+        position:relative;
+        border-radius:24px;
+        border:1px solid rgba(148,163,184,.4);
+        background:
+          radial-gradient(circle at top left,rgba(37,99,235,.18),transparent 55%),
+          radial-gradient(circle at bottom right,rgba(16,185,129,.14),transparent 55%),
+          linear-gradient(135deg,rgba(15,23,42,.98),rgba(15,23,42,.99));
+        box-shadow:
+          0 26px 80px rgba(15,23,42,.9),
+          0 0 0 1px rgba(15,23,42,.9) inset;
+        padding:20px 18px 22px;
+        overflow:hidden;
       }
-      header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;}
-      h1{margin:0;font-size:1.3rem;display:flex;align-items:center;gap:8px;}
-      .badge{font-size:.7rem;padding:3px 8px;border-radius:999px;
-        background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.5);color:#bfdbfe;}
-      .subtitle{margin:2px 0 0;font-size:.78rem;color:var(--muted);}
-      .pill{font-size:.72rem;padding:6px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.5);
-        color:var(--muted);display:inline-flex;gap:6px;align-items:center;white-space:nowrap;}
-      .pill-dot{width:7px;height:7px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.25);}
-      .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;}
-      @media(max-width:780px){
-        .grid{grid-template-columns:minmax(0,1fr);}
+      .shell::before{
+        content:"";
+        position:absolute;
+        inset:-40%;
+        background:
+          radial-gradient(circle at 10% 0%,rgba(56,189,248,.1),transparent 55%),
+          radial-gradient(circle at 90% 100%,rgba(59,130,246,.12),transparent 55%);
+        opacity:.7;
+        filter:blur(2px);
+        pointer-events:none;
+        z-index:-1;
+      }
+      header{
+        display:flex;
+        justify-content:space-between;
+        gap:14px;
+        align-items:center;
+        margin-bottom:16px;
+      }
+      .brand{
+        display:flex;
+        align-items:center;
+        gap:10px;
+      }
+      .logo3d{
+        width:42px;height:42px;border-radius:18px;
+        background:
+          radial-gradient(circle at 30% 0%,#38bdf8,transparent 60%),
+          radial-gradient(circle at 80% 90%,#1d4ed8,transparent 40%),
+          linear-gradient(145deg,#0f172a,#020617);
+        box-shadow:
+          0 12px 30px rgba(15,23,42,.95),
+          0 0 0 1px rgba(148,163,184,.5),
+          0 0 25px rgba(59,130,246,.4);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      .logo3d span{
+        font-size:1.1rem;
+        font-weight:700;
+        letter-spacing:.02em;
+      }
+      h1{
+        margin:0;
+        font-size:1.45rem;
+        display:flex;
+        align-items:center;
+        gap:6px;
+      }
+      .badge{
+        font-size:.72rem;
+        padding:3px 9px;
+        border-radius:999px;
+        background:rgba(37,99,235,.12);
+        border:1px solid rgba(37,99,235,.6);
+        color:#bfdbfe;
+      }
+      .subtitle{margin:2px 0 0;font-size:.8rem;color:var(--muted);}
+      .pill{
+        font-size:.72rem;
+        padding:7px 12px;
+        border-radius:999px;
+        border:1px solid rgba(148,163,184,.5);
+        color:var(--muted);
+        display:inline-flex;
+        gap:6px;
+        align-items:center;
+        white-space:nowrap;
+        backdrop-filter:blur(10px);
+        background:rgba(15,23,42,.85);
+      }
+      .pill-dot{
+        width:8px;height:8px;border-radius:999px;
+        background:#22c55e;
+        box-shadow:0 0 0 5px rgba(34,197,94,.25);
+      }
+      .grid{
+        display:grid;
+        grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+        gap:14px;
+      }
+      @media(max-width:820px){
         header{flex-direction:column;align-items:flex-start;}
+        .grid{grid-template-columns:minmax(0,1fr);}
       }
-      .card{border-radius:18px;border:1px solid var(--border);background:radial-gradient(circle at top right,var(--accent-soft),#020617);padding:12px 14px 14px;}
-      .card.secondary{background:radial-gradient(circle at top,rgba(15,23,42,.94),#020617);}
-      .card-title{margin:0;font-size:.9rem;}
-      .card-hint{margin:2px 0 6px;font-size:.76rem;color:var(--muted);}
+      .card{
+        border-radius:18px;
+        border:1px solid var(--border);
+        background:radial-gradient(circle at top right,var(--accent-soft),rgba(15,23,42,.98));
+        padding:13px 15px 15px;
+      }
+      .card.secondary{
+        background:
+          radial-gradient(circle at top,rgba(37,99,235,.18),transparent 55%),
+          radial-gradient(circle at bottom,rgba(15,23,42,.98),#020617);
+      }
+      .card-title{margin:0;font-size:.95rem;}
+      .card-hint{margin:3px 0 7px;font-size:.78rem;color:var(--muted);}
       label{font-size:.78rem;display:block;margin-bottom:4px;}
       input[type="text"]{
-        width:100%;padding:9px 11px;border-radius:10px;border:1px solid #1f2937;
-        background:rgba(15,23,42,.96);color:var(--text);font-size:.82rem;direction:ltr;
-        font-family:ui-monospace,Menlo,Consolas,monospace;outline:none;
+        width:100%;
+        padding:9px 11px;
+        border-radius:11px;
+        border:1px solid #1f2937;
+        background:rgba(15,23,42,.96);
+        color:var(--text);
+        font-size:.82rem;
+        direction:ltr;
+        font-family:ui-monospace,Menlo,Consolas,monospace;
+        outline:none;
       }
       input::placeholder{color:#6b7280;}
-      input:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(59,130,246,.5);}
+      input:focus{
+        border-color:var(--accent);
+        box-shadow:0 0 0 1px rgba(59,130,246,.5);
+      }
+      .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+      .muted{color:var(--muted);font-size:.74rem;}
       .row{display:flex;gap:8px;align-items:center;}
       .row.wrap{flex-wrap:wrap;}
       button{
-        border-radius:999px;padding:8px 14px;font-size:.8rem;border:0;cursor:pointer;
-        font-weight:600;display:inline-flex;align-items:center;gap:6px;
+        border-radius:999px;
+        padding:9px 15px;
+        font-size:.8rem;
+        border:0;
+        cursor:pointer;
+        font-weight:600;
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        transition:.16s transform ease,.16s box-shadow ease,.16s background ease,.16s opacity ease;
       }
-      .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#eff6ff;}
-      .btn-ghost{background:transparent;border:1px solid rgba(148,163,184,.6);color:var(--muted);}
-      .btn-small{padding:7px 10px;font-size:.76rem;}
-      .btn-primary:disabled{opacity:.6;cursor:default;}
-      .muted{color:var(--muted);font-size:.74rem;}
-      .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
-      .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;
-        border:1px dashed rgba(148,163,184,.7);background:rgba(15,23,42,.9);font-size:.72rem;}
-      .status{margin-top:5px;font-size:.78rem;}
-      .status-ok{color:var(--ok);} .status-err{color:var(--err);} .status-pending{color:#eab308;}
-      .hidden{display:none;}
-      .download-card{margin-top:14px;padding-top:10px;border-top:1px dashed #1f2937;
-        display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;}
+      .btn-primary{
+        background:linear-gradient(145deg,var(--accent),var(--accent-strong));
+        color:#eff6ff;
+        box-shadow:0 10px 35px rgba(37,99,235,.45);
+      }
+      .btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 40px rgba(37,99,235,.6);}
+      .btn-primary:active{transform:translateY(0);box-shadow:0 8px 25px rgba(37,99,235,.4);}
+      .btn-ghost{
+        background:transparent;
+        border:1px solid rgba(148,163,184,.6);
+        color:var(--muted);
+      }
+      .btn-small{padding:7px 11px;font-size:.76rem;}
+      .btn-primary:disabled,
+      .btn-ghost:disabled{opacity:.6;cursor:default;box-shadow:none;transform:none;}
+      .status{
+        margin-top:6px;
+        font-size:.78rem;
+        display:flex;
+        align-items:center;
+        gap:6px;
+      }
+      .status-dot{
+        width:7px;height:7px;border-radius:999px;background:var(--muted);
+      }
+      .status-ok{color:var(--ok);}
+      .status-ok .status-dot{background:var(--ok);}
+      .status-err{color:var(--err);}
+      .status-err .status-dot{background:var(--err);}
+      .status-pending{color:#eab308;}
+      .status-pending .status-dot{background:#eab308;}
+      .chip{
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        padding:4px 9px;
+        border-radius:999px;
+        border:1px dashed rgba(148,163,184,.7);
+        background:rgba(15,23,42,.9);
+        font-size:.72rem;
+        margin-top:4px;
+      }
+      .download-card{
+        margin-top:14px;
+        padding-top:10px;
+        border-top:1px dashed #1f2937;
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        align-items:center;
+        justify-content:space-between;
+      }
       .download-meta{font-size:.76rem;color:var(--muted);}
-      .tag{font-size:.7rem;padding:3px 7px;border-radius:999px;border:1px solid rgba(148,163,184,.5);color:var(--muted);}
-      .short-display{
-        margin-top:10px;padding:10px 12px;border-radius:14px;
-        border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.9);
-        display:flex;flex-direction:column;gap:6px;
+      .tag{
+        font-size:.7rem;
+        padding:3px 7px;
+        border-radius:999px;
+        border:1px solid rgba(148,163,184,.5);
+        color:var(--muted);
+      }
+      .hidden{display:none;}
+      .short-box{
+        margin-top:10px;
+        padding:10px 11px;
+        border-radius:13px;
+        border:1px solid rgba(34,197,94,.2);
+        background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(15,23,42,.98));
       }
       .short-code{
-        font-size:1rem;font-weight:600;letter-spacing:.08em;
-        text-align:center;direction:ltr;
+        font-size:.9rem;
+        font-weight:600;
+        letter-spacing:.05em;
+      }
+      .steps{
+        margin-top:10px;
+        padding-top:8px;
+        border-top:1px dashed #1f2937;
+        font-size:.73rem;
+        color:var(--muted);
+      }
+      .steps ol{margin:4px 0 0;padding-right:16px;}
+      .steps li{margin:2px 0;}
+      .label-pill{
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:.7rem;
+        border-radius:999px;
+        padding:2px 7px;
+        border:1px solid rgba(148,163,184,.3);
+        background:rgba(15,23,42,.85);
+      }
+      .label-pill span:first-child{
+        width:14px;height:14px;border-radius:50%;
+        background:linear-gradient(135deg,#22c55e,#16a34a);
+        display:flex;align-items:center;justify-content:center;
+        font-size:.7rem;
       }
     </style>
   </head>
@@ -84,33 +282,36 @@
     <main>
       <div class="shell">
         <header>
-          <div>
-            <h1>PCFixUltimate <span class="badge">تفعيل + تحميل</span></h1>
-            <p class="subtitle">
-              توليد كود التفعيل القصير المرتبط بجهازك، مع رابط تحميل آخر إصدار من البرنامج.
-            </p>
+          <div class="brand">
+            <div class="logo3d"><span>PF</span></div>
+            <div>
+              <h1>PCFixUltimate <span class="badge">ترخيص مدى الحياة</span></h1>
+              <p class="subtitle">
+                قم بشراء تفعيل أصلي لجهاز واحد، مع رابط تحميل أحدث إصدار متوفر.
+              </p>
+            </div>
           </div>
           <div class="pill">
             <span class="pill-dot"></span>
-            <span>الاتصال آمن وموقَّع رقمياً</span>
+            <span>دفع آمن عبر Stripe + ترخيص موقَّع رقمياً</span>
           </div>
         </header>
 
         <div class="grid">
-          <!-- يسار: machine hash + التحديث -->
+          <!-- يسار: إدخال machine hash وبدء الدفع -->
           <section class="card">
-            <h2 class="card-title">خطوة ١ — اختيار الجهاز</h2>
+            <h2 class="card-title">الخطوة ١ — إدخال بصمة الجهاز</h2>
             <p class="card-hint">
-              افتح هذه الصفحة من داخل البرنامج (يفضَّل)، أو الصق الـ
-              <span class="mono">machine hash</span> يدويًا.
+              افتح هذه الصفحة من داخل البرنامج (يفضَّل)، أو الصق
+              <span class="mono">machine hash</span> يدوياً.
             </p>
 
             <form id="form" autocomplete="off">
               <label for="mh_input">بصمة الجهاز (machine hash)</label>
               <div class="row wrap" style="margin-bottom:8px">
-                <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97...">
-                <button id="btn_generate" type="submit" class="btn-primary">
-                  <span id="btn_text">توليد كود التفعيل</span>
+                <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97..." />
+                <button id="btn_checkout" type="submit" class="btn-primary">
+                  <span id="btn_text">إتمام الدفع الآمن</span>
                   <span id="btn_spinner" class="hidden">⏳</span>
                 </button>
               </div>
@@ -124,7 +325,10 @@
                   <span>Machine hash:</span>
                   <span id="mh" class="mono">—</span>
                 </div>
-                <div id="status" class="status muted">جاهز</div>
+                <div id="status" class="status">
+                  <span class="status-dot"></span>
+                  <span>جاهز لبدء عملية الدفع.</span>
+                </div>
               </div>
             </form>
 
@@ -146,47 +350,67 @@
             </p>
           </section>
 
-          <!-- يمين: الكود القصير فقط -->
+          <!-- يمين: الكود بعد الدفع -->
           <section class="card secondary">
-            <h2 class="card-title">خطوة ٢ — نسخ كود التفعيل القصير</h2>
+            <h2 class="card-title">الخطوة ٢ — استلام كود التفعيل</h2>
             <p class="card-hint">
-              انسخ الكود القصير والصقه داخل برنامج PCFixUltimate في نافذة التفعيل.
+              بعد إكمال الدفع بنجاح، سيتم إنشاء كود قصير لجهازك فقط.
             </p>
 
-            <div id="result_short" class="short-display hidden">
-              <span class="muted">الكود القصير المرتبط بهذا الجهاز:</span>
-              <div class="short-code mono" id="short_display">PCFX-XXXX-XXXX</div>
-              <div class="row" style="margin-top:6px;">
-                <input id="short" type="text" readonly>
-                <button type="button" class="btn-primary btn-small" onclick="copyField('short')">
-                  نسخ الكود
-                </button>
+            <div id="license_block" class="hidden">
+              <div class="short-box">
+                <div class="label-pill">
+                  <span>✓</span>
+                  <span>تم إنشاء الترخيص بنجاح</span>
+                </div>
+                <div style="margin-top:6px;">
+                  <div style="font-size:.78rem;color:var(--muted);margin-bottom:3px;">
+                    الكود القصير لجهازك:
+                  </div>
+                  <div class="row">
+                    <span id="short_code" class="short-code mono">PCFX-XXXXXXXX</span>
+                    <button type="button" id="btn_copy" class="btn-primary btn-small">
+                      نسخ الكود
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p class="muted">
-                يبدأ بـ <span class="mono">PCFX-</span> ويُستخدم مباشرة داخل البرنامج.
-              </p>
+
+              <div class="steps">
+                <div>طريقة الاستخدام داخل البرنامج:</div>
+                <ol>
+                  <li>افتح PCFixUltimate واختر <strong>Activate program</strong>.</li>
+                  <li>الصق الكود القصير في خانة التفعيل.</li>
+                  <li>اضغط تفعيل، وستظهر رسالة <strong>Activated successfully</strong> إذا كان كل شيء صحيح.</li>
+                </ol>
+              </div>
             </div>
 
             <p id="empty_hint" class="muted">
-              لم يتم إنشاء كود بعد. أدخل
-              <span class="mono">machine hash</span> ثم اضغط «توليد كود التفعيل».
+              لم يتم إنشاء ترخيص بعد. أدخل
+              <span class="mono">machine hash</span> ثم اضغط «إتمام الدفع الآمن». بعد العودة من Stripe سيتم عرض كود التفعيل هنا.
             </p>
 
-            <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:6px;">
+            <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:8px;">
               مسح القيم
             </button>
           </section>
         </div>
 
         <p class="muted" style="margin-top:12px;font-size:.72rem;">
-          ملاحظة: الكود مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
-          <span class="mono">machine hash</span>.
+          ملاحظة: الترخيص مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
+          <span class="mono">machine hash</span>. في حال واجهت مشكلة بالدفع أو التفعيل يمكنك التواصل
+          مع الدعم مرفقاً بصورة من هذه الصفحة.
         </p>
       </div>
     </main>
 
     <script>
-      const API = "https://pcfix-license-api.pcfixultimate.workers.dev";
+      // عدّل هذه الروابط حسب الـ Worker / الـ Backend عندك
+      const CREATE_CHECKOUT_ENDPOINT =
+        "https://pcfix-license-api.pcfixultimate.workers.dev/create-checkout";
+      const CLAIM_ENDPOINT =
+        "https://pcfix-license-api.pcfixultimate.workers.dev/claim-license";
       const LATEST_URL =
         "https://raw.githubusercontent.com/ameero197-dotcom/ameero197-dotcom.github.io/main/pcfixultimate/latest.json";
 
@@ -194,23 +418,26 @@
 
       function setStatus(text, mode = "info") {
         const el = $("status");
-        el.textContent = text;
+        const dot = el.querySelector(".status-dot");
         el.classList.remove("status-ok", "status-err", "status-pending");
-        if (mode === "ok") el.classList.add("status-ok");
-        else if (mode === "err") el.classList.add("status-err");
-        else if (mode === "pending") el.classList.add("status-pending");
+        el.classList.add(
+          mode === "ok" ? "status-ok" :
+          mode === "err" ? "status-err" :
+          mode === "pending" ? "status-pending" : ""
+        );
+        el.lastChild.textContent = " " + text;
       }
 
       function setLoading(isLoading) {
-        $("btn_generate").disabled = isLoading;
+        $("btn_checkout").disabled = isLoading;
         $("btn_spinner").classList.toggle("hidden", !isLoading);
-        $("btn_text").textContent = isLoading ? "جاري التوليد..." : "توليد كود التفعيل";
+        $("btn_text").textContent = isLoading ? "جاري تحويلك إلى صفحة الدفع..." : "إتمام الدفع الآمن";
       }
 
-      async function generateFor(mh) {
+      async function startCheckout(mh) {
         $("mh").textContent = mh || "—";
-        $("empty_hint").classList.add("hidden");
-        $("result_short").classList.add("hidden");
+        $("license_block").classList.add("hidden");
+        $("empty_hint").classList.remove("hidden");
 
         if (!mh) {
           setStatus("يرجى إدخال machine hash صالح.", "err");
@@ -218,44 +445,57 @@
         }
 
         setLoading(true);
-        setStatus("جاري الاتصال بالخادم وتوليد الكود...", "pending");
+        setStatus("جاري تجهيز صفحة الدفع الآمن عبر Stripe…", "pending");
 
         try {
-          const res = await fetch(`${API}/generate?mh=${encodeURIComponent(mh)}`);
+          const res = await fetch(CREATE_CHECKOUT_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ machine_hash: mh })
+          });
           const data = await res.json();
-          if (!res.ok) throw new Error(data?.error || res.statusText || "Unknown error");
-
-          const shortCode = data.short_code || "";
-          if (!shortCode) {
-            throw new Error("الخادم لم يرجع كود قصير.");
+          if (!res.ok || !data.url) {
+            throw new Error(data?.error || "تعذر إنشاء جلسة الدفع.");
           }
-
-          $("short").value = shortCode;
-          $("short_display").textContent = shortCode;
-
-          $("result_short").classList.remove("hidden");
-          setStatus("تم توليد كود التفعيل بنجاح ✓", "ok");
+          // افتح صفحة الدفع في نفس النافذة
+          window.location.href = data.url;
         } catch (err) {
-          $("result_short").classList.add("hidden");
-          $("empty_hint").classList.remove("hidden");
-          setStatus("خطأ أثناء التوليد: " + (err?.message || err), "err");
+          console.error(err);
+          setStatus("خطأ أثناء بدء عملية الدفع: " + (err?.message || err), "err");
         } finally {
           setLoading(false);
         }
       }
 
-      function copyField(id) {
-        const el = $(id);
-        if (!el) return;
-        const value = el.value || "";
-        if (!value) {
-          setStatus("لا يوجد نص لنسخه.", "err");
-          return;
+      async function tryClaimLicense(sessionId, mhFromUrl) {
+        if (!sessionId) return;
+
+        setStatus("جاري التحقق من الدفع وإنشاء الترخيص…", "pending");
+
+        try {
+          const url = new URL(CLAIM_ENDPOINT);
+          url.searchParams.set("session_id", sessionId);
+          if (mhFromUrl) url.searchParams.set("mh", mhFromUrl);
+
+          const res = await fetch(url.toString(), { cache: "no-store" });
+          const data = await res.json();
+          if (!res.ok || !data.short_code) {
+            throw new Error(data?.error || "تعذر استلام الترخيص. يرجى التواصل مع الدعم.");
+          }
+
+          $("empty_hint").classList.add("hidden");
+          $("license_block").classList.remove("hidden");
+          $("short_code").textContent = data.short_code;
+          $("mh").textContent = data.machine_hash || mhFromUrl || "—";
+          if (!$("mh_input").value && data.machine_hash) {
+            $("mh_input").value = data.machine_hash;
+          }
+
+          setStatus("تم تأكيد الدفع وإنشاء الترخيص بنجاح ✓", "ok");
+        } catch (err) {
+          console.error(err);
+          setStatus("تمت عملية الدفع لكن تعذر استلام الترخيص: " + (err?.message || err), "err");
         }
-        navigator.clipboard
-          .writeText(value)
-          .then(() => setStatus("تم نسخ الكود بنجاح ✓", "ok"))
-          .catch((err) => setStatus("تعذّر النسخ: " + (err?.message || err), "err"));
       }
 
       async function loadLatest() {
@@ -276,6 +516,7 @@
           btn.onclick = () => { if (url && url !== "#") window.open(url, "_blank"); };
           vs.textContent = "تم جلب معلومات آخر إصدار بنجاح.";
         } catch (err) {
+          console.error(err);
           vs.textContent = "تعذّر جلب معلومات آخر إصدار: " + (err?.message || err);
           $("btn_download").disabled = true;
         }
@@ -284,25 +525,45 @@
       $("btn_clear").addEventListener("click", () => {
         $("mh_input").value = "";
         $("mh").textContent = "—";
-        $("short").value = "";
-        $("short_display").textContent = "PCFX-XXXX-XXXX";
-        $("result_short").classList.add("hidden");
+        $("license_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
-        setStatus("جاهز");
+        setStatus("جاهز لبدء عملية الدفع.", "info");
+      });
+
+      $("btn_copy").addEventListener("click", () => {
+        const code = $("short_code").textContent || "";
+        if (!code) {
+          setStatus("لا يوجد كود لنسخه حالياً.", "err");
+          return;
+        }
+        navigator.clipboard
+          .writeText(code)
+          .then(() => setStatus("تم نسخ الكود القصير بنجاح ✓", "ok"))
+          .catch((err) => setStatus("تعذّر النسخ: " + (err?.message || err), "err"));
       });
 
       document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(location.search);
         const mh = params.get("mh") || params.get("machine_hash") || "";
+        const sessionId = params.get("session_id") || params.get("stripe_session") || "";
+
         if (mh) {
           $("mh_input").value = mh;
-          generateFor(mh);
+          $("mh").textContent = mh;
         }
+
+        // إذا رجع المستخدم من Stripe مع session_id نحاول استلام الترخيص
+        if (sessionId) {
+          tryClaimLicense(sessionId, mh);
+        }
+
         $("form").addEventListener("submit", (e) => {
           e.preventDefault();
           const input = $("mh_input").value.trim();
-          generateFor(input);
+          $("mh").textContent = input || "—";
+          startCheckout(input);
         });
+
         loadLatest();
       });
     </script>
