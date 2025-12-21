@@ -5,438 +5,515 @@
     <title>PCFixUltimate — شراء وتفعيل النسخة الكاملة</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- PayPal JS SDK (Buttons) - LIVE -->
+    <!-- PayPal JS SDK (LIVE) -->
     <script
       src="https://www.paypal.com/sdk/js?client-id=AfihjAXTyDN5TqjgromFKBgDJb13HTB4SqlvZ9JusszBMBLCUxVJKBA8jz-ThHzl5Lhslp4rEvv-_Enc&currency=USD&intent=capture&components=buttons"
-      data-sdk-integration-source="button-factory">
-    </script>
+      data-sdk-integration-source="button-factory"></script>
 
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
 
       :root{
-        --bg-dark:#070a14;
-        --bg-mid:#0c1020;
-        --card:#0f172a;
-        --card2:#0b1224;
-        --border:rgba(148,163,184,.14);
-        --border2:rgba(148,163,184,.22);
+        --bg0:#05070d;
+        --bg1:#0a0e1a;
+        --card: rgba(17, 24, 39, 0.62);
+        --card2: rgba(15, 23, 42, 0.55);
+        --border: rgba(148, 163, 184, 0.16);
+        --border2: rgba(148, 163, 184, 0.10);
 
         --accent:#3b82f6;
-        --accent2:#06b6d4;
-        --accent3:#a855f7;
+        --accent2:#60a5fa;
+        --accent3:#2563eb;
 
-        --ok:#10b981;
-        --err:#ef4444;
-        --warn:#f59e0b;
+        --success:#10b981;
+        --error:#ef4444;
+        --warning:#f59e0b;
 
         --text:#f8fafc;
         --muted:#94a3b8;
         --dim:#64748b;
 
-        --shadow:0 30px 110px rgba(0,0,0,.65);
+        --glowB: rgba(59,130,246,0.35);
+        --glowC: rgba(6,182,212,0.25);
+        --glowP: rgba(168,85,247,0.22);
       }
 
       *{ box-sizing:border-box; margin:0; padding:0; }
       body{
-        font-family:"Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif;
-        color:var(--text);
+        font-family: "Tajawal", system-ui, -apple-system, sans-serif;
+        background: var(--bg0);
+        color: var(--text);
         min-height:100vh;
-        background: #000;
         overflow-x:hidden;
       }
 
-      /* background */
       .bg{
-        position:fixed; inset:0;
+        position:fixed; inset:0; z-index:0;
         background:
-          radial-gradient(800px 600px at 15% -10%, rgba(59,130,246,.22), transparent 60%),
-          radial-gradient(700px 520px at 90% 110%, rgba(168,85,247,.18), transparent 60%),
-          radial-gradient(600px 520px at 50% 50%, rgba(6,182,212,.10), transparent 65%),
-          linear-gradient(135deg, var(--bg-mid), #000 55%, #000);
-        z-index:0;
+          radial-gradient(1000px 600px at 15% -10%, rgba(59,130,246,0.18), transparent 60%),
+          radial-gradient(900px 700px at 85% 110%, rgba(168,85,247,0.14), transparent 60%),
+          radial-gradient(800px 500px at 50% 40%, rgba(6,182,212,0.10), transparent 65%),
+          linear-gradient(135deg, var(--bg1), #000 80%);
       }
       .bg::before{
         content:"";
-        position:absolute; width:900px; height:900px; border-radius:50%;
-        right:-300px; top:-450px;
-        background: radial-gradient(circle, rgba(59,130,246,.35), transparent 60%);
-        filter: blur(10px);
-        opacity:.25;
+        position:absolute;
+        width:900px; height:900px;
+        right:-260px; top:-420px;
+        border-radius:50%;
+        background: radial-gradient(circle, var(--glowB), transparent 70%);
+        filter: blur(2px);
+        opacity: .35;
         animation: float1 18s ease-in-out infinite;
       }
       .bg::after{
         content:"";
-        position:absolute; width:780px; height:780px; border-radius:50%;
-        left:-260px; bottom:-420px;
-        background: radial-gradient(circle, rgba(168,85,247,.32), transparent 62%);
-        filter: blur(12px);
-        opacity:.22;
-        animation: float2 22s ease-in-out infinite;
+        position:absolute;
+        width:720px; height:720px;
+        left:-220px; bottom:-420px;
+        border-radius:50%;
+        background: radial-gradient(circle, var(--glowP), transparent 70%);
+        opacity: .30;
+        animation: float2 24s ease-in-out infinite;
       }
-      @keyframes float1{
-        0%,100%{ transform: translate(0,0) scale(1); }
-        50%{ transform: translate(-90px, 80px) scale(1.08); }
-      }
-      @keyframes float2{
-        0%,100%{ transform: translate(0,0) scale(1); }
-        50%{ transform: translate(110px, -70px) scale(1.10); }
-      }
+      @keyframes float1{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-80px,80px) scale(1.08);} }
+      @keyframes float2{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(90px,-70px) scale(1.10);} }
 
       main{
-        position:relative;
-        z-index:1;
-        max-width:1240px;
-        margin:0 auto;
-        padding:38px 18px 60px;
+        position:relative; z-index:1;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 42px 18px 64px;
       }
 
+      /* Header */
       header{
         text-align:center;
-        margin-bottom:36px;
+        margin-bottom: 26px;
+        animation: fadeDown .7s ease-out both;
       }
-      .logoWrap{ display:inline-flex; align-items:center; justify-content:center; margin-bottom:14px; }
+      @keyframes fadeDown{ from{opacity:0; transform:translateY(-18px);} to{opacity:1; transform:translateY(0);} }
+
+      .logoWrap{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        margin-bottom: 16px;
+      }
       .logo{
-        width:88px; height:88px; border-radius:26px;
-        background: linear-gradient(145deg, rgba(30,41,59,.9), rgba(2,6,23,.9));
-        border:1px solid rgba(148,163,184,.18);
-        box-shadow: 0 18px 60px rgba(0,0,0,.75), 0 0 70px rgba(59,130,246,.18);
+        width:92px; height:92px;
+        border-radius:26px;
+        background: linear-gradient(145deg, #1f2937, #0b1222);
         display:flex; align-items:center; justify-content:center;
+        box-shadow:
+          0 22px 70px rgba(0,0,0,0.8),
+          0 0 0 1px rgba(255,255,255,0.06) inset,
+          0 0 80px rgba(59,130,246,0.22);
         position:relative;
         transform-style:preserve-3d;
-        animation: logoFloat 3.4s ease-in-out infinite;
+        animation: logoFloat 3s ease-in-out infinite;
       }
+      @keyframes logoFloat{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
       .logo::before{
         content:"";
         position:absolute; inset:-3px;
-        border-radius:28px;
-        background: linear-gradient(45deg, rgba(59,130,246,.65), rgba(6,182,212,.55), rgba(168,85,247,.55));
-        filter: blur(18px);
+        border-radius:30px;
+        background: linear-gradient(45deg, var(--accent), #06b6d4, #a855f7);
         opacity:.55;
+        filter: blur(18px);
         z-index:-1;
-        animation: spin 9s linear infinite;
+        animation: spin 8s linear infinite;
       }
-      @keyframes spin{ to{ transform: rotate(360deg); } }
-      @keyframes logoFloat{
-        0%,100%{ transform: translateY(0) rotateX(0) rotateY(0); }
-        50%{ transform: translateY(-10px) rotateX(5deg) rotateY(4deg); }
-      }
+      @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
       .logo span{
-        font-weight:900;
-        font-size:2.1rem;
-        background: linear-gradient(135deg, #93c5fd, #22d3ee);
+        font-weight: 900;
+        font-size: 2.3rem;
+        background: linear-gradient(135deg, var(--accent2), #06b6d4);
         -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
+        background-clip:text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 18px rgba(96,165,250,0.30));
       }
 
       h1{
-        font-size:2.6rem;
-        font-weight:900;
-        letter-spacing:.2px;
+        font-size: 2.55rem;
+        font-weight: 900;
+        letter-spacing: .2px;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, var(--text), var(--muted));
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color: transparent;
       }
       .sub{
-        margin-top:10px;
-        color:var(--muted);
-        font-size:1.06rem;
-        line-height:1.7;
-        max-width:680px;
-        margin-left:auto; margin-right:auto;
-      }
-      .badge{
-        display:inline-flex;
-        align-items:center;
-        gap:10px;
-        margin-top:16px;
-        padding:10px 18px;
-        border-radius:999px;
-        background: rgba(16,185,129,.08);
-        border:1px solid rgba(16,185,129,.28);
-        color: var(--ok);
-        backdrop-filter: blur(10px);
-        font-weight:700;
-        font-size:.92rem;
-      }
-      .dot{
-        width:9px; height:9px; border-radius:50%;
-        background: var(--ok);
-        box-shadow: 0 0 12px rgba(16,185,129,.55);
-        animation:pulse 1.8s ease-in-out infinite;
-      }
-      @keyframes pulse{
-        0%,100%{ transform:scale(1); opacity:1; }
-        50%{ transform:scale(1.22); opacity:.7; }
+        max-width: 860px;
+        margin: 0 auto 14px;
+        line-height: 1.75;
+        color: var(--muted);
+        font-size: 1.05rem;
       }
 
+      .pills{
+        display:flex;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-top: 10px;
+      }
+      .pill{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(15,23,42,0.55);
+        border: 1px solid var(--border2);
+        color: var(--muted);
+        backdrop-filter: blur(10px);
+        font-size: .92rem;
+      }
+      .pill.sec{
+        background: rgba(16,185,129,0.10);
+        border-color: rgba(16,185,129,0.22);
+        color: var(--success);
+      }
+      .dot{
+        width:8px; height:8px; border-radius:50%;
+        background: var(--success);
+        box-shadow: 0 0 10px rgba(16,185,129,0.8);
+      }
+
+      /* Grid */
       .grid{
         display:grid;
-        grid-template-columns: 1.15fr .85fr;
-        gap:22px;
-        align-items:start;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+        margin-top: 18px;
+        animation: fadeUp .9s ease-out .12s both;
       }
-      @media(max-width:1060px){
+      @keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+      @media (max-width: 1050px){
         .grid{ grid-template-columns: 1fr; }
       }
 
       .card{
-        border-radius:28px;
-        border:1px solid var(--border);
-        background:
-          radial-gradient(900px 300px at 15% 0%, rgba(59,130,246,.18), transparent 55%),
-          radial-gradient(700px 260px at 100% 100%, rgba(6,182,212,.10), transparent 55%),
-          linear-gradient(135deg, rgba(15,23,42,.88), rgba(2,6,23,.88));
-        box-shadow: var(--shadow);
-        padding:28px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        padding: 24px;
+        box-shadow:
+          0 28px 100px rgba(0,0,0,0.55),
+          0 0 0 1px rgba(255,255,255,0.03) inset;
         position:relative;
         overflow:hidden;
+        backdrop-filter: blur(18px);
       }
-      .card.secondary{
-        background:
-          radial-gradient(900px 320px at 75% 0%, rgba(168,85,247,.16), transparent 55%),
-          linear-gradient(135deg, rgba(11,18,36,.9), rgba(2,6,23,.9));
+      .card::before{
+        content:"";
+        position:absolute;
+        top:0; left:0; right:0;
+        height:1px;
+        background: linear-gradient(90deg, transparent, rgba(96,165,250,0.45), transparent);
       }
-      .cardTop{
+
+      .cardHead{
         display:flex;
         align-items:center;
-        gap:14px;
-        margin-bottom:16px;
+        gap:12px;
+        margin-bottom: 12px;
       }
       .step{
-        width:46px; height:46px;
-        border-radius:16px;
+        width:44px; height:44px;
+        border-radius: 14px;
         display:flex; align-items:center; justify-content:center;
-        background: linear-gradient(135deg, rgba(59,130,246,1), rgba(37,99,235,1));
-        box-shadow: 0 14px 40px rgba(59,130,246,.33);
-        font-weight:900;
-        font-size:1.35rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color:#fff;
+        font-weight: 900;
+        font-size: 1.2rem;
+        box-shadow: 0 14px 40px rgba(59,130,246,0.25);
       }
       .title{
-        font-weight:800;
-        font-size:1.45rem;
+        font-size: 1.35rem;
+        font-weight: 900;
       }
       .hint{
-        color:var(--muted);
-        line-height:1.7;
-        margin-bottom:18px;
+        color: var(--muted);
+        font-size: .95rem;
+        line-height: 1.75;
+        margin-bottom: 14px;
       }
-      .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 
       label{
         display:block;
-        color:var(--muted);
-        font-weight:700;
-        font-size:.92rem;
-        margin:10px 0 8px;
+        color: var(--muted);
+        font-weight: 800;
+        margin-bottom: 8px;
+        font-size: .92rem;
       }
       .row{
         display:flex;
-        gap:12px;
+        gap: 10px;
         flex-wrap:wrap;
+        align-items:stretch;
       }
       input[type="text"], input[type="email"]{
         flex:1;
-        min-width:260px;
-        padding:14px 16px;
-        border-radius:14px;
-        border:2px solid rgba(148,163,184,.18);
-        background: rgba(2,6,23,.55);
-        color:var(--text);
-        font-size:.98rem;
+        min-width: 260px;
+        padding: 13px 14px;
+        border-radius: 14px;
+        border: 2px solid rgba(148,163,184,0.16);
+        background: rgba(2,6,23,0.35);
+        color: var(--text);
+        font-size: .95rem;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
         direction:ltr;
-        transition:.22s ease;
-      }
-      input[type="email"]{ direction:ltr; }
-      input:focus{
         outline:none;
-        border-color: rgba(59,130,246,.75);
-        box-shadow: 0 0 0 5px rgba(59,130,246,.12), 0 0 35px rgba(59,130,246,.18);
-        background: rgba(2,6,23,.75);
+        transition: .18s ease;
       }
       input::placeholder{ color: var(--dim); }
+      input:focus{
+        border-color: rgba(59,130,246,0.65);
+        box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
+        background: rgba(2,6,23,0.48);
+      }
 
-      button{
-        border:0;
+      button, a.btn{
+        border:none;
+        border-radius: 14px;
+        padding: 13px 18px;
+        font-weight: 900;
+        font-size: .95rem;
         cursor:pointer;
-        font-family:"Tajawal",sans-serif;
-        font-weight:900;
-        border-radius:14px;
-        padding:14px 18px;
         display:inline-flex;
         align-items:center;
         justify-content:center;
-        gap:10px;
-        transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, background .16s ease;
-        user-select:none;
+        gap:8px;
+        transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease, background .15s ease;
+        font-family: "Tajawal", system-ui, -apple-system, sans-serif;
+        text-decoration:none;
+        white-space:nowrap;
       }
-      button:disabled{ opacity:.55; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
-
       .btnPrimary{
-        background: linear-gradient(135deg, rgba(59,130,246,1), rgba(37,99,235,1));
+        background: linear-gradient(135deg, var(--accent), var(--accent3));
         color:#fff;
-        box-shadow: 0 14px 40px rgba(59,130,246,.34);
+        box-shadow: 0 14px 42px rgba(59,130,246,0.23);
       }
-      .btnPrimary:hover{ transform: translateY(-2px); box-shadow: 0 18px 55px rgba(59,130,246,.52); }
+      .btnPrimary:hover{ transform: translateY(-2px); box-shadow: 0 18px 55px rgba(59,130,246,0.35); }
       .btnGhost{
-        background: rgba(148,163,184,.08);
+        background: rgba(148,163,184,0.10);
+        border: 1px solid rgba(148,163,184,0.18);
         color: var(--muted);
-        border:1px solid rgba(148,163,184,.22);
-        font-weight:800;
       }
-      .btnGhost:hover{ background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.35); }
+      .btnGhost:hover{ background: rgba(148,163,184,0.16); }
+      .btnSuccess{
+        background: linear-gradient(135deg, rgba(16,185,129,1), rgba(6,182,212,0.95));
+        color:#041014;
+        box-shadow: 0 16px 48px rgba(16,185,129,0.16);
+      }
+      .btnSuccess:hover{ transform: translateY(-2px); box-shadow: 0 20px 60px rgba(16,185,129,0.22); }
+      .btnSmall{ padding: 10px 14px; border-radius: 12px; font-size: .9rem; }
+
+      button:disabled, a.btn[aria-disabled="true"]{
+        opacity: .55;
+        cursor:not-allowed;
+        transform:none !important;
+        box-shadow:none !important;
+      }
 
       .priceBox{
-        margin-top:18px;
-        border-radius:20px;
-        border:1px solid rgba(59,130,246,.22);
-        background: linear-gradient(135deg, rgba(59,130,246,.10), rgba(168,85,247,.06));
-        padding:18px 18px;
+        margin-top: 14px;
+        padding: 16px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(59,130,246,0.22);
+        background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(168,85,247,0.06));
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:14px;
+        gap:12px;
         flex-wrap:wrap;
       }
-      .priceText .lbl{ color:var(--muted); font-size:.92rem; font-weight:700; }
-      .priceText .amt{
-        font-size:2.1rem;
-        font-weight:900;
-        background: linear-gradient(135deg, #93c5fd, #22d3ee);
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
+      .price{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
       }
-      .hashChip{
+      .price .big{
+        font-size: 2.2rem;
+        font-weight: 900;
+        line-height:1;
+        background: linear-gradient(135deg, var(--accent2), #06b6d4);
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color: transparent;
+      }
+      .price .small{ color: var(--dim); font-size: .92rem; }
+
+      .mhChip{
         display:flex;
         align-items:center;
         gap:10px;
-        padding:10px 14px;
-        border-radius:14px;
-        border:1px dashed rgba(148,163,184,.22);
-        background: rgba(2,6,23,.35);
-        color:var(--muted);
-        font-size:.88rem;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px dashed rgba(148,163,184,0.25);
+        background: rgba(2,6,23,0.22);
+        color: var(--muted);
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: .84rem;
+        max-width: 100%;
+        overflow:auto;
       }
-      .hashChip b{ color:#93c5fd; font-weight:900; }
+      .mhChip b{ color: var(--dim); font-weight:900; }
 
       .status{
-        margin-top:16px;
-        padding:14px 16px;
-        border-radius:16px;
-        background: rgba(2,6,23,.35);
-        border:1px solid rgba(148,163,184,.12);
+        margin-top: 14px;
         display:flex;
         align-items:center;
         gap:10px;
-        font-weight:700;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(148,163,184,0.14);
+        background: rgba(2,6,23,0.24);
+        color: var(--muted);
+        font-size: .95rem;
       }
-      .statusDot{ width:10px; height:10px; border-radius:50%; background: var(--muted); }
-      .status-ok{ border-color: rgba(16,185,129,.30); color: var(--ok); }
-      .status-ok .statusDot{ background: var(--ok); box-shadow: 0 0 12px rgba(16,185,129,.5); }
-      .status-err{ border-color: rgba(239,68,68,.30); color: var(--err); }
-      .status-err .statusDot{ background: var(--err); box-shadow: 0 0 12px rgba(239,68,68,.45); }
-      .status-pending{ border-color: rgba(245,158,11,.30); color: var(--warn); }
-      .status-pending .statusDot{ background: var(--warn); box-shadow: 0 0 12px rgba(245,158,11,.45); animation:pulse 1.4s ease-in-out infinite; }
+      .sdot{ width:10px; height:10px; border-radius:50%; background: var(--muted); }
+      .ok{ border-color: rgba(16,185,129,0.25); color: rgba(16,185,129,1); }
+      .ok .sdot{ background: var(--success); box-shadow: 0 0 10px rgba(16,185,129,0.7); }
+      .err{ border-color: rgba(239,68,68,0.22); color: rgba(239,68,68,1); }
+      .err .sdot{ background: var(--error); box-shadow: 0 0 10px rgba(239,68,68,0.6); }
+      .pend{ border-color: rgba(245,158,11,0.24); color: rgba(245,158,11,1); }
+      .pend .sdot{ background: var(--warning); box-shadow: 0 0 10px rgba(245,158,11,0.55); animation: pulse2 1.6s ease-in-out infinite; }
+      @keyframes pulse2{ 0%,100%{transform:scale(1); opacity:1} 50%{transform:scale(1.15); opacity:.75} }
 
       .paypalBox{
-        margin-top:18px;
-        border-radius:20px;
-        border:1px solid rgba(148,163,184,.18);
-        background: rgba(2,6,23,.30);
-        padding:18px;
+        margin-top: 14px;
+        padding: 16px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(148,163,184,0.14);
+        background: rgba(2,6,23,0.22);
       }
       .paypalHint{
-        color:var(--muted);
-        font-weight:700;
-        margin-bottom:12px;
+        color: var(--muted);
+        font-size: .92rem;
+        margin-bottom: 10px;
       }
       .warn{
-        margin-top:12px;
-        border-radius:14px;
-        border:1px solid rgba(245,158,11,.22);
-        background: rgba(245,158,11,.06);
-        padding:12px 14px;
+        margin-top: 12px;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(245,158,11,0.22);
+        background: rgba(245,158,11,0.06);
         color: var(--dim);
-        line-height:1.7;
-        font-size:.9rem;
+        font-size: .88rem;
+        line-height: 1.7;
       }
+      .warn strong{ color: var(--warning); }
 
-      .hidden{ display:none; }
-
-      .licenseBox{
-        border-radius:20px;
-        border:2px solid rgba(16,185,129,.25);
-        background: linear-gradient(135deg, rgba(16,185,129,.10), rgba(6,182,212,.06));
-        padding:18px;
-        margin-top:14px;
+      /* Download box */
+      .downloadBox{
+        margin-top: 14px;
+        padding: 16px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(96,165,250,0.20);
+        background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(59,130,246,0.10));
       }
-      .codeRow{
+      .downloadTop{
         display:flex;
+        align-items:flex-start;
+        justify-content:space-between;
         gap:12px;
-        align-items:center;
         flex-wrap:wrap;
-        margin-top:10px;
+      }
+      .downloadTitle{
+        font-weight: 900;
+        font-size: 1.05rem;
+        margin-bottom: 6px;
+      }
+      .downloadMeta{
+        color: var(--muted);
+        font-size: .90rem;
+        line-height: 1.6;
+      }
+      .dlRow{
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top: 12px;
+        align-items:center;
+      }
+      .dlBadge{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148,163,184,0.16);
+        background: rgba(2,6,23,0.22);
+        color: var(--muted);
+        font-size: .88rem;
+      }
+      .dlBadge b{
+        color: var(--text);
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-weight: 900;
+      }
+
+      /* Right card (license) */
+      .licenseBox{
+        margin-top: 14px;
+        padding: 16px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(16,185,129,0.25);
+        background: linear-gradient(135deg, rgba(16,185,129,0.10), rgba(6,182,212,0.06));
       }
       .code{
-        flex:1;
-        min-width:220px;
-        padding:14px 14px;
-        border-radius:14px;
-        border:2px solid rgba(16,185,129,.30);
-        background: rgba(2,6,23,.55);
-        color: var(--ok);
-        font-weight:900;
-        letter-spacing:.06em;
-        font-size:1.12rem;
-        text-align:center;
         font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-weight: 900;
+        letter-spacing: .06em;
+        font-size: 1.15rem;
+        padding: 14px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(16,185,129,0.35);
+        background: rgba(2,6,23,0.25);
+        color: var(--success);
+        text-align:center;
+        overflow:auto;
       }
-
       .steps{
-        margin-top:14px;
-        border-radius:16px;
-        border:1px dashed rgba(148,163,184,.20);
-        background: rgba(2,6,23,.25);
-        padding:14px 16px;
+        margin-top: 12px;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px dashed rgba(148,163,184,0.16);
+        background: rgba(2,6,23,0.18);
         color: var(--muted);
-        line-height:1.9;
-        font-size:.95rem;
+        font-size: .92rem;
+        line-height: 1.85;
       }
       .steps strong{ color: var(--text); }
 
-      /* Download section */
-      .downloadCard{
-        margin-top:18px;
-        border-radius:20px;
-        border:1px solid rgba(59,130,246,.22);
-        background: linear-gradient(135deg, rgba(59,130,246,.10), rgba(6,182,212,.05));
-        padding:16px;
-      }
-      .downloadTop{
-        display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      }
-      .downloadTop .dlTitle{
-        font-weight:900;
-        font-size:1.05rem;
-      }
-      .downloadTop .dlMeta{
-        color: var(--muted);
-        font-size:.9rem;
-        margin-top:4px;
-        line-height:1.6;
-      }
+      .hidden{ display:none; }
 
       .footer{
-        margin-top:28px;
+        margin-top: 18px;
         text-align:center;
         color: var(--muted);
-        line-height:1.8;
-        border-radius:22px;
-        border:1px solid rgba(148,163,184,.12);
-        background: rgba(2,6,23,.22);
-        padding:18px;
+        font-size: .95rem;
+        line-height: 1.8;
+        padding: 18px;
+        border-radius: 20px;
+        border: 1px solid rgba(148,163,184,0.10);
+        background: rgba(2,6,23,0.18);
+      }
+      .footer code{
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        color: var(--accent2);
       }
 
-      @media(max-width:780px){
-        h1{ font-size:2.05rem; }
-        .card{ padding:22px; }
+      @media (max-width: 720px){
+        h1{ font-size: 2.05rem; }
+        .sub{ font-size: 1rem; }
+        .card{ padding: 18px; }
       }
     </style>
   </head>
@@ -451,27 +528,29 @@
         </div>
         <h1>PCFixUltimate</h1>
         <p class="sub">
-          ترخيص مدى الحياة لجهاز واحد + كود تفعيل مرتبط ببصمة جهازك.<br/>
-          بعد الدفع سيظهر كود التفعيل فوراً — ويمكنك أيضاً إدخال بريدك لتسجيله مع الطلب.
+          شراء تفعيل أصلي لجهاز واحد + إصدار كود تفعيل مخصص لبصمة جهازك.
+          بالإضافة لزر <b>تحميل آخر إصدار</b> يتحدث تلقائياً من GitHub Releases.
         </p>
-        <div class="badge">
-          <span class="dot"></span>
-          <span>دفع آمن عبر PayPal</span>
+
+        <div class="pills">
+          <div class="pill sec"><span class="dot"></span><span>دفع آمن عبر PayPal</span></div>
+          <div class="pill"><span>ترخيص مدى الحياة</span></div>
+          <div class="pill"><span>جهاز واحد</span></div>
         </div>
       </header>
 
       <div class="grid">
-        <!-- LEFT: Step 1 -->
+        <!-- LEFT -->
         <section class="card">
-          <div class="cardTop">
+          <div class="cardHead">
             <div class="step">١</div>
-            <div class="title">إدخال بيانات التفعيل</div>
+            <div>
+              <div class="title">الدفع والتفعيل</div>
+              <div class="hint">
+                الصق قيمة <span class="mono">machine hash</span> (mh) ثم أكمل الدفع.
+              </div>
+            </div>
           </div>
-
-          <p class="hint">
-            الصق <span class="mono">Machine Hash</span> من البرنامج. (إذا فتحت الصفحة من داخل البرنامج غالباً تجيك تلقائياً عبر
-            <span class="mono">buy.html?mh=...</span>)
-          </p>
 
           <label for="mh_input">بصمة الجهاز (Machine Hash)</label>
           <div class="row">
@@ -479,136 +558,161 @@
             <button id="btn_use_mh" type="button" class="btnPrimary">استخدام البصمة</button>
           </div>
 
-          <label for="email_input">البريد الإلكتروني (اختياري — لحفظه مع الطلب)</label>
-          <div class="row">
-            <input id="email_input" type="email" placeholder="name@example.com" />
-            <button id="btn_use_email" type="button" class="btnGhost">تثبيت البريد</button>
-          </div>
-
           <div class="priceBox">
-            <div class="priceText">
-              <div class="lbl">السعر</div>
-              <div><span class="amt">$16.99</span> <span class="mono" style="color:var(--muted);font-weight:800;">USD</span></div>
-              <div style="color:var(--dim);margin-top:4px;font-weight:700;">جهاز واحد — مدى الحياة</div>
+            <div class="price">
+              <div class="small">السعر</div>
+              <div>
+                <span class="big">$16.99</span>
+                <span style="color:var(--muted); font-weight:900;">USD</span>
+              </div>
+              <div class="small">ترخيص مدى الحياة — جهاز واحد</div>
             </div>
-            <div class="hashChip">
-              <span>Hash:</span>
-              <b id="mh">—</b>
+
+            <div class="mhChip">
+              <b>MH</b>
+              <span id="mh">—</span>
             </div>
           </div>
 
           <div id="status" class="status">
-            <span class="statusDot"></span>
+            <span class="sdot"></span>
             <span>أدخل بصمة الجهاز للمتابعة إلى الدفع.</span>
           </div>
 
           <div class="paypalBox">
-            <div class="paypalHint">زر الدفع يظهر بعد إدخال بصمة صحيحة:</div>
+            <div class="paypalHint">زر PayPal يظهر بعد إدخال بصمة صالحة:</div>
             <div id="paypal-buttons"></div>
-
             <div class="warn">
-              <b style="color:var(--warn);">ملاحظة:</b>
-              إنشاء الطلب والتحقق من الدفع وإصدار الترخيص يتم عبر Worker (Server-side) لأن التحقق يحتاج أسرار PayPal.
+              <strong>ملاحظة:</strong>
+              إنشاء الطلب + التأكيد (Capture) + إصدار الترخيص يتم عبر Worker عندك (Server-side).
             </div>
           </div>
 
-          <!-- Download -->
-          <div class="downloadCard">
+          <!-- Download latest -->
+          <div class="downloadBox">
             <div class="downloadTop">
               <div>
-                <div class="dlTitle">تحميل آخر إصدار من البرنامج</div>
-                <div class="dlMeta" id="dl_meta">
-                  اضغط للتحميل. (يفضل توفر رابط ثابت “latest” عندك عبر Worker/Storage)
+                <div class="downloadTitle">تحميل آخر إصدار من البرنامج</div>
+                <div class="downloadMeta">
+                  سيتم جلب رقم آخر إصدار ورابط التحميل تلقائياً من GitHub Releases.
+                  إذا فشل الجلب لأي سبب، يظهر زر احتياطي لصفحة الإصدارات.
                 </div>
               </div>
-              <a id="btn_download" class="btnPrimary" style="text-decoration:none;" href="#" download>
+            </div>
+
+            <div class="dlRow">
+              <span class="dlBadge">الإصدار: <b id="latest_version">—</b></span>
+              <span class="dlBadge">الملف: <b id="latest_asset">—</b></span>
+            </div>
+
+            <div class="dlRow">
+              <a id="btn_download" class="btn btnSuccess" href="#" aria-disabled="true">
                 ⬇️ تحميل آخر نسخة
               </a>
+              <a id="btn_releases" class="btn btnGhost" href="#" target="_blank" rel="noopener">
+                فتح صفحة الإصدارات
+              </a>
+              <button id="btn_refresh_release" class="btnGhost btnSmall" type="button">
+                ↻ تحديث
+              </button>
+            </div>
+
+            <div id="dl_status" class="hint" style="margin-top:10px;">
+              جاري قراءة آخر إصدار…
             </div>
           </div>
         </section>
 
-        <!-- RIGHT: Step 2 -->
-        <section class="card secondary">
-          <div class="cardTop">
-            <div class="step" style="background:linear-gradient(135deg, rgba(168,85,247,1), rgba(59,130,246,1)); box-shadow:0 14px 40px rgba(168,85,247,.25);">٢</div>
-            <div class="title">كود التفعيل</div>
+        <!-- RIGHT -->
+        <section class="card">
+          <div class="cardHead">
+            <div class="step">٢</div>
+            <div>
+              <div class="title">استلام كود التفعيل</div>
+              <div class="hint">
+                بعد إتمام الدفع بنجاح، سيظهر كود التفعيل هنا.
+              </div>
+            </div>
           </div>
-
-          <p class="hint">
-            بعد الدفع مباشرة يظهر كود التفعيل هنا.
-          </p>
 
           <div id="license_block" class="hidden">
             <div class="licenseBox">
-              <div style="color:var(--muted);font-weight:800;">الكود القصير لجهازك:</div>
-              <div class="codeRow">
-                <div id="short_code" class="code">PCFX-XXXXXXXX</div>
-                <button type="button" id="btn_copy" class="btnPrimary">📋 نسخ</button>
+              <div style="color:var(--muted); font-weight:900; margin-bottom:10px;">الكود القصير لجهازك:</div>
+              <div id="short_code" class="code">PCFX-XXXXXXXX</div>
+
+              <div class="row" style="margin-top:12px;">
+                <button id="btn_copy" class="btnPrimary btnSmall" type="button">📋 نسخ الكود</button>
               </div>
             </div>
 
             <div class="steps">
-              <div style="font-weight:900;margin-bottom:6px;">طريقة التفعيل داخل البرنامج:</div>
+              <div style="font-weight:900; margin-bottom:8px;">📌 خطوات التفعيل داخل البرنامج:</div>
               <ol style="padding-right:18px;">
-                <li>افتح <strong>PCFixUltimate</strong> واختر <strong>Activate Program</strong>.</li>
-                <li>الصق الكود في خانة التفعيل.</li>
-                <li>اضغط تفعيل وستظهر رسالة نجاح.</li>
+                <li>افتح <strong>PCFixUltimate</strong>.</li>
+                <li>اختر <strong>Activate Program</strong>.</li>
+                <li>الصق الكود واضغط تفعيل.</li>
               </ol>
             </div>
           </div>
 
-          <div id="empty_hint" class="steps" style="border-style:solid;border-color:rgba(148,163,184,.12);">
-            لم يتم إنشاء ترخيص بعد. أكمل الدفع عبر PayPal وسيظهر الكود هنا تلقائياً.
+          <div id="empty_hint" class="steps">
+            ⏳ لم يتم إنشاء ترخيص بعد. أكمل الدفع عبر PayPal وسيظهر الكود هنا تلقائياً.
           </div>
 
-          <button type="button" id="btn_clear" class="btnGhost" style="margin-top:14px;width:100%;">
-            🔄 مسح البيانات والبدء من جديد
-          </button>
+          <div class="row" style="margin-top:12px;">
+            <button id="btn_clear" class="btnGhost btnSmall" type="button">🔄 مسح البيانات</button>
+          </div>
         </section>
       </div>
 
       <div class="footer">
-        الترخيص مرتبط ببصمة جهاز واحد. إذا صار فورمات، استخدم نفس <span class="mono">machine hash</span> لإعادة التفعيل.
+        الترخيص مرتبط ببصمة جهاز واحد. إذا عملت فورمات، استخدم نفس
+        <code>mh</code> لإعادة التفعيل.
       </div>
     </main>
 
     <script>
-      // =======================
-      // Worker endpoints
-      // =======================
+      // ==============================
+      // 1) Worker endpoints (كما عندك)
+      // ==============================
       const API_BASE = "https://pcfix-license-api.pcfixultimate.workers.dev";
       const CREATE_ORDER_ENDPOINT = `${API_BASE}/paypal/create-order`;
       const CAPTURE_ORDER_ENDPOINT = `${API_BASE}/paypal/capture-order`;
       const CLAIM_LICENSE_ENDPOINT = `${API_BASE}/claim-license`;
 
-      // Price must be enforced on server too.
       const PRICE_USD = "16.99";
 
-      // ✅ Put your real latest download URL here (R2 / GitHub Releases / Worker redirect)
-      // Example (Worker redirect): https://pcfix-license-api.pcfixultimate.workers.dev/download/latest
-      const DOWNLOAD_URL = "https://pcfix-license-api.pcfixultimate.workers.dev/download/latest";
+      // =====================================
+      // 2) GitHub latest release auto-download
+      // =====================================
+      // GitHub REST API "releases/latest": /repos/{owner}/{repo}/releases/latest :contentReference[oaicite:2]{index=2}
+      // Note: Unauthenticated rate limit is low, so we cache results in localStorage :contentReference[oaicite:3]{index=3}
+      const REPO_OWNER = "ameero197-dotcom";
+      const REPO_NAME  = "ameero197-dotcom.github.io";
+      const GH_LATEST_API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`;
+      const GH_RELEASES_WEB = `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases`;
+
+      // Prefer this exact filename if exists, else pick first .exe asset
+      const PREFERRED_ASSET_NAME = "PCFixUltimateSetup.exe";
+
+      // Cache for 10 minutes
+      const GH_CACHE_KEY = "pcfix_latest_release_cache_v1";
+      const GH_CACHE_TTL_MS = 10 * 60 * 1000;
 
       const $ = (id) => document.getElementById(id);
 
       function setStatus(text, mode = "info") {
         const el = $("status");
-        el.classList.remove("status-ok","status-err","status-pending");
-        if (mode === "ok") el.classList.add("status-ok");
-        else if (mode === "err") el.classList.add("status-err");
-        else if (mode === "pending") el.classList.add("status-pending");
-        el.querySelector(".statusDot").style.opacity = "1";
+        el.classList.remove("ok","err","pend");
+        if (mode === "ok") el.classList.add("ok");
+        else if (mode === "err") el.classList.add("err");
+        else if (mode === "pend") el.classList.add("pend");
+        el.querySelector(".sdot").style.opacity = "1";
         el.lastElementChild.textContent = text;
       }
 
       function mhValue() { return ($("mh_input").value || "").trim(); }
-      function emailValue() { return ($("email_input").value || "").trim(); }
-
       function isMhValid(mh) { return /^[a-f0-9]{32,128}$/i.test(mh); }
-      function isEmailValid(em) {
-        if (!em) return true; // optional
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
-      }
 
       function showLicense(code, mh) {
         $("empty_hint").classList.add("hidden");
@@ -620,16 +724,12 @@
         }
       }
 
-      async function claimLicense(orderId, mh, email) {
-        setStatus("جاري إصدار كود التفعيل…", "pending");
+      async function claimLicense(orderId, mh) {
+        setStatus("جاري إصدار كود التفعيل…", "pend");
         const res = await fetch(CLAIM_LICENSE_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type":"application/json" },
-          body: JSON.stringify({
-            order_id: orderId,
-            machine_hash: mh,
-            customer_email: email || "" // optional: store it server-side
-          })
+          body: JSON.stringify({ order_id: orderId, machine_hash: mh })
         });
         const data = await res.json().catch(()=> ({}));
         if (!res.ok || !data.short_code) {
@@ -641,14 +741,8 @@
 
       function renderPaypalButtons() {
         const mh = mhValue();
-        const em = emailValue();
-
         if (!isMhValid(mh)) {
           setStatus("أدخل بصمة جهاز صحيحة أولاً.", "err");
-          return;
-        }
-        if (!isEmailValid(em)) {
-          setStatus("البريد الإلكتروني غير صحيح (أو اتركه فارغاً).", "err");
           return;
         }
 
@@ -656,43 +750,32 @@
         $("paypal-buttons").innerHTML = "";
 
         paypal.Buttons({
-          style: { layout: "vertical", label: "paypal" },
+          style: { layout: "vertical", label: "paypal", shape: "rect" },
 
-          // Create order on server (recommended pattern)
           createOrder: async () => {
-            setStatus("جاري إنشاء طلب الدفع…", "pending");
+            setStatus("جاري إنشاء طلب الدفع…", "pend");
             const res = await fetch(CREATE_ORDER_ENDPOINT, {
               method: "POST",
               headers: { "Content-Type":"application/json" },
-              body: JSON.stringify({
-                machine_hash: mh,
-                amount: PRICE_USD,
-                currency: "USD",
-                customer_email: em || "" // optional: store with order
-              })
+              body: JSON.stringify({ machine_hash: mh, amount: PRICE_USD, currency: "USD" })
             });
             const data = await res.json().catch(()=> ({}));
-            if (!res.ok || !data.id) {
-              throw new Error(data?.error || "تعذر إنشاء طلب PayPal.");
-            }
-            return data.id; // orderID
+            if (!res.ok || !data.id) throw new Error(data?.error || "تعذر إنشاء طلب PayPal.");
+            return data.id;
           },
 
           onApprove: async (data) => {
             try {
-              setStatus("جاري تأكيد الدفع…", "pending");
+              setStatus("جاري تأكيد الدفع…", "pend");
               const res = await fetch(CAPTURE_ORDER_ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type":"application/json" },
                 body: JSON.stringify({ order_id: data.orderID })
               });
               const cap = await res.json().catch(()=> ({}));
-              if (!res.ok || !cap.ok) {
-                throw new Error(cap?.error || "فشل تأكيد الدفع (Capture).");
-              }
+              if (!res.ok || !cap.ok) throw new Error(cap?.error || "فشل تأكيد الدفع (Capture).");
 
-              // claim license (and optionally store email)
-              await claimLicense(data.orderID, mh, em);
+              await claimLicense(data.orderID, mh);
             } catch (e) {
               console.error(e);
               setStatus("حصل خطأ بعد الدفع: " + (e?.message || e), "err");
@@ -706,40 +789,136 @@
           }
         }).render("#paypal-buttons");
 
-        setStatus("✓ زر PayPal جاهز — أكمل الدفع.", "ok");
+        setStatus("✓ زر PayPal جاهز — أكمل الدفع", "ok");
       }
 
-      function applyDownloadLink() {
+      // -----------------------------
+      // GitHub latest release section
+      // -----------------------------
+      function setDlStatus(msg) {
+        $("dl_status").textContent = msg;
+      }
+
+      function setDownloadEnabled(enabled) {
         const a = $("btn_download");
-        a.href = DOWNLOAD_URL;
-        // optional: show the URL as metadata
-        $("dl_meta").textContent = "سيبدأ التحميل مباشرة عند الضغط. إذا ما بدأ، تأكد أن الرابط صحيح ومتاح.";
+        if (enabled) {
+          a.setAttribute("aria-disabled", "false");
+          a.style.pointerEvents = "auto";
+          a.style.opacity = "1";
+        } else {
+          a.setAttribute("aria-disabled", "true");
+          a.style.pointerEvents = "none";
+          a.style.opacity = ".65";
+        }
       }
 
+      function safeJsonParse(s) {
+        try { return JSON.parse(s); } catch { return null; }
+      }
+
+      function readCache() {
+        const raw = localStorage.getItem(GH_CACHE_KEY);
+        const parsed = raw ? safeJsonParse(raw) : null;
+        if (!parsed || !parsed.ts || !parsed.data) return null;
+        if (Date.now() - parsed.ts > GH_CACHE_TTL_MS) return null;
+        return parsed.data;
+      }
+
+      function writeCache(data) {
+        try {
+          localStorage.setItem(GH_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+        } catch {}
+      }
+
+      function pickAsset(assets) {
+        if (!Array.isArray(assets)) return null;
+
+        // 1) Exact preferred name
+        const exact = assets.find(a => (a?.name || "").toLowerCase() === PREFERRED_ASSET_NAME.toLowerCase());
+        if (exact && exact.browser_download_url) return exact;
+
+        // 2) Any .exe
+        const exe = assets.find(a => (a?.name || "").toLowerCase().endsWith(".exe") && a.browser_download_url);
+        if (exe) return exe;
+
+        // 3) Any asset with download url
+        const any = assets.find(a => a && a.browser_download_url);
+        return any || null;
+      }
+
+      async function loadLatestRelease({ force = false } = {}) {
+        $("btn_releases").href = GH_RELEASES_WEB;
+
+        setDownloadEnabled(false);
+        $("latest_version").textContent = "—";
+        $("latest_asset").textContent = "—";
+        $("btn_download").href = "#";
+
+        setDlStatus("جاري جلب آخر إصدار من GitHub…");
+
+        if (!force) {
+          const cached = readCache();
+          if (cached) {
+            applyLatestRelease(cached, { fromCache: true });
+            return;
+          }
+        }
+
+        try {
+          const res = await fetch(GH_LATEST_API, {
+            method: "GET",
+            headers: { "Accept": "application/vnd.github+json" }
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            const msg = data?.message ? String(data.message) : `HTTP ${res.status}`;
+            throw new Error(msg);
+          }
+
+          writeCache(data);
+          applyLatestRelease(data, { fromCache: false });
+        } catch (e) {
+          console.error(e);
+          setDlStatus("تعذر جلب آخر إصدار الآن. استخدم زر صفحة الإصدارات كخيار احتياطي.");
+          $("latest_version").textContent = "غير متاح";
+          $("latest_asset").textContent = "غير متاح";
+          setDownloadEnabled(false);
+        }
+      }
+
+      function applyLatestRelease(data, { fromCache } = {}) {
+        const tag = data?.tag_name || data?.name || "—";
+        const assets = data?.assets || [];
+        const asset = pickAsset(assets);
+
+        $("latest_version").textContent = tag;
+        $("latest_asset").textContent = asset?.name || "لا يوجد ملف exe";
+
+        if (asset?.browser_download_url) {
+          $("btn_download").href = asset.browser_download_url;
+          setDownloadEnabled(true);
+          setDlStatus(fromCache ? "تم التحميل من الكاش المحلي (لأداء أفضل)." : "جاهز للتحميل ✓");
+        } else {
+          setDownloadEnabled(false);
+          setDlStatus("لم يتم العثور على ملف تنزيل مناسب داخل Assets. افتح صفحة الإصدارات.");
+        }
+      }
+
+      // -----------------------------
+      // Events
+      // -----------------------------
       $("btn_use_mh").addEventListener("click", () => {
         const mh = mhValue();
-        if (!isMhValid(mh)) {
-          setStatus("البصمة غير صحيحة. الصق قيمة mh كما هي من البرنامج.", "err");
-          return;
-        }
+        if (!isMhValid(mh)) return setStatus("البصمة غير صحيحة. الصق قيمة mh كما هي من البرنامج.", "err");
         $("mh").textContent = mh;
         $("license_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
         renderPaypalButtons();
       });
 
-      $("btn_use_email").addEventListener("click", () => {
-        const em = emailValue();
-        if (!isEmailValid(em)) {
-          setStatus("البريد الإلكتروني غير صحيح (أو اتركه فارغاً).", "err");
-          return;
-        }
-        setStatus(em ? "✓ تم تثبيت البريد وسيتم إرساله مع الطلب." : "تم إلغاء البريد (اختياري).", "ok");
-      });
-
       $("btn_clear").addEventListener("click", () => {
         $("mh_input").value = "";
-        $("email_input").value = "";
         $("mh").textContent = "—";
         $("paypal-buttons").innerHTML = "";
         $("license_block").classList.add("hidden");
@@ -749,26 +928,26 @@
 
       $("btn_copy").addEventListener("click", () => {
         const code = $("short_code").textContent || "";
-        if (!code) return setStatus("لا يوجد كود لنسخه حالياً.", "err");
+        if (!code) return setStatus("لا يوجد كود لنسخه.", "err");
         navigator.clipboard.writeText(code)
-          .then(() => setStatus("✓ تم نسخ الكود.", "ok"))
+          .then(() => setStatus("✓ تم نسخ الكود بنجاح", "ok"))
           .catch((e) => setStatus("تعذر النسخ: " + (e?.message || e), "err"));
       });
 
-      document.addEventListener("DOMContentLoaded", () => {
-        applyDownloadLink();
+      $("btn_refresh_release").addEventListener("click", () => loadLatestRelease({ force: true }));
 
+      document.addEventListener("DOMContentLoaded", () => {
+        // Auto-fill mh from URL
         const params = new URLSearchParams(location.search);
         const mh = (params.get("mh") || params.get("machine_hash") || "").trim();
-        const em = (params.get("email") || "").trim();
-
         if (mh) {
           $("mh_input").value = mh;
           $("mh").textContent = mh;
+          if (isMhValid(mh)) renderPaypalButtons();
         }
-        if (em) $("email_input").value = em;
 
-        if (mh && isMhValid(mh)) renderPaypalButtons();
+        // Load latest release info
+        loadLatestRelease({ force: false });
       });
     </script>
   </body>
