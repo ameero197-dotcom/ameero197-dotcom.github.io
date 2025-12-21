@@ -5,13 +5,12 @@
     <title>PCFixUltimate — شراء وتفعيل النسخة الكاملة</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- PayPal JS SDK (Buttons) -->
+    <!-- PayPal JS SDK (Buttons) - LIVE -->
     <!-- ملاحظة: لا تضع client secret هنا أبداً، فقط client-id -->
     <script
-      src="https://www.paypal.com/sdk/js?client-id=ATGaPavxuyVB3rpVbD_oZgu2qny36TeB67dxg2cLcgL4N8B6qnNUkQlZIH2JTd3AvgauIUeH7fS3_Uht&currency=USD&intent=capture&components=buttons"
+      src="https://www.paypal.com/sdk/js?client-id=AfihjAXTyDN5TqjgromFKBgDJb13HTB4SqlvZ9JusszBMBLCUxVJKBA8jz-ThHzl5Lhslp4rEvv-_Enc&currency=USD&intent=capture&components=buttons"
       data-sdk-integration-source="button-factory">
     </script>
-    <!-- PayPal SDK params documented هنا  -->
 
     <style>
       :root{
@@ -267,7 +266,7 @@
 
             <div class="price">
               <span class="muted">السعر:</span>
-              <strong>$16.99</strong>
+              <strong>$1.00</strong>
               <span class="muted">USD — جهاز واحد</span>
               <span class="chip">
                 <span>Machine hash:</span>
@@ -286,7 +285,7 @@
               </div>
               <div id="paypal-buttons"></div>
               <div class="warnbox">
-                ملاحظة: إنشاء الطلب/التأكد من الدفع/إصدار الترخيص يجب أن يتم عبر Worker عندك
+                ملاحظة: إنشاء الطلب/التأكد من الدفع/إصدار الترخيص يتم عبر Worker عندك
                 (لأن التحقق من الدفع يحتاج Server و Client Secret).
               </div>
             </div>
@@ -342,18 +341,18 @@
     </main>
 
     <script>
-      // ====== عدّل هذه الروابط حسب Worker عندك ======
-      // هذه endpoints لازم تعملها أنت على السيرفر/Worker:
-      // 1) POST /paypal/create-order  -> يرجع { id: "ORDER_ID" }
-      // 2) POST /paypal/capture-order -> يرجع { ok:true, orderId:"...", captureId:"..." }
-      // 3) POST /claim-license       -> يرجع { short_code:"PCFX-....", machine_hash:"..." }
+      // Worker endpoints:
+      // 1) POST /paypal/create-order  -> { id: "ORDER_ID" }
+      // 2) POST /paypal/capture-order -> { ok:true, ... }
+      // 3) POST /claim-license       -> { short_code:"PCFX-....", machine_hash:"..." }
 
       const API_BASE = "https://pcfix-license-api.pcfixultimate.workers.dev";
       const CREATE_ORDER_ENDPOINT = `${API_BASE}/paypal/create-order`;
       const CAPTURE_ORDER_ENDPOINT = `${API_BASE}/paypal/capture-order`;
       const CLAIM_LICENSE_ENDPOINT = `${API_BASE}/claim-license`;
 
-      const PRICE_USD = "16.99";
+      // ✅ Price for LIVE test
+      const PRICE_USD = "1.00";
 
       const $ = (id) => document.getElementById(id);
 
@@ -372,7 +371,6 @@
       }
 
       function isMhValid(mh) {
-        // hash غالباً hex بطول 64 (SHA256). إذا عندك طول مختلف عدّلها.
         return /^[a-f0-9]{32,128}$/i.test(mh);
       }
 
@@ -411,15 +409,10 @@
         $("mh").textContent = mh;
         $("paypal-buttons").innerHTML = "";
 
-        // PayPal flow: Create order -> Capture order
-        // PayPal docs: Create order & Capture endpoints via Orders API 
         paypal.Buttons({
-          style: {
-            layout: "vertical",
-            label: "paypal"
-          },
+          style: { layout: "vertical", label: "paypal" },
 
-          // 1) إنشاء Order على السيرفر (السعر ثابت عندك هناك، لا تعتمد على العميل)
+          // 1) Create Order on server
           createOrder: async () => {
             setStatus("جاري إنشاء طلب الدفع…", "pending");
             const res = await fetch(CREATE_ORDER_ENDPOINT, {
@@ -435,10 +428,10 @@
             if (!res.ok || !data.id) {
               throw new Error(data?.error || "تعذر إنشاء طلب PayPal.");
             }
-            return data.id; // orderID
+            return data.id;
           },
 
-          // 2) بعد موافقة المستخدم: Capture على السيرفر + إصدار الترخيص
+          // 2) Capture + claim license
           onApprove: async (data) => {
             try {
               setStatus("جاري تأكيد الدفع…", "pending");
@@ -452,7 +445,6 @@
                 throw new Error(cap?.error || "فشل تأكيد الدفع (Capture).");
               }
 
-              // 3) إصدار الترخيص (حسب نظامك)
               await claimLicense(data.orderID, mh);
             } catch (e) {
               console.error(e);
@@ -460,10 +452,7 @@
             }
           },
 
-          onCancel: () => {
-            setStatus("تم إلغاء عملية الدفع.", "err");
-          },
-
+          onCancel: () => setStatus("تم إلغاء عملية الدفع.", "err"),
           onError: (err) => {
             console.error(err);
             setStatus("خطأ في PayPal: " + (err?.message || err), "err");
