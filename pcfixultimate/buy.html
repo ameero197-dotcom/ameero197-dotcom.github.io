@@ -5,6 +5,7 @@
     <title>PCFixUltimate — شراء وتفعيل النسخة الكاملة</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- PayPal JS SDK (Buttons) - LIVE -->
     <script
       src="https://www.paypal.com/sdk/js?client-id=AfihjAXTyDN5TqjgromFKBgDJb13HTB4SqlvZ9JusszBMBLCUxVJKBA8jz-ThHzl5Lhslp4rEvv-_Enc&currency=USD&intent=capture&components=buttons"
       data-sdk-integration-source="button-factory">
@@ -12,721 +13,581 @@
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
-      
+
       :root{
-        --bg-dark:#0a0e1a;
-        --bg-mid:#0f1420;
-        --card-bg:#131824;
-        --border:#1e293b;
+        --bg-dark:#070a14;
+        --bg-mid:#0c1020;
+        --card:#0f172a;
+        --card2:#0b1224;
+        --border:rgba(148,163,184,.14);
+        --border2:rgba(148,163,184,.22);
+
         --accent:#3b82f6;
-        --accent-light:#60a5fa;
-        --accent-dark:#2563eb;
-        --success:#10b981;
-        --error:#ef4444;
-        --warning:#f59e0b;
+        --accent2:#06b6d4;
+        --accent3:#a855f7;
+
+        --ok:#10b981;
+        --err:#ef4444;
+        --warn:#f59e0b;
+
         --text:#f8fafc;
-        --text-muted:#94a3b8;
-        --text-dim:#64748b;
-        --glow-blue:rgba(59,130,246,0.4);
-        --glow-cyan:rgba(6,182,212,0.3);
-        --glow-purple:rgba(168,85,247,0.3);
+        --muted:#94a3b8;
+        --dim:#64748b;
+
+        --shadow:0 30px 110px rgba(0,0,0,.65);
       }
-      
-      *{box-sizing:border-box;margin:0;padding:0;}
-      
+
+      *{ box-sizing:border-box; margin:0; padding:0; }
       body{
-        font-family:'Tajawal',system-ui,-apple-system,sans-serif;
-        background:#000;
+        font-family:"Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif;
         color:var(--text);
         min-height:100vh;
-        position:relative;
+        background: #000;
         overflow-x:hidden;
       }
-      
-      /* خلفية متحركة ثلاثية الأبعاد */
-      .animated-bg{
-        position:fixed;
-        top:0;left:0;right:0;bottom:0;
+
+      /* background */
+      .bg{
+        position:fixed; inset:0;
         background:
-          radial-gradient(ellipse at 20% 0%, rgba(59,130,246,0.15), transparent 50%),
-          radial-gradient(ellipse at 80% 100%, rgba(168,85,247,0.12), transparent 50%),
-          radial-gradient(ellipse at 50% 50%, rgba(6,182,212,0.08), transparent 70%),
-          linear-gradient(135deg, #0a0e1a 0%, #000 100%);
+          radial-gradient(800px 600px at 15% -10%, rgba(59,130,246,.22), transparent 60%),
+          radial-gradient(700px 520px at 90% 110%, rgba(168,85,247,.18), transparent 60%),
+          radial-gradient(600px 520px at 50% 50%, rgba(6,182,212,.10), transparent 65%),
+          linear-gradient(135deg, var(--bg-mid), #000 55%, #000);
         z-index:0;
       }
-      
-      .animated-bg::before{
-        content:'';
-        position:absolute;
-        width:800px;height:800px;
-        background:radial-gradient(circle, var(--glow-blue), transparent 70%);
-        border-radius:50%;
-        top:-400px;right:-200px;
-        animation:float1 20s ease-in-out infinite;
-        opacity:0.3;
+      .bg::before{
+        content:"";
+        position:absolute; width:900px; height:900px; border-radius:50%;
+        right:-300px; top:-450px;
+        background: radial-gradient(circle, rgba(59,130,246,.35), transparent 60%);
+        filter: blur(10px);
+        opacity:.25;
+        animation: float1 18s ease-in-out infinite;
       }
-      
-      .animated-bg::after{
-        content:'';
-        position:absolute;
-        width:600px;height:600px;
-        background:radial-gradient(circle, var(--glow-purple), transparent 70%);
-        border-radius:50%;
-        bottom:-300px;left:-100px;
-        animation:float2 25s ease-in-out infinite;
-        opacity:0.25;
+      .bg::after{
+        content:"";
+        position:absolute; width:780px; height:780px; border-radius:50%;
+        left:-260px; bottom:-420px;
+        background: radial-gradient(circle, rgba(168,85,247,.32), transparent 62%);
+        filter: blur(12px);
+        opacity:.22;
+        animation: float2 22s ease-in-out infinite;
       }
-      
       @keyframes float1{
-        0%,100%{transform:translate(0,0) scale(1);}
-        50%{transform:translate(100px,-100px) scale(1.1);}
+        0%,100%{ transform: translate(0,0) scale(1); }
+        50%{ transform: translate(-90px, 80px) scale(1.08); }
       }
-      
       @keyframes float2{
-        0%,100%{transform:translate(0,0) scale(1);}
-        50%{transform:translate(-80px,80px) scale(1.15);}
+        0%,100%{ transform: translate(0,0) scale(1); }
+        50%{ transform: translate(110px, -70px) scale(1.10); }
       }
-      
-      /* الحاوية الرئيسية */
+
       main{
         position:relative;
         z-index:1;
-        max-width:1400px;
+        max-width:1240px;
         margin:0 auto;
-        padding:40px 20px 60px;
+        padding:38px 18px 60px;
       }
-      
-      /* الهيدر */
+
       header{
         text-align:center;
-        margin-bottom:50px;
-        animation:fadeInDown 0.8s ease-out;
+        margin-bottom:36px;
       }
-      
-      @keyframes fadeInDown{
-        from{opacity:0;transform:translateY(-30px);}
-        to{opacity:1;transform:translateY(0);}
-      }
-      
-      .logo-container{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:20px;
-        position:relative;
-      }
-      
-      .logo-3d{
-        width:100px;height:100px;
-        background:
-          linear-gradient(145deg, #1e293b, #0f172a);
-        border-radius:30px;
-        display:flex;align-items:center;justify-content:center;
-        box-shadow:
-          0 20px 60px rgba(0,0,0,0.8),
-          0 0 0 1px rgba(148,163,184,0.1),
-          inset 0 1px 0 rgba(255,255,255,0.1),
-          0 0 80px var(--glow-blue);
+      .logoWrap{ display:inline-flex; align-items:center; justify-content:center; margin-bottom:14px; }
+      .logo{
+        width:88px; height:88px; border-radius:26px;
+        background: linear-gradient(145deg, rgba(30,41,59,.9), rgba(2,6,23,.9));
+        border:1px solid rgba(148,163,184,.18);
+        box-shadow: 0 18px 60px rgba(0,0,0,.75), 0 0 70px rgba(59,130,246,.18);
+        display:flex; align-items:center; justify-content:center;
         position:relative;
         transform-style:preserve-3d;
-        animation:logoFloat 3s ease-in-out infinite;
+        animation: logoFloat 3.4s ease-in-out infinite;
       }
-      
-      @keyframes logoFloat{
-        0%,100%{transform:translateY(0px) rotateX(0deg) rotateY(0deg);}
-        50%{transform:translateY(-10px) rotateX(5deg) rotateY(5deg);}
-      }
-      
-      .logo-3d::before{
-        content:'';
-        position:absolute;
-        inset:-3px;
-        background:linear-gradient(45deg, var(--accent), #06b6d4, #a855f7);
-        border-radius:32px;
+      .logo::before{
+        content:"";
+        position:absolute; inset:-3px;
+        border-radius:28px;
+        background: linear-gradient(45deg, rgba(59,130,246,.65), rgba(6,182,212,.55), rgba(168,85,247,.55));
+        filter: blur(18px);
+        opacity:.55;
         z-index:-1;
-        opacity:0.6;
-        filter:blur(20px);
-        animation:rotateBorder 8s linear infinite;
+        animation: spin 9s linear infinite;
       }
-      
-      @keyframes rotateBorder{
-        0%{transform:rotate(0deg);}
-        100%{transform:rotate(360deg);}
+      @keyframes spin{ to{ transform: rotate(360deg); } }
+      @keyframes logoFloat{
+        0%,100%{ transform: translateY(0) rotateX(0) rotateY(0); }
+        50%{ transform: translateY(-10px) rotateX(5deg) rotateY(4deg); }
       }
-      
-      .logo-3d span{
-        font-size:2.5rem;
+      .logo span{
         font-weight:900;
-        background:linear-gradient(135deg, #60a5fa, #06b6d4);
+        font-size:2.1rem;
+        background: linear-gradient(135deg, #93c5fd, #22d3ee);
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
-        background-clip:text;
-        filter:drop-shadow(0 0 20px rgba(96,165,250,0.5));
       }
-      
+
       h1{
-        font-size:2.8rem;
+        font-size:2.6rem;
         font-weight:900;
-        margin-bottom:12px;
-        background:linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
-        background-clip:text;
+        letter-spacing:.2px;
       }
-      
-      .subtitle{
-        font-size:1.15rem;
-        color:var(--text-muted);
-        font-weight:500;
-        max-width:600px;
-        margin:0 auto 25px;
+      .sub{
+        margin-top:10px;
+        color:var(--muted);
+        font-size:1.06rem;
+        line-height:1.7;
+        max-width:680px;
+        margin-left:auto; margin-right:auto;
       }
-      
-      .security-badge{
+      .badge{
         display:inline-flex;
         align-items:center;
-        gap:8px;
-        padding:10px 20px;
-        background:rgba(16,185,129,0.1);
-        border:1px solid rgba(16,185,129,0.3);
+        gap:10px;
+        margin-top:16px;
+        padding:10px 18px;
         border-radius:999px;
-        font-size:0.9rem;
-        color:var(--success);
-        backdrop-filter:blur(10px);
+        background: rgba(16,185,129,.08);
+        border:1px solid rgba(16,185,129,.28);
+        color: var(--ok);
+        backdrop-filter: blur(10px);
+        font-weight:700;
+        font-size:.92rem;
       }
-      
-      .security-dot{
-        width:8px;height:8px;
-        background:var(--success);
-        border-radius:50%;
-        box-shadow:0 0 10px var(--success);
-        animation:pulse 2s ease-in-out infinite;
+      .dot{
+        width:9px; height:9px; border-radius:50%;
+        background: var(--ok);
+        box-shadow: 0 0 12px rgba(16,185,129,.55);
+        animation:pulse 1.8s ease-in-out infinite;
       }
-      
       @keyframes pulse{
-        0%,100%{opacity:1;transform:scale(1);}
-        50%{opacity:0.7;transform:scale(1.2);}
+        0%,100%{ transform:scale(1); opacity:1; }
+        50%{ transform:scale(1.22); opacity:.7; }
       }
-      
-      /* الشبكة */
+
       .grid{
         display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(500px, 1fr));
-        gap:30px;
-        animation:fadeInUp 1s ease-out 0.2s both;
+        grid-template-columns: 1.15fr .85fr;
+        gap:22px;
+        align-items:start;
       }
-      
-      @keyframes fadeInUp{
-        from{opacity:0;transform:translateY(30px);}
-        to{opacity:1;transform:translateY(0);}
+      @media(max-width:1060px){
+        .grid{ grid-template-columns: 1fr; }
       }
-      
-      @media(max-width:1100px){
-        .grid{grid-template-columns:1fr;}
-      }
-      
-      /* البطاقات */
+
       .card{
+        border-radius:28px;
+        border:1px solid var(--border);
         background:
-          linear-gradient(135deg, rgba(30,41,59,0.7) 0%, rgba(15,23,42,0.8) 100%);
-        border:1px solid rgba(148,163,184,0.1);
-        border-radius:30px;
-        padding:35px;
-        backdrop-filter:blur(20px);
-        box-shadow:
-          0 25px 80px rgba(0,0,0,0.6),
-          inset 0 1px 0 rgba(255,255,255,0.05);
+          radial-gradient(900px 300px at 15% 0%, rgba(59,130,246,.18), transparent 55%),
+          radial-gradient(700px 260px at 100% 100%, rgba(6,182,212,.10), transparent 55%),
+          linear-gradient(135deg, rgba(15,23,42,.88), rgba(2,6,23,.88));
+        box-shadow: var(--shadow);
+        padding:28px;
         position:relative;
         overflow:hidden;
-        transition:transform 0.3s ease, box-shadow 0.3s ease;
       }
-      
-      .card::before{
-        content:'';
-        position:absolute;
-        top:0;left:0;right:0;
-        height:1px;
-        background:linear-gradient(90deg, transparent, rgba(96,165,250,0.5), transparent);
+      .card.secondary{
+        background:
+          radial-gradient(900px 320px at 75% 0%, rgba(168,85,247,.16), transparent 55%),
+          linear-gradient(135deg, rgba(11,18,36,.9), rgba(2,6,23,.9));
       }
-      
-      .card:hover{
-        transform:translateY(-5px);
-        box-shadow:
-          0 30px 100px rgba(0,0,0,0.8),
-          0 0 0 1px rgba(96,165,250,0.2),
-          inset 0 1px 0 rgba(255,255,255,0.1);
-      }
-      
-      .card-header{
+      .cardTop{
         display:flex;
         align-items:center;
-        gap:15px;
-        margin-bottom:25px;
+        gap:14px;
+        margin-bottom:16px;
       }
-      
-      .step-icon{
-        width:50px;height:50px;
-        background:linear-gradient(135deg, var(--accent), var(--accent-light));
-        border-radius:15px;
-        display:flex;align-items:center;justify-content:center;
-        font-size:1.5rem;
+      .step{
+        width:46px; height:46px;
+        border-radius:16px;
+        display:flex; align-items:center; justify-content:center;
+        background: linear-gradient(135deg, rgba(59,130,246,1), rgba(37,99,235,1));
+        box-shadow: 0 14px 40px rgba(59,130,246,.33);
         font-weight:900;
-        color:#fff;
-        box-shadow:0 10px 30px rgba(59,130,246,0.4);
+        font-size:1.35rem;
       }
-      
-      .card-title{
-        font-size:1.5rem;
-        font-weight:700;
-        color:var(--text);
+      .title{
+        font-weight:800;
+        font-size:1.45rem;
       }
-      
-      .card-hint{
-        color:var(--text-muted);
-        font-size:0.95rem;
-        margin-bottom:25px;
-        line-height:1.6;
+      .hint{
+        color:var(--muted);
+        line-height:1.7;
+        margin-bottom:18px;
       }
-      
-      /* الإدخالات */
-      .input-group{
-        margin-bottom:20px;
-      }
-      
+      .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
       label{
         display:block;
-        font-size:0.9rem;
-        font-weight:600;
-        color:var(--text-muted);
-        margin-bottom:10px;
+        color:var(--muted);
+        font-weight:700;
+        font-size:.92rem;
+        margin:10px 0 8px;
       }
-      
-      .input-wrapper{
-        position:relative;
+      .row{
         display:flex;
         gap:12px;
         flex-wrap:wrap;
       }
-      
-      input[type="text"]{
+      input[type="text"], input[type="email"]{
         flex:1;
-        min-width:250px;
-        padding:15px 18px;
-        background:rgba(15,23,42,0.8);
-        border:2px solid rgba(148,163,184,0.2);
-        border-radius:15px;
+        min-width:260px;
+        padding:14px 16px;
+        border-radius:14px;
+        border:2px solid rgba(148,163,184,.18);
+        background: rgba(2,6,23,.55);
         color:var(--text);
-        font-size:0.95rem;
-        font-family:ui-monospace,monospace;
+        font-size:.98rem;
         direction:ltr;
-        transition:all 0.3s ease;
+        transition:.22s ease;
       }
-      
-      input[type="text"]:focus{
+      input[type="email"]{ direction:ltr; }
+      input:focus{
         outline:none;
-        border-color:var(--accent);
-        box-shadow:0 0 0 4px rgba(59,130,246,0.1), 0 0 30px rgba(59,130,246,0.2);
-        background:rgba(15,23,42,0.95);
+        border-color: rgba(59,130,246,.75);
+        box-shadow: 0 0 0 5px rgba(59,130,246,.12), 0 0 35px rgba(59,130,246,.18);
+        background: rgba(2,6,23,.75);
       }
-      
-      input::placeholder{color:var(--text-dim);}
-      
-      /* الأزرار */
+      input::placeholder{ color: var(--dim); }
+
       button{
-        padding:14px 28px;
-        border:none;
-        border-radius:12px;
-        font-size:0.95rem;
-        font-weight:700;
+        border:0;
         cursor:pointer;
-        transition:all 0.3s ease;
+        font-family:"Tajawal",sans-serif;
+        font-weight:900;
+        border-radius:14px;
+        padding:14px 18px;
         display:inline-flex;
         align-items:center;
-        gap:8px;
-        font-family:'Tajawal',sans-serif;
+        justify-content:center;
+        gap:10px;
+        transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, background .16s ease;
+        user-select:none;
       }
-      
-      .btn-primary{
-        background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      button:disabled{ opacity:.55; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
+
+      .btnPrimary{
+        background: linear-gradient(135deg, rgba(59,130,246,1), rgba(37,99,235,1));
         color:#fff;
-        box-shadow:0 10px 30px rgba(59,130,246,0.3);
+        box-shadow: 0 14px 40px rgba(59,130,246,.34);
       }
-      
-      .btn-primary:hover{
-        transform:translateY(-2px);
-        box-shadow:0 15px 40px rgba(59,130,246,0.5);
+      .btnPrimary:hover{ transform: translateY(-2px); box-shadow: 0 18px 55px rgba(59,130,246,.52); }
+      .btnGhost{
+        background: rgba(148,163,184,.08);
+        color: var(--muted);
+        border:1px solid rgba(148,163,184,.22);
+        font-weight:800;
       }
-      
-      .btn-primary:active{
-        transform:translateY(0);
-      }
-      
-      .btn-ghost{
-        background:rgba(148,163,184,0.1);
-        color:var(--text-muted);
-        border:1px solid rgba(148,163,184,0.3);
-      }
-      
-      .btn-ghost:hover{
-        background:rgba(148,163,184,0.2);
-        border-color:rgba(148,163,184,0.5);
-      }
-      
-      .btn-small{
-        padding:10px 20px;
-        font-size:0.85rem;
-      }
-      
-      button:disabled{
-        opacity:0.5;
-        cursor:not-allowed;
-        transform:none !important;
-      }
-      
-      /* صندوق السعر */
-      .price-box{
-        background:
-          linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(168,85,247,0.05) 100%);
-        border:1px solid rgba(59,130,246,0.3);
+      .btnGhost:hover{ background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.35); }
+
+      .priceBox{
+        margin-top:18px;
         border-radius:20px;
-        padding:25px;
-        margin:25px 0;
+        border:1px solid rgba(59,130,246,.22);
+        background: linear-gradient(135deg, rgba(59,130,246,.10), rgba(168,85,247,.06));
+        padding:18px 18px;
         display:flex;
         align-items:center;
         justify-content:space-between;
+        gap:14px;
         flex-wrap:wrap;
-        gap:15px;
       }
-      
-      .price-label{
-        font-size:0.9rem;
-        color:var(--text-muted);
-      }
-      
-      .price-amount{
-        font-size:2.5rem;
+      .priceText .lbl{ color:var(--muted); font-size:.92rem; font-weight:700; }
+      .priceText .amt{
+        font-size:2.1rem;
         font-weight:900;
-        background:linear-gradient(135deg, var(--accent-light), #06b6d4);
+        background: linear-gradient(135deg, #93c5fd, #22d3ee);
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
-        background-clip:text;
       }
-      
-      .price-currency{
-        font-size:1.2rem;
-        color:var(--text-muted);
-        margin-right:8px;
-      }
-      
-      .hash-display{
+      .hashChip{
         display:flex;
         align-items:center;
         gap:10px;
-        padding:12px 18px;
-        background:rgba(15,23,42,0.6);
-        border:1px dashed rgba(148,163,184,0.3);
-        border-radius:12px;
-        font-family:ui-monospace,monospace;
-        font-size:0.85rem;
-        color:var(--text-muted);
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px dashed rgba(148,163,184,.22);
+        background: rgba(2,6,23,.35);
+        color:var(--muted);
+        font-size:.88rem;
       }
-      
-      /* الحالة */
+      .hashChip b{ color:#93c5fd; font-weight:900; }
+
       .status{
+        margin-top:16px;
+        padding:14px 16px;
+        border-radius:16px;
+        background: rgba(2,6,23,.35);
+        border:1px solid rgba(148,163,184,.12);
         display:flex;
         align-items:center;
         gap:10px;
-        padding:15px 20px;
-        background:rgba(15,23,42,0.5);
-        border-radius:15px;
-        margin:20px 0;
-        font-size:0.95rem;
-      }
-      
-      .status-dot{
-        width:10px;height:10px;
-        border-radius:50%;
-        background:var(--text-muted);
-      }
-      
-      .status-ok{color:var(--success);border:1px solid rgba(16,185,129,0.3);}
-      .status-ok .status-dot{background:var(--success);box-shadow:0 0 10px var(--success);}
-      
-      .status-err{color:var(--error);border:1px solid rgba(239,68,68,0.3);}
-      .status-err .status-dot{background:var(--error);box-shadow:0 0 10px var(--error);}
-      
-      .status-pending{color:var(--warning);border:1px solid rgba(245,158,11,0.3);}
-      .status-pending .status-dot{background:var(--warning);box-shadow:0 0 10px var(--warning);animation:pulse 1.5s ease-in-out infinite;}
-      
-      /* صندوق الترخيص */
-      .license-box{
-        background:
-          linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.05) 100%);
-        border:2px solid rgba(16,185,129,0.3);
-        border-radius:20px;
-        padding:30px;
-        margin:20px 0;
-      }
-      
-      .license-label{
-        font-size:0.9rem;
-        color:var(--text-muted);
-        margin-bottom:12px;
-      }
-      
-      .license-code{
-        display:flex;
-        align-items:center;
-        gap:15px;
-        flex-wrap:wrap;
-      }
-      
-      .code-display{
-        flex:1;
-        min-width:200px;
-        padding:18px;
-        background:rgba(15,23,42,0.8);
-        border:2px solid rgba(16,185,129,0.4);
-        border-radius:12px;
-        font-family:ui-monospace,monospace;
-        font-size:1.3rem;
         font-weight:700;
-        color:var(--success);
-        letter-spacing:0.05em;
-        text-align:center;
       }
-      
-      /* الخطوات */
-      .steps-box{
-        margin-top:25px;
-        padding:20px;
-        background:rgba(15,23,42,0.4);
-        border-radius:15px;
-        border:1px dashed rgba(148,163,184,0.2);
-      }
-      
-      .steps-title{
-        font-size:0.9rem;
-        color:var(--text-muted);
-        margin-bottom:12px;
-        font-weight:600;
-      }
-      
-      .steps-box ol{
-        padding-right:20px;
-        color:var(--text-muted);
-        font-size:0.9rem;
-        line-height:1.8;
-      }
-      
-      .steps-box strong{
-        color:var(--text);
-      }
-      
-      /* PayPal */
-      .paypal-container{
-        margin-top:20px;
-        padding:25px;
-        background:rgba(15,23,42,0.6);
-        border:1px solid rgba(148,163,184,0.2);
+      .statusDot{ width:10px; height:10px; border-radius:50%; background: var(--muted); }
+      .status-ok{ border-color: rgba(16,185,129,.30); color: var(--ok); }
+      .status-ok .statusDot{ background: var(--ok); box-shadow: 0 0 12px rgba(16,185,129,.5); }
+      .status-err{ border-color: rgba(239,68,68,.30); color: var(--err); }
+      .status-err .statusDot{ background: var(--err); box-shadow: 0 0 12px rgba(239,68,68,.45); }
+      .status-pending{ border-color: rgba(245,158,11,.30); color: var(--warn); }
+      .status-pending .statusDot{ background: var(--warn); box-shadow: 0 0 12px rgba(245,158,11,.45); animation:pulse 1.4s ease-in-out infinite; }
+
+      .paypalBox{
+        margin-top:18px;
         border-radius:20px;
+        border:1px solid rgba(148,163,184,.18);
+        background: rgba(2,6,23,.30);
+        padding:18px;
       }
-      
-      .paypal-hint{
-        color:var(--text-muted);
-        font-size:0.9rem;
-        margin-bottom:15px;
+      .paypalHint{
+        color:var(--muted);
+        font-weight:700;
+        margin-bottom:12px;
       }
-      
-      .warning-box{
-        margin-top:15px;
-        padding:15px 18px;
-        background:rgba(245,158,11,0.05);
-        border:1px solid rgba(245,158,11,0.2);
-        border-radius:12px;
-        font-size:0.85rem;
-        color:var(--text-dim);
+      .warn{
+        margin-top:12px;
+        border-radius:14px;
+        border:1px solid rgba(245,158,11,.22);
+        background: rgba(245,158,11,.06);
+        padding:12px 14px;
+        color: var(--dim);
+        line-height:1.7;
+        font-size:.9rem;
+      }
+
+      .hidden{ display:none; }
+
+      .licenseBox{
+        border-radius:20px;
+        border:2px solid rgba(16,185,129,.25);
+        background: linear-gradient(135deg, rgba(16,185,129,.10), rgba(6,182,212,.06));
+        padding:18px;
+        margin-top:14px;
+      }
+      .codeRow{
+        display:flex;
+        gap:12px;
+        align-items:center;
+        flex-wrap:wrap;
+        margin-top:10px;
+      }
+      .code{
+        flex:1;
+        min-width:220px;
+        padding:14px 14px;
+        border-radius:14px;
+        border:2px solid rgba(16,185,129,.30);
+        background: rgba(2,6,23,.55);
+        color: var(--ok);
+        font-weight:900;
+        letter-spacing:.06em;
+        font-size:1.12rem;
+        text-align:center;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+      }
+
+      .steps{
+        margin-top:14px;
+        border-radius:16px;
+        border:1px dashed rgba(148,163,184,.20);
+        background: rgba(2,6,23,.25);
+        padding:14px 16px;
+        color: var(--muted);
+        line-height:1.9;
+        font-size:.95rem;
+      }
+      .steps strong{ color: var(--text); }
+
+      /* Download section */
+      .downloadCard{
+        margin-top:18px;
+        border-radius:20px;
+        border:1px solid rgba(59,130,246,.22);
+        background: linear-gradient(135deg, rgba(59,130,246,.10), rgba(6,182,212,.05));
+        padding:16px;
+      }
+      .downloadTop{
+        display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      }
+      .downloadTop .dlTitle{
+        font-weight:900;
+        font-size:1.05rem;
+      }
+      .downloadTop .dlMeta{
+        color: var(--muted);
+        font-size:.9rem;
+        margin-top:4px;
         line-height:1.6;
       }
-      
-      /* المخفي */
-      .hidden{display:none;}
-      
-      /* ملاحظة القاع */
-      .footer-note{
+
+      .footer{
+        margin-top:28px;
         text-align:center;
-        margin-top:40px;
-        padding:25px;
-        background:rgba(15,23,42,0.4);
-        border:1px solid rgba(148,163,184,0.1);
-        border-radius:20px;
-        color:var(--text-muted);
-        font-size:0.9rem;
-        line-height:1.7;
+        color: var(--muted);
+        line-height:1.8;
+        border-radius:22px;
+        border:1px solid rgba(148,163,184,.12);
+        background: rgba(2,6,23,.22);
+        padding:18px;
       }
-      
-      .footer-note .mono{
-        font-family:ui-monospace,monospace;
-        color:var(--accent-light);
-      }
-      
-      /* تأثيرات إضافية */
-      @media(max-width:768px){
-        h1{font-size:2rem;}
-        .subtitle{font-size:1rem;}
-        .card{padding:25px;}
-        .price-amount{font-size:2rem;}
-        input[type="text"]{min-width:100%;}
+
+      @media(max-width:780px){
+        h1{ font-size:2.05rem; }
+        .card{ padding:22px; }
       }
     </style>
   </head>
 
   <body>
-    <div class="animated-bg"></div>
-    
+    <div class="bg"></div>
+
     <main>
       <header>
-        <div class="logo-container">
-          <div class="logo-3d">
-            <span>PF</span>
-          </div>
+        <div class="logoWrap">
+          <div class="logo"><span>PF</span></div>
         </div>
-        
         <h1>PCFixUltimate</h1>
-        <p class="subtitle">
-          احصل على ترخيص مدى الحياة لجهاز واحد مع كود تفعيل مخصص لبصمة جهازك
+        <p class="sub">
+          ترخيص مدى الحياة لجهاز واحد + كود تفعيل مرتبط ببصمة جهازك.<br/>
+          بعد الدفع سيظهر كود التفعيل فوراً — ويمكنك أيضاً إدخال بريدك لتسجيله مع الطلب.
         </p>
-        
-        <div class="security-badge">
-          <span class="security-dot"></span>
-          <span>دفع آمن ومشفّر عبر PayPal</span>
+        <div class="badge">
+          <span class="dot"></span>
+          <span>دفع آمن عبر PayPal</span>
         </div>
       </header>
 
       <div class="grid">
-        <!-- الخطوة الأولى -->
+        <!-- LEFT: Step 1 -->
         <section class="card">
-          <div class="card-header">
-            <div class="step-icon">١</div>
-            <h2 class="card-title">إدخال بصمة الجهاز</h2>
+          <div class="cardTop">
+            <div class="step">١</div>
+            <div class="title">إدخال بيانات التفعيل</div>
           </div>
-          
-          <p class="card-hint">
-            افتح هذه الصفحة من داخل البرنامج للحصول على البصمة تلقائياً، أو الصق قيمة <span class="mono">machine hash</span> يدوياً في الحقل أدناه.
+
+          <p class="hint">
+            الصق <span class="mono">Machine Hash</span> من البرنامج. (إذا فتحت الصفحة من داخل البرنامج غالباً تجيك تلقائياً عبر
+            <span class="mono">buy.html?mh=...</span>)
           </p>
 
-          <div class="input-group">
-            <label for="mh_input">بصمة الجهاز (Machine Hash)</label>
-            <div class="input-wrapper">
-              <input 
-                id="mh_input" 
-                type="text" 
-                placeholder="مثال: 81e80f3e97a4b5c6d..." 
-              />
-              <button id="btn_use_mh" type="button" class="btn-primary">
-                استخدام البصمة
-              </button>
-            </div>
+          <label for="mh_input">بصمة الجهاز (Machine Hash)</label>
+          <div class="row">
+            <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97a4b5c6d..." />
+            <button id="btn_use_mh" type="button" class="btnPrimary">استخدام البصمة</button>
           </div>
 
-          <div class="price-box">
-            <div>
-              <div class="price-label">السعر الكامل</div>
-              <div>
-                <span class="price-amount">$16.99</span>
-                <span class="price-currency">USD</span>
-              </div>
-              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:5px;">
-                ترخيص لجهاز واحد — مدى الحياة
-              </div>
+          <label for="email_input">البريد الإلكتروني (اختياري — لحفظه مع الطلب)</label>
+          <div class="row">
+            <input id="email_input" type="email" placeholder="name@example.com" />
+            <button id="btn_use_email" type="button" class="btnGhost">تثبيت البريد</button>
+          </div>
+
+          <div class="priceBox">
+            <div class="priceText">
+              <div class="lbl">السعر</div>
+              <div><span class="amt">$16.99</span> <span class="mono" style="color:var(--muted);font-weight:800;">USD</span></div>
+              <div style="color:var(--dim);margin-top:4px;font-weight:700;">جهاز واحد — مدى الحياة</div>
             </div>
-            
-            <div class="hash-display">
-              <span style="color:var(--text-dim);">Hash:</span>
-              <span id="mh" style="color:var(--accent-light);">—</span>
+            <div class="hashChip">
+              <span>Hash:</span>
+              <b id="mh">—</b>
             </div>
           </div>
 
           <div id="status" class="status">
-            <span class="status-dot"></span>
-            <span>أدخل بصمة الجهاز للمتابعة إلى الدفع</span>
+            <span class="statusDot"></span>
+            <span>أدخل بصمة الجهاز للمتابعة إلى الدفع.</span>
           </div>
 
-          <div class="paypal-container">
-            <div class="paypal-hint">
-              سيظهر زر الدفع بعد إدخال بصمة صحيحة:
-            </div>
+          <div class="paypalBox">
+            <div class="paypalHint">زر الدفع يظهر بعد إدخال بصمة صحيحة:</div>
             <div id="paypal-buttons"></div>
-            
-            <div class="warning-box">
-              <strong style="color:var(--warning);">⚠️ ملاحظة مهمة:</strong>
-              إنشاء الطلب والتحقق من الدفع وإصدار الترخيص يتم عبر Worker الخاص بك (يحتاج إلى Server و Client Secret للتأكد من صحة الدفع).
+
+            <div class="warn">
+              <b style="color:var(--warn);">ملاحظة:</b>
+              إنشاء الطلب والتحقق من الدفع وإصدار الترخيص يتم عبر Worker (Server-side) لأن التحقق يحتاج أسرار PayPal.
             </div>
           </div>
 
-          <p style="margin-top:20px;font-size:0.85rem;color:var(--text-dim);line-height:1.6;">
-            💡 <strong>نصيحة:</strong> إذا فتحت الصفحة من داخل البرنامج، سيتم تمرير البصمة تلقائياً عبر الرابط:
-            <code style="color:var(--accent-light);font-family:monospace;">buy.html?mh=...</code>
-          </p>
+          <!-- Download -->
+          <div class="downloadCard">
+            <div class="downloadTop">
+              <div>
+                <div class="dlTitle">تحميل آخر إصدار من البرنامج</div>
+                <div class="dlMeta" id="dl_meta">
+                  اضغط للتحميل. (يفضل توفر رابط ثابت “latest” عندك عبر Worker/Storage)
+                </div>
+              </div>
+              <a id="btn_download" class="btnPrimary" style="text-decoration:none;" href="#" download>
+                ⬇️ تحميل آخر نسخة
+              </a>
+            </div>
+          </div>
         </section>
 
-        <!-- الخطوة الثانية -->
-        <section class="card">
-          <div class="card-header">
-            <div class="step-icon">٢</div>
-            <h2 class="card-title">استلام كود التفعيل</h2>
+        <!-- RIGHT: Step 2 -->
+        <section class="card secondary">
+          <div class="cardTop">
+            <div class="step" style="background:linear-gradient(135deg, rgba(168,85,247,1), rgba(59,130,246,1)); box-shadow:0 14px 40px rgba(168,85,247,.25);">٢</div>
+            <div class="title">كود التفعيل</div>
           </div>
-          
-          <p class="card-hint">
-            بعد إتمام الدفع بنجاح، سيظهر كود التفعيل الخاص بك هنا مباشرة.
+
+          <p class="hint">
+            بعد الدفع مباشرة يظهر كود التفعيل هنا.
           </p>
 
           <div id="license_block" class="hidden">
-            <div class="license-box">
-              <div class="license-label">كود التفعيل الخاص بجهازك:</div>
-              <div class="license-code">
-                <div id="short_code" class="code-display">PCFX-XXXXXXXX</div>
-                <button type="button" id="btn_copy" class="btn-primary">
-                  📋 نسخ الكود
-                </button>
+            <div class="licenseBox">
+              <div style="color:var(--muted);font-weight:800;">الكود القصير لجهازك:</div>
+              <div class="codeRow">
+                <div id="short_code" class="code">PCFX-XXXXXXXX</div>
+                <button type="button" id="btn_copy" class="btnPrimary">📋 نسخ</button>
               </div>
             </div>
 
-            <div class="steps-box">
-              <div class="steps-title">📌 خطوات التفعيل داخل البرنامج:</div>
-              <ol>
-                <li>افتح برنامج <strong>PCFixUltimate</strong> على جهازك</li>
-                <li>اختر <strong>"Activate Program"</strong> من القائمة الرئيسية</li>
-                <li>الصق كود التفعيل في الحقل المخصص</li>
-                <li>اضغط على زر "تفعيل" وستظهر رسالة النجاح ✓</li>
+            <div class="steps">
+              <div style="font-weight:900;margin-bottom:6px;">طريقة التفعيل داخل البرنامج:</div>
+              <ol style="padding-right:18px;">
+                <li>افتح <strong>PCFixUltimate</strong> واختر <strong>Activate Program</strong>.</li>
+                <li>الصق الكود في خانة التفعيل.</li>
+                <li>اضغط تفعيل وستظهر رسالة نجاح.</li>
               </ol>
             </div>
           </div>
 
-          <p id="empty_hint" style="padding:30px;text-align:center;color:var(--text-muted);font-size:0.95rem;">
-            ⏳ لم يتم إنشاء ترخيص بعد.<br>
-            أكمل الدفع عبر PayPal وسيظهر الكود هنا تلقائياً.
-          </p>
+          <div id="empty_hint" class="steps" style="border-style:solid;border-color:rgba(148,163,184,.12);">
+            لم يتم إنشاء ترخيص بعد. أكمل الدفع عبر PayPal وسيظهر الكود هنا تلقائياً.
+          </div>
 
-          <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:20px;">
+          <button type="button" id="btn_clear" class="btnGhost" style="margin-top:14px;width:100%;">
             🔄 مسح البيانات والبدء من جديد
           </button>
         </section>
       </div>
 
-      <div class="footer-note">
-        <strong>📍 ملاحظة مهمة:</strong> الترخيص مرتبط ببصمة جهاز واحد فقط.
-        <br>
-        إذا قمت بعمل فورمات للجهاز، يمكنك استخدام نفس <span class="mono">machine hash</span> لإعادة التفعيل.
+      <div class="footer">
+        الترخيص مرتبط ببصمة جهاز واحد. إذا صار فورمات، استخدم نفس <span class="mono">machine hash</span> لإعادة التفعيل.
       </div>
     </main>
 
     <script>
+      // =======================
+      // Worker endpoints
+      // =======================
       const API_BASE = "https://pcfix-license-api.pcfixultimate.workers.dev";
       const CREATE_ORDER_ENDPOINT = `${API_BASE}/paypal/create-order`;
       const CAPTURE_ORDER_ENDPOINT = `${API_BASE}/paypal/capture-order`;
       const CLAIM_LICENSE_ENDPOINT = `${API_BASE}/claim-license`;
+
+      // Price must be enforced on server too.
       const PRICE_USD = "16.99";
+
+      // ✅ Put your real latest download URL here (R2 / GitHub Releases / Worker redirect)
+      // Example (Worker redirect): https://pcfix-license-api.pcfixultimate.workers.dev/download/latest
+      const DOWNLOAD_URL = "https://pcfix-license-api.pcfixultimate.workers.dev/download/latest";
 
       const $ = (id) => document.getElementById(id);
 
@@ -736,16 +597,17 @@
         if (mode === "ok") el.classList.add("status-ok");
         else if (mode === "err") el.classList.add("status-err");
         else if (mode === "pending") el.classList.add("status-pending");
-        el.querySelector(".status-dot").style.opacity = "1";
+        el.querySelector(".statusDot").style.opacity = "1";
         el.lastElementChild.textContent = text;
       }
 
-      function mhValue() {
-        return ($("mh_input").value || "").trim();
-      }
+      function mhValue() { return ($("mh_input").value || "").trim(); }
+      function emailValue() { return ($("email_input").value || "").trim(); }
 
-      function isMhValid(mh) {
-        return /^[a-f0-9]{32,128}$/i.test(mh);
+      function isMhValid(mh) { return /^[a-f0-9]{32,128}$/i.test(mh); }
+      function isEmailValid(em) {
+        if (!em) return true; // optional
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
       }
 
       function showLicense(code, mh) {
@@ -758,12 +620,16 @@
         }
       }
 
-      async function claimLicense(orderId, mh) {
+      async function claimLicense(orderId, mh, email) {
         setStatus("جاري إصدار كود التفعيل…", "pending");
         const res = await fetch(CLAIM_LICENSE_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type":"application/json" },
-          body: JSON.stringify({ order_id: orderId, machine_hash: mh })
+          body: JSON.stringify({
+            order_id: orderId,
+            machine_hash: mh,
+            customer_email: email || "" // optional: store it server-side
+          })
         });
         const data = await res.json().catch(()=> ({}));
         if (!res.ok || !data.short_code) {
@@ -775,8 +641,14 @@
 
       function renderPaypalButtons() {
         const mh = mhValue();
+        const em = emailValue();
+
         if (!isMhValid(mh)) {
-          setStatus("أدخل بصمة جهاز صحيحة أولاً", "err");
+          setStatus("أدخل بصمة جهاز صحيحة أولاً.", "err");
+          return;
+        }
+        if (!isEmailValid(em)) {
+          setStatus("البريد الإلكتروني غير صحيح (أو اتركه فارغاً).", "err");
           return;
         }
 
@@ -784,8 +656,9 @@
         $("paypal-buttons").innerHTML = "";
 
         paypal.Buttons({
-          style: { layout: "vertical", label: "paypal", color: "blue", shape: "rect" },
+          style: { layout: "vertical", label: "paypal" },
 
+          // Create order on server (recommended pattern)
           createOrder: async () => {
             setStatus("جاري إنشاء طلب الدفع…", "pending");
             const res = await fetch(CREATE_ORDER_ENDPOINT, {
@@ -794,14 +667,15 @@
               body: JSON.stringify({
                 machine_hash: mh,
                 amount: PRICE_USD,
-                currency: "USD"
+                currency: "USD",
+                customer_email: em || "" // optional: store with order
               })
             });
             const data = await res.json().catch(()=> ({}));
             if (!res.ok || !data.id) {
               throw new Error(data?.error || "تعذر إنشاء طلب PayPal.");
             }
-            return data.id;
+            return data.id; // orderID
           },
 
           onApprove: async (data) => {
@@ -814,30 +688,38 @@
               });
               const cap = await res.json().catch(()=> ({}));
               if (!res.ok || !cap.ok) {
-                throw new Error(cap?.error || "فشل تأكيد الدفع.");
+                throw new Error(cap?.error || "فشل تأكيد الدفع (Capture).");
               }
 
-              await claimLicense(data.orderID, mh);
+              // claim license (and optionally store email)
+              await claimLicense(data.orderID, mh, em);
             } catch (e) {
               console.error(e);
-              setStatus("حصل خطأ: " + (e?.message || e), "err");
+              setStatus("حصل خطأ بعد الدفع: " + (e?.message || e), "err");
             }
           },
 
-          onCancel: () => setStatus("تم إلغاء عملية الدفع", "err"),
+          onCancel: () => setStatus("تم إلغاء عملية الدفع.", "err"),
           onError: (err) => {
             console.error(err);
             setStatus("خطأ في PayPal: " + (err?.message || err), "err");
           }
         }).render("#paypal-buttons");
 
-        setStatus("✓ زر PayPal جاهز — أكمل الدفع", "ok");
+        setStatus("✓ زر PayPal جاهز — أكمل الدفع.", "ok");
+      }
+
+      function applyDownloadLink() {
+        const a = $("btn_download");
+        a.href = DOWNLOAD_URL;
+        // optional: show the URL as metadata
+        $("dl_meta").textContent = "سيبدأ التحميل مباشرة عند الضغط. إذا ما بدأ، تأكد أن الرابط صحيح ومتاح.";
       }
 
       $("btn_use_mh").addEventListener("click", () => {
         const mh = mhValue();
         if (!isMhValid(mh)) {
-          setStatus("البصمة غير صحيحة. الصق قيمة صحيحة", "err");
+          setStatus("البصمة غير صحيحة. الصق قيمة mh كما هي من البرنامج.", "err");
           return;
         }
         $("mh").textContent = mh;
@@ -846,31 +728,47 @@
         renderPaypalButtons();
       });
 
+      $("btn_use_email").addEventListener("click", () => {
+        const em = emailValue();
+        if (!isEmailValid(em)) {
+          setStatus("البريد الإلكتروني غير صحيح (أو اتركه فارغاً).", "err");
+          return;
+        }
+        setStatus(em ? "✓ تم تثبيت البريد وسيتم إرساله مع الطلب." : "تم إلغاء البريد (اختياري).", "ok");
+      });
+
       $("btn_clear").addEventListener("click", () => {
         $("mh_input").value = "";
+        $("email_input").value = "";
         $("mh").textContent = "—";
         $("paypal-buttons").innerHTML = "";
         $("license_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
-        setStatus("أدخل بصمة الجهاز للمتابعة إلى الدفع", "info");
+        setStatus("أدخل بصمة الجهاز للمتابعة إلى الدفع.", "info");
       });
 
       $("btn_copy").addEventListener("click", () => {
         const code = $("short_code").textContent || "";
-        if (!code) return setStatus("لا يوجد كود لنسخه", "err");
+        if (!code) return setStatus("لا يوجد كود لنسخه حالياً.", "err");
         navigator.clipboard.writeText(code)
-          .then(() => setStatus("✓ تم نسخ الكود بنجاح", "ok"))
+          .then(() => setStatus("✓ تم نسخ الكود.", "ok"))
           .catch((e) => setStatus("تعذر النسخ: " + (e?.message || e), "err"));
       });
 
       document.addEventListener("DOMContentLoaded", () => {
+        applyDownloadLink();
+
         const params = new URLSearchParams(location.search);
-        const mh = params.get("mh") || params.get("machine_hash") || "";
+        const mh = (params.get("mh") || params.get("machine_hash") || "").trim();
+        const em = (params.get("email") || "").trim();
+
         if (mh) {
           $("mh_input").value = mh;
           $("mh").textContent = mh;
-          if (isMhValid(mh)) renderPaypalButtons();
         }
+        if (em) $("email_input").value = em;
+
+        if (mh && isMhValid(mh)) renderPaypalButtons();
       });
     </script>
   </body>
