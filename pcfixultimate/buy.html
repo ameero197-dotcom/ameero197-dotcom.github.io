@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>PCFixUltimate — شراء وتفعيل النسخة الكاملة</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <style>
       :root{
         --bg:#020617;
@@ -45,18 +46,6 @@
         padding:20px 18px 22px;
         overflow:hidden;
       }
-      .shell::before{
-        content:"";
-        position:absolute;
-        inset:-40%;
-        background:
-          radial-gradient(circle at 10% 0%,rgba(56,189,248,.1),transparent 55%),
-          radial-gradient(circle at 90% 100%,rgba(59,130,246,.12),transparent 55%);
-        opacity:.7;
-        filter:blur(2px);
-        pointer-events:none;
-        z-index:-1;
-      }
       header{
         display:flex;
         justify-content:space-between;
@@ -64,11 +53,7 @@
         align-items:center;
         margin-bottom:16px;
       }
-      .brand{
-        display:flex;
-        align-items:center;
-        gap:10px;
-      }
+      .brand{display:flex;align-items:center;gap:10px;}
       .logo3d{
         width:42px;height:42px;border-radius:18px;
         background:
@@ -79,61 +64,33 @@
           0 12px 30px rgba(15,23,42,.95),
           0 0 0 1px rgba(148,163,184,.5),
           0 0 25px rgba(59,130,246,.4);
-        display:flex;
-        align-items:center;
-        justify-content:center;
+        display:flex;align-items:center;justify-content:center;
       }
-      .logo3d span{
-        font-size:1.1rem;
-        font-weight:700;
-        letter-spacing:.02em;
-      }
-      h1{
-        margin:0;
-        font-size:1.45rem;
-        display:flex;
-        align-items:center;
-        gap:6px;
-      }
+      .logo3d span{font-size:1.1rem;font-weight:700;letter-spacing:.02em;}
+      h1{margin:0;font-size:1.45rem;display:flex;align-items:center;gap:6px;}
       .badge{
-        font-size:.72rem;
-        padding:3px 9px;
-        border-radius:999px;
+        font-size:.72rem;padding:3px 9px;border-radius:999px;
         background:rgba(37,99,235,.12);
         border:1px solid rgba(37,99,235,.6);
         color:#bfdbfe;
       }
       .subtitle{margin:2px 0 0;font-size:.8rem;color:var(--muted);}
       .pill{
-        font-size:.72rem;
-        padding:7px 12px;
-        border-radius:999px;
+        font-size:.72rem;padding:7px 12px;border-radius:999px;
         border:1px solid rgba(148,163,184,.5);
         color:var(--muted);
-        display:inline-flex;
-        gap:6px;
-        align-items:center;
-        white-space:nowrap;
+        display:inline-flex;gap:6px;align-items:center;white-space:nowrap;
         backdrop-filter:blur(10px);
         background:rgba(15,23,42,.85);
       }
-      .pill-dot{
-        width:8px;height:8px;border-radius:999px;
-        background:#22c55e;
-        box-shadow:0 0 0 5px rgba(34,197,94,.25);
-      }
-      .grid{
-        display:grid;
-        grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
-        gap:14px;
-      }
+      .pill-dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 5px rgba(34,197,94,.25);}
+      .grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;}
       @media(max-width:820px){
         header{flex-direction:column;align-items:flex-start;}
         .grid{grid-template-columns:minmax(0,1fr);}
       }
       .card{
-        border-radius:18px;
-        border:1px solid var(--border);
+        border-radius:18px;border:1px solid var(--border);
         background:radial-gradient(circle at top right,var(--accent-soft),rgba(15,23,42,.98));
         padding:13px 15px 15px;
       }
@@ -158,10 +115,7 @@
         outline:none;
       }
       input::placeholder{color:#6b7280;}
-      input:focus{
-        border-color:var(--accent);
-        box-shadow:0 0 0 1px rgba(59,130,246,.5);
-      }
+      input:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(59,130,246,.5);}
       .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
       .muted{color:var(--muted);font-size:.74rem;}
       .row{display:flex;gap:8px;align-items:center;}
@@ -191,8 +145,7 @@
         color:var(--muted);
       }
       .btn-small{padding:7px 11px;font-size:.76rem;}
-      .btn-primary:disabled,
-      .btn-ghost:disabled{opacity:.6;cursor:default;box-shadow:none;transform:none;}
+      .btn-primary:disabled,.btn-ghost:disabled{opacity:.6;cursor:default;box-shadow:none;transform:none;}
       .status{
         margin-top:6px;
         font-size:.78rem;
@@ -200,73 +153,46 @@
         align-items:center;
         gap:6px;
       }
-      .status-dot{
-        width:7px;height:7px;border-radius:999px;background:var(--muted);
-      }
-      .status-ok{color:var(--ok);}
-      .status-ok .status-dot{background:var(--ok);}
-      .status-err{color:var(--err);}
-      .status-err .status-dot{background:var(--err);}
-      .status-pending{color:#eab308;}
-      .status-pending .status-dot{background:#eab308;}
+      .status-dot{width:7px;height:7px;border-radius:999px;background:var(--muted);}
+      .status-ok{color:var(--ok);} .status-ok .status-dot{background:var(--ok);}
+      .status-err{color:var(--err);} .status-err .status-dot{background:var(--err);}
+      .status-pending{color:#eab308;} .status-pending .status-dot{background:#eab308;}
       .chip{
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        padding:4px 9px;
-        border-radius:999px;
+        display:inline-flex;align-items:center;gap:6px;
+        padding:4px 9px;border-radius:999px;
         border:1px dashed rgba(148,163,184,.7);
         background:rgba(15,23,42,.9);
-        font-size:.72rem;
-        margin-top:4px;
+        font-size:.72rem;margin-top:4px;
       }
       .download-card{
         margin-top:14px;
         padding-top:10px;
         border-top:1px dashed #1f2937;
-        display:flex;
-        flex-wrap:wrap;
-        gap:10px;
-        align-items:center;
-        justify-content:space-between;
+        display:flex;flex-wrap:wrap;gap:10px;
+        align-items:center;justify-content:space-between;
       }
       .download-meta{font-size:.76rem;color:var(--muted);}
       .tag{
-        font-size:.7rem;
-        padding:3px 7px;
-        border-radius:999px;
+        font-size:.7rem;padding:3px 7px;border-radius:999px;
         border:1px solid rgba(148,163,184,.5);
         color:var(--muted);
       }
       .hidden{display:none;}
       .short-box{
-        margin-top:10px;
-        padding:10px 11px;
-        border-radius:13px;
+        margin-top:10px;padding:10px 11px;border-radius:13px;
         border:1px solid rgba(34,197,94,.2);
         background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(15,23,42,.98));
       }
-      .short-code{
-        font-size:.9rem;
-        font-weight:600;
-        letter-spacing:.05em;
-      }
+      .short-code{font-size:.9rem;font-weight:600;letter-spacing:.05em;}
       .steps{
-        margin-top:10px;
-        padding-top:8px;
-        border-top:1px dashed #1f2937;
-        font-size:.73rem;
-        color:var(--muted);
+        margin-top:10px;padding-top:8px;border-top:1px dashed #1f2937;
+        font-size:.73rem;color:var(--muted);
       }
       .steps ol{margin:4px 0 0;padding-right:16px;}
       .steps li{margin:2px 0;}
       .label-pill{
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        font-size:.7rem;
-        border-radius:999px;
-        padding:2px 7px;
+        display:inline-flex;align-items:center;gap:6px;
+        font-size:.7rem;border-radius:999px;padding:2px 7px;
         border:1px solid rgba(148,163,184,.3);
         background:rgba(15,23,42,.85);
       }
@@ -276,8 +202,13 @@
         display:flex;align-items:center;justify-content:center;
         font-size:.7rem;
       }
+
+      /* PayPal button container */
+      #paypal-buttons{margin-top:10px;}
+      #paypal-note{margin-top:6px;}
     </style>
   </head>
+
   <body>
     <main>
       <div class="shell">
@@ -287,52 +218,51 @@
             <div>
               <h1>PCFixUltimate <span class="badge">ترخيص مدى الحياة</span></h1>
               <p class="subtitle">
-                قم بشراء تفعيل أصلي لجهاز واحد، مع رابط تحميل أحدث إصدار متوفر.
+                شراء تفعيل أصلي لجهاز واحد، واستلام كود تفعيل مرتبط ببصمة جهازك.
               </p>
             </div>
           </div>
           <div class="pill">
             <span class="pill-dot"></span>
-            <span>دفع آمن عبر Stripe + ترخيص موقَّع رقمياً</span>
+            <span>دفع آمن عبر PayPal + ترخيص مرتبط بالجهاز</span>
           </div>
         </header>
 
         <div class="grid">
-          <!-- يسار: إدخال machine hash وبدء الدفع -->
+          <!-- يسار -->
           <section class="card">
             <h2 class="card-title">الخطوة ١ — إدخال بصمة الجهاز</h2>
             <p class="card-hint">
-              افتح هذه الصفحة من داخل البرنامج (يفضَّل)، أو الصق
-              <span class="mono">machine hash</span> يدوياً.
+              افتح هذه الصفحة من داخل البرنامج (يفضَّل)، أو الصق <span class="mono">machine hash</span> يدوياً.
             </p>
 
-            <form id="form" autocomplete="off">
-              <label for="mh_input">بصمة الجهاز (machine hash)</label>
-              <div class="row wrap" style="margin-bottom:8px">
-                <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97..." />
-                <button id="btn_checkout" type="submit" class="btn-primary">
-                  <span id="btn_text">إتمام الدفع الآمن</span>
-                  <span id="btn_spinner" class="hidden">⏳</span>
-                </button>
-              </div>
-              <p class="muted">
-                إذا فتحت الصفحة من البرنامج سيتم تمرير
-                <span class="mono">mh</span> تلقائياً في الرابط.
-              </p>
+            <label for="mh_input">بصمة الجهاز (machine hash)</label>
+            <div class="row wrap" style="margin-bottom:8px">
+              <input id="mh_input" type="text" placeholder="مثال: 81e80f3e97..." />
+              <button id="btn_prepare" type="button" class="btn-primary">
+                تفعيل زر الدفع
+              </button>
+            </div>
 
-              <div style="margin-top:8px">
-                <div class="chip">
-                  <span>Machine hash:</span>
-                  <span id="mh" class="mono">—</span>
-                </div>
-                <div id="status" class="status">
-                  <span class="status-dot"></span>
-                  <span>جاهز لبدء عملية الدفع.</span>
-                </div>
-              </div>
-            </form>
+            <p class="muted">
+              إذا فتحت الصفحة من البرنامج سيتم تمرير <span class="mono">mh</span> تلقائياً في الرابط.
+            </p>
 
-            <!-- كرت التحديث والتحميل -->
+            <div style="margin-top:8px">
+              <div class="chip">
+                <span>Machine hash:</span>
+                <span id="mh" class="mono">—</span>
+              </div>
+              <div id="status" class="status">
+                <span class="status-dot"></span>
+                <span>جاهز.</span>
+              </div>
+              <div id="paypal-note" class="muted">
+                أدخل البصمة ثم اضغط «تفعيل زر الدفع» لظهور زر PayPal.
+              </div>
+              <div id="paypal-buttons" class="hidden"></div>
+            </div>
+
             <div class="download-card">
               <div class="download-meta">
                 <div>آخر إصدار متوفر: <span id="latest_version" class="mono">—</span></div>
@@ -341,37 +271,26 @@
                   <span id="latest_sha" class="mono" style="font-size:.68rem;">—</span>
                 </div>
               </div>
-              <button id="btn_download" class="btn-ghost btn-small" disabled>
-                تحميل آخر إصدار
-              </button>
+              <button id="btn_download" class="btn-ghost btn-small" disabled>تحميل آخر إصدار</button>
             </div>
-            <p id="latest_status" class="muted" style="margin-top:4px;">
-              جارٍ التحقق من الإصدار الأخير…
-            </p>
+            <p id="latest_status" class="muted" style="margin-top:4px;">جارٍ التحقق من الإصدار الأخير…</p>
           </section>
 
-          <!-- يمين: الكود بعد الدفع -->
+          <!-- يمين -->
           <section class="card secondary">
             <h2 class="card-title">الخطوة ٢ — استلام كود التفعيل</h2>
-            <p class="card-hint">
-              بعد إكمال الدفع بنجاح، سيتم إنشاء كود قصير لجهازك فقط.
-            </p>
+            <p class="card-hint">بعد نجاح الدفع والتأكيد سيتم عرض كود التفعيل هنا.</p>
 
             <div id="license_block" class="hidden">
               <div class="short-box">
-                <div class="label-pill">
-                  <span>✓</span>
-                  <span>تم إنشاء الترخيص بنجاح</span>
-                </div>
+                <div class="label-pill"><span>✓</span><span>تم إنشاء الترخيص بنجاح</span></div>
                 <div style="margin-top:6px;">
                   <div style="font-size:.78rem;color:var(--muted);margin-bottom:3px;">
                     الكود القصير لجهازك:
                   </div>
                   <div class="row">
                     <span id="short_code" class="short-code mono">PCFX-XXXXXXXX</span>
-                    <button type="button" id="btn_copy" class="btn-primary btn-small">
-                      نسخ الكود
-                    </button>
+                    <button type="button" id="btn_copy" class="btn-primary btn-small">نسخ الكود</button>
                   </div>
                 </div>
               </div>
@@ -381,14 +300,13 @@
                 <ol>
                   <li>افتح PCFixUltimate واختر <strong>Activate program</strong>.</li>
                   <li>الصق الكود القصير في خانة التفعيل.</li>
-                  <li>اضغط تفعيل، وستظهر رسالة <strong>Activated successfully</strong> إذا كان كل شيء صحيح.</li>
+                  <li>اضغط تفعيل وستظهر رسالة نجاح.</li>
                 </ol>
               </div>
             </div>
 
             <p id="empty_hint" class="muted">
-              لم يتم إنشاء ترخيص بعد. أدخل
-              <span class="mono">machine hash</span> ثم اضغط «إتمام الدفع الآمن». بعد العودة من Stripe سيتم عرض كود التفعيل هنا.
+              لم يتم إنشاء ترخيص بعد. أكمل الدفع عبر PayPal ثم سيظهر الكود.
             </p>
 
             <button type="button" id="btn_clear" class="btn-ghost btn-small" style="margin-top:8px;">
@@ -398,19 +316,24 @@
         </div>
 
         <p class="muted" style="margin-top:12px;font-size:.72rem;">
-          ملاحظة: الترخيص مرتبط ببصمة جهاز واحد. لإعادة التفعيل بعد الفورمات استخدم نفس
-          <span class="mono">machine hash</span>. في حال واجهت مشكلة بالدفع أو التفعيل يمكنك التواصل
-          مع الدعم مرفقاً بصورة من هذه الصفحة.
+          ملاحظة: الترخيص مرتبط ببصمة جهاز واحد. للاستخدام بعد الفورمات استخدم نفس <span class="mono">machine hash</span>.
         </p>
       </div>
     </main>
 
     <script>
-      // عدّل هذه الروابط حسب الـ Worker / الـ Backend عندك
-      const CREATE_CHECKOUT_ENDPOINT =
-        "https://pcfix-license-api.pcfixultimate.workers.dev/create-checkout";
-      const CLAIM_ENDPOINT =
-        "https://pcfix-license-api.pcfixultimate.workers.dev/claim-license";
+      // ====== إعداداتك ======
+      // 1) ضع Client ID هنا (لا تضع Secret في الصفحة)
+      const PAYPAL_CLIENT_ID = "PUT_YOUR_PAYPAL_CLIENT_ID_HERE";
+      const CURRENCY = "USD"; // أو EUR / SEK حسب تسعيرك
+
+      // 2) endpoints داخل Cloudflare Worker (مثال)
+      // create-order: يرجّع { "id": "<paypal_order_id>" }
+      const CREATE_ORDER_ENDPOINT = "https://pcfix-license-api.pcfixultimate.workers.dev/paypal/create-order";
+      // capture-order: يأخذ orderID + mh ويرجّع { short_code, machine_hash }
+      const CAPTURE_ORDER_ENDPOINT = "https://pcfix-license-api.pcfixultimate.workers.dev/paypal/capture-order";
+
+      // آخر نسخة للتنزيل
       const LATEST_URL =
         "https://raw.githubusercontent.com/ameero197-dotcom/ameero197-dotcom.github.io/main/pcfixultimate/latest.json";
 
@@ -418,84 +341,97 @@
 
       function setStatus(text, mode = "info") {
         const el = $("status");
-        const dot = el.querySelector(".status-dot");
         el.classList.remove("status-ok", "status-err", "status-pending");
         el.classList.add(
           mode === "ok" ? "status-ok" :
           mode === "err" ? "status-err" :
           mode === "pending" ? "status-pending" : ""
         );
-        el.lastChild.textContent = " " + text;
+        el.querySelectorAll("*").forEach(()=>{});
+        el.lastElementChild.textContent = " " + text;
       }
 
-      function setLoading(isLoading) {
-        $("btn_checkout").disabled = isLoading;
-        $("btn_spinner").classList.toggle("hidden", !isLoading);
-        $("btn_text").textContent = isLoading ? "جاري تحويلك إلى صفحة الدفع..." : "إتمام الدفع الآمن";
+      function loadPayPalSdk() {
+        return new Promise((resolve, reject) => {
+          if (window.paypal) return resolve();
+          if (!PAYPAL_CLIENT_ID || PAYPAL_CLIENT_ID.includes("PUT_YOUR")) {
+            return reject(new Error("PAYPAL_CLIENT_ID غير مضبوط."));
+          }
+          const s = document.createElement("script");
+          s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&currency=${encodeURIComponent(CURRENCY)}&intent=capture`;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error("فشل تحميل PayPal SDK."));
+          document.head.appendChild(s);
+        });
       }
 
-      async function startCheckout(mh) {
-        $("mh").textContent = mh || "—";
-        $("license_block").classList.add("hidden");
-        $("empty_hint").classList.remove("hidden");
+      async function renderPayPalButtons(mh) {
+        $("paypal-buttons").classList.remove("hidden");
+        $("paypal-buttons").innerHTML = ""; // reset
 
-        if (!mh) {
-          setStatus("يرجى إدخال machine hash صالح.", "err");
-          return;
+        await loadPayPalSdk();
+
+        if (!window.paypal || !paypal.Buttons) {
+          throw new Error("PayPal SDK غير متاح.");
         }
 
-        setLoading(true);
-        setStatus("جاري تجهيز صفحة الدفع الآمن عبر Stripe…", "pending");
+        paypal.Buttons({
+          style: { layout: "vertical" },
 
-        try {
-          const res = await fetch(CREATE_CHECKOUT_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ machine_hash: mh })
-          });
-          const data = await res.json();
-          if (!res.ok || !data.url) {
-            throw new Error(data?.error || "تعذر إنشاء جلسة الدفع.");
+          // createOrder: لازم من السيرفر (لأن الـ Secret بالسيرفر)
+          createOrder: async () => {
+            setStatus("جاري إنشاء طلب الدفع عبر PayPal…", "pending");
+            const res = await fetch(CREATE_ORDER_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ mh })
+            });
+            const data = await res.json().catch(()=> ({}));
+            if (!res.ok || !data.id) {
+              throw new Error(data?.error || "تعذر إنشاء طلب PayPal.");
+            }
+            return data.id; // PayPal order id
+          },
+
+          onApprove: async (data) => {
+            try {
+              setStatus("تمت الموافقة… جارٍ تأكيد الدفع وإصدار الترخيص…", "pending");
+
+              const res = await fetch(CAPTURE_ORDER_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ orderID: data.orderID, mh })
+              });
+
+              const out = await res.json().catch(()=> ({}));
+              if (!res.ok || !out.short_code) {
+                throw new Error(out?.error || "تم الدفع لكن تعذر إصدار الترخيص.");
+              }
+
+              $("empty_hint").classList.add("hidden");
+              $("license_block").classList.remove("hidden");
+              $("short_code").textContent = out.short_code;
+              $("mh").textContent = out.machine_hash || mh || "—";
+              if (!$("mh_input").value && (out.machine_hash || mh)) {
+                $("mh_input").value = out.machine_hash || mh;
+              }
+
+              setStatus("تم تأكيد الدفع وإنشاء الترخيص بنجاح ✓", "ok");
+            } catch (e) {
+              console.error(e);
+              setStatus("خطأ بعد الموافقة: " + (e?.message || e), "err");
+            }
+          },
+
+          onCancel: () => {
+            setStatus("تم إلغاء عملية الدفع.", "err");
+          },
+
+          onError: (err) => {
+            console.error(err);
+            setStatus("خطأ في PayPal: " + (err?.message || err), "err");
           }
-          // افتح صفحة الدفع في نفس النافذة
-          window.location.href = data.url;
-        } catch (err) {
-          console.error(err);
-          setStatus("خطأ أثناء بدء عملية الدفع: " + (err?.message || err), "err");
-        } finally {
-          setLoading(false);
-        }
-      }
-
-      async function tryClaimLicense(sessionId, mhFromUrl) {
-        if (!sessionId) return;
-
-        setStatus("جاري التحقق من الدفع وإنشاء الترخيص…", "pending");
-
-        try {
-          const url = new URL(CLAIM_ENDPOINT);
-          url.searchParams.set("session_id", sessionId);
-          if (mhFromUrl) url.searchParams.set("mh", mhFromUrl);
-
-          const res = await fetch(url.toString(), { cache: "no-store" });
-          const data = await res.json();
-          if (!res.ok || !data.short_code) {
-            throw new Error(data?.error || "تعذر استلام الترخيص. يرجى التواصل مع الدعم.");
-          }
-
-          $("empty_hint").classList.add("hidden");
-          $("license_block").classList.remove("hidden");
-          $("short_code").textContent = data.short_code;
-          $("mh").textContent = data.machine_hash || mhFromUrl || "—";
-          if (!$("mh_input").value && data.machine_hash) {
-            $("mh_input").value = data.machine_hash;
-          }
-
-          setStatus("تم تأكيد الدفع وإنشاء الترخيص بنجاح ✓", "ok");
-        } catch (err) {
-          console.error(err);
-          setStatus("تمت عملية الدفع لكن تعذر استلام الترخيص: " + (err?.message || err), "err");
-        }
+        }).render("#paypal-buttons");
       }
 
       async function loadLatest() {
@@ -522,20 +458,42 @@
         }
       }
 
+      $("btn_prepare").addEventListener("click", async () => {
+        const mh = $("mh_input").value.trim();
+        $("mh").textContent = mh || "—";
+        $("license_block").classList.add("hidden");
+        $("empty_hint").classList.remove("hidden");
+
+        if (!mh) {
+          setStatus("يرجى إدخال machine hash صالح.", "err");
+          return;
+        }
+
+        try {
+          setStatus("تحميل PayPal…", "pending");
+          await renderPayPalButtons(mh);
+          $("paypal-note").textContent = "اضغط زر PayPal لإتمام الدفع.";
+          setStatus("جاهز للدفع عبر PayPal.", "ok");
+        } catch (e) {
+          console.error(e);
+          setStatus(e?.message || "فشل تجهيز PayPal.", "err");
+        }
+      });
+
       $("btn_clear").addEventListener("click", () => {
         $("mh_input").value = "";
         $("mh").textContent = "—";
         $("license_block").classList.add("hidden");
         $("empty_hint").classList.remove("hidden");
-        setStatus("جاهز لبدء عملية الدفع.", "info");
+        $("paypal-buttons").classList.add("hidden");
+        $("paypal-buttons").innerHTML = "";
+        $("paypal-note").textContent = "أدخل البصمة ثم اضغط «تفعيل زر الدفع» لظهور زر PayPal.";
+        setStatus("جاهز.", "info");
       });
 
       $("btn_copy").addEventListener("click", () => {
         const code = $("short_code").textContent || "";
-        if (!code) {
-          setStatus("لا يوجد كود لنسخه حالياً.", "err");
-          return;
-        }
+        if (!code) return setStatus("لا يوجد كود لنسخه حالياً.", "err");
         navigator.clipboard
           .writeText(code)
           .then(() => setStatus("تم نسخ الكود القصير بنجاح ✓", "ok"))
@@ -545,25 +503,10 @@
       document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(location.search);
         const mh = params.get("mh") || params.get("machine_hash") || "";
-        const sessionId = params.get("session_id") || params.get("stripe_session") || "";
-
         if (mh) {
           $("mh_input").value = mh;
           $("mh").textContent = mh;
         }
-
-        // إذا رجع المستخدم من Stripe مع session_id نحاول استلام الترخيص
-        if (sessionId) {
-          tryClaimLicense(sessionId, mh);
-        }
-
-        $("form").addEventListener("submit", (e) => {
-          e.preventDefault();
-          const input = $("mh_input").value.trim();
-          $("mh").textContent = input || "—";
-          startCheckout(input);
-        });
-
         loadLatest();
       });
     </script>
